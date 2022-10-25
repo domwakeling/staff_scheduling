@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-
 import Header from './Header';
 import SideDrawer from './SideDrawer';
+import Toolbar from '@mui/material/Toolbar';
 
 const drawerWidth = 240;
 

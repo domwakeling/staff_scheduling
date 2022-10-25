@@ -8,6 +8,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 // imports from /styles/ to set theme and globals
 import lightTheme from '../styles/theme/lightTheme';
 import '../styles/globals.scss';
+import { ALT_BG_COL } from '../lib/constants';
 
 // import from @fontsource so that Roboto font is globally available
 import '@fontsource/roboto/300.css';
@@ -25,7 +26,7 @@ function MyApp({ Component, pageProps }) {
             <Head>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
-            <Box sx={{ display: 'flex' }}>
+            <Box sx={{ display: 'flex', backgroundColor: ALT_BG_COL }}>
                 <CssBaseline />
                 <Layout>
                     <Component {...pageProps} />

@@ -1,4 +1,4 @@
-import * as constants from '../../../lib/constants';
+import { MAIN_DB_NAME, STAFF_COLLECTION_NAME, REPONSE_ERROR } from '../../../lib/constants';
 import clientPromise from '../../../lib/database';
 
 const handler = async (req, res) => {
@@ -7,8 +7,8 @@ const handler = async (req, res) => {
         const client = await clientPromise;
 
         // Get the database and collection
-        const db = client.db(constants.MAIN_DB_NAME);
-        const staff = db.collection(constants.STAFF_COLLECTION_NAME);
+        const db = client.db(MAIN_DB_NAME);
+        const staff = db.collection(STAFF_COLLECTION_NAME);
 
         const allStaff = await staff
             .find({})
@@ -17,7 +17,7 @@ const handler = async (req, res) => {
         res.json(allStaff);
 
     } catch (err) {
-        res.status(constants.REPONSE_ERROR).json({ message: err.message });
+        res.status(REPONSE_ERROR).json({ message: err.message });
     }
 };
 

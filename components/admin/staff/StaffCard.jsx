@@ -1,4 +1,4 @@
-import { ALIGN_ICON_1, ALIGN_ICON_2 } from '../../../lib/constants';
+import { CARD_ALIGN_1, CARD_ALIGN_2, ALT_BG_COL } from '../../../lib/constants';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -13,19 +13,19 @@ const StaffCard = (props) => {
     const { name, email, telephone } = props.member;
 
     return (
-        <Card elevation={4}>
+        <Card elevation={4} sx={{ backgroundColor: ALT_BG_COL }}>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {name}
                 </Typography>
                 <Box sx={{ pb: 1 }}>
-                    <Typography noWrap variant="body1" sx={ALIGN_ICON_1}>
-                        <MailIcon sx={ALIGN_ICON_2}/>&nbsp;{email}
+                    <Typography noWrap variant="body1" sx={CARD_ALIGN_1}>
+                        <MailIcon sx={CARD_ALIGN_2}/>&nbsp;{email}
                     </Typography>
                 </Box>
                 <Box>
-                    <Typography noWwrap variant="body1" sx={ALIGN_ICON_1}>
-                        <PhoneIcon sx={ALIGN_ICON_2}/>&nbsp;{telephone}
+                    <Typography noWwrap variant="body1" sx={CARD_ALIGN_1}>
+                        <PhoneIcon sx={CARD_ALIGN_2}/>&nbsp;{telephone}
                     </Typography>
                 </Box>
             </CardContent>
