@@ -1,4 +1,4 @@
-import { CARD_ALIGN_1, CARD_ALIGN_2, ALT_BG_COL } from '../../../lib/constants';
+import { CARD_ALIGN_1, CARD_ALIGN_2, ALT_BG_COL, MODE_EDIT } from '../../../lib/constants';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -10,7 +10,24 @@ import Typography from '@mui/material/Typography';
 
 const StaffCard = (props) => {
 
-    const { name, email, telephone } = props.member;
+    const { name, email, telephone, _id } = props.member;
+    const { setMode, openModal, setName, setEmail, setTel, setId, showDialog } = props;
+
+    const editHandler = (event) => {
+        event.preventDefault();
+        setMode(MODE_EDIT);
+        setName(name);
+        setEmail(email);
+        setTel(telephone);
+        setId(_id);
+        openModal();
+    }
+
+    const deleteHandler = (event) => {
+        event.preventDefault();
+        setId(_id);
+        showDialog();
+    }
 
     return (
         <Card elevation={4} sx={{ backgroundColor: ALT_BG_COL }}>
@@ -24,14 +41,14 @@ const StaffCard = (props) => {
                     </Typography>
                 </Box>
                 <Box>
-                    <Typography noWwrap variant="body1" sx={CARD_ALIGN_1}>
+                    <Typography noWrap variant="body1" sx={CARD_ALIGN_1}>
                         <PhoneIcon sx={CARD_ALIGN_2}/>&nbsp;{telephone}
                     </Typography>
                 </Box>
             </CardContent>
             <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
+                <Button size="small" onClick={editHandler}>Edit</Button>
+                <Button size="small" color="error" onClick={deleteHandler}>Delete</Button>
             </CardActions>
         </Card>
     );

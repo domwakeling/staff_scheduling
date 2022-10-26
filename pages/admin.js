@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CustomSnackbar from '../components/layout/CustomSnackbar';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -11,7 +12,16 @@ import Typography from '@mui/material/Typography';
 export default function Admin() {
 
     const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
+    const [snackbarMessage, setSnackbarMessage] = useState("");
     
+    const snackbarSendMessage = (options) => {
+        setSnackbarSeverity(options.severity || 'info');
+        setSnackbarMessage(options.message || '');
+        setSnackbarOpen(true);
+    }
+
     function a11yProps(index) {
         return {
             id: `tab-${index}`,
@@ -19,7 +29,7 @@ export default function Admin() {
         };
     }
 
-    const handleChange = (event, newActiveTabIndex) => {
+    const handleTabChange = (event, newActiveTabIndex) => {
         setActiveTabIndex(newActiveTabIndex);
     };  
 
@@ -37,14 +47,14 @@ export default function Admin() {
                 <Paper elevation={3}>
                     <Box sx={{ width: '100%' }}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <Tabs value={activeTabIndex} onChange={handleChange} aria-label="basic tabs example">
+                            <Tabs value={activeTabIndex} onChange={handleTabChange} aria-label="basic tabs example">
                                 <Tab label="Staff" {...a11yProps(0)} />
                                 <Tab label="Item Two" {...a11yProps(1)} />
                                 <Tab label="Item Three" {...a11yProps(2)} />
                             </Tabs>
                         </Box>
                         <TabPanel activeTabIndex={activeTabIndex} index={0}>
-                            <StaffTab />
+                            <StaffTab snackbarUse={snackbarSendMessage}/>
                         </TabPanel>
                         <TabPanel activeTabIndex={activeTabIndex} index={1}>
                             <Typography>Item Two</Typography>
@@ -52,6 +62,12 @@ export default function Admin() {
                         <TabPanel activeTabIndex={activeTabIndex} index={2}>
                             <Typography>Item Three</Typography>
                         </TabPanel>
+                        <CustomSnackbar
+                            openState={snackbarOpen}
+                            setOpenState={setSnackbarOpen}
+                            severity={snackbarSeverity}
+                            message={snackbarMessage}
+                        />
                     </Box>
                 </Paper>
             </Box>

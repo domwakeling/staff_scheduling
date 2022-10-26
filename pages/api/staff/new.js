@@ -1,9 +1,15 @@
-import { MAIN_DB_NAME, STAFF_COLLECTION_NAME, REPONSE_ERROR } from '../../../lib/constants';
+import { MAIN_DB_NAME, STAFF_COLLECTION_NAME, RESPONSE_ERROR } from '../../../lib/constants';
 import clientPromise from '../../../lib/database';
 
 const handler = async (req, res) => {
-    
-    // const { limit, showOver, skip } = req.body;
+
+    const { name, email, telephone } = req.body;
+
+    // protect against a bad request
+    if (!name || !email || !telephone || name == '' || email == '' || telephone == '') {
+        res.status(RESPONSE_ERROR).json({ message: '400: Bad Request: Required fields missing'});
+        return;
+    }
 
     try {
         const client = await clientPromise;
@@ -13,16 +19,17 @@ const handler = async (req, res) => {
         const staff = db.collection(STAFF_COLLECTION_NAME);
 
         const userInserted = await staff
-            .insert({
-                name: 'Jackie Robinson',
-                email: 'jackie@gmail.com',
-                telephone: '012 345 6789'
+            .insertOne({
+                name,
+                email,
+                telephone
             })
 
         res.json(userInserted);
+        return;
 
     } catch (err) {
-        res.status(REPONSE_ERROR).json({ message: err.message });
+        res.status(RESPONSE_ERROR).json({ message: err.message });
     }
 };
 
