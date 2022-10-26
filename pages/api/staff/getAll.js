@@ -17,7 +17,7 @@ const handler = async (req, res) => {
         res.json(allStaff);
 
     } catch (err) {
-        res.status(REPONSE_ERROR).json({ message: err.message });
+        res.status(REPSONSE_ERROR).json({ message: err.message });
     }
 };
 

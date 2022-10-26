@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
 import MailIcon from '@mui/icons-material/Mail';
 import PhoneIcon from '@mui/icons-material/Phone';
 import Typography from '@mui/material/Typography';
@@ -31,10 +32,21 @@ const StaffCard = (props) => {
 
     return (
         <Card elevation={4} sx={{ backgroundColor: ALT_BG_COL }}>
+            <CardHeader
+                title={
+                    <Typography noWrap gutterBottom variant="h5" component="h2">
+                        {name}
+                    </Typography>
+                }
+                noWrap
+                sx={{
+                    backgroundColor: '#1976d2',
+                    color: 'white',
+                    display: "block",
+                    overflow: "hidden"
+                }}
+            />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {name}
-                </Typography>
                 <Box sx={{ pb: 1 }}>
                     <Typography noWrap variant="body1" sx={CARD_ALIGN_1}>
                         <MailIcon sx={CARD_ALIGN_2}/>&nbsp;{email}
