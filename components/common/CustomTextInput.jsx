@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField';
 
-const StaffTextInput = (props) => {
+const CustomTextInput = (props) => {
 
     const { errorMethod, value, setValue, label, name, sx } = props;
 
@@ -20,4 +20,4 @@ const StaffTextInput = (props) => {
     )
 }
 
-export default StaffTextInput
+export default CustomTextInput

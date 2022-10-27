@@ -10,50 +10,33 @@ import IconButton from '@mui/material/IconButton';
 import CustomTextInput from '../../common/CustomTextInput';
 import Typography from '@mui/material/Typography';
 
-const StaffModal = (props) => {
+const RoomModal = (props) => {
 
-    const { closeHandler, modalOpen, modalMode, snackbarUse, staffName, setName, email, setEmail, tel, setTel, id } = props;
+    const { closeHandler, modalOpen, modalMode, snackbarUse, roomName, setName, id } = props;
 
-    const isInvalidEmail = (str) => !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str));
     const isEmpty = (str) => str.replace(/\s/g, '').length == 0;
-    const isInvalidTel = (str) => {
-        str = str.replace(/\s/g, '');
-        return !(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(str));
-    }
 
     const submitHandler = async (event) => {
         event.preventDefault();
-        if (isEmpty(staffName)) {
+        if (isEmpty(roomName)) {
             snackbarUse({severity: 'error', message: 'Name cannot be blank'});
-            return null;
-        }
-        if (isInvalidEmail(email)) {
-            snackbarUse({ severity: 'error', message: 'Email is not valid' });
-            return null;
-        }
-        if (isInvalidTel(tel)) {
-            snackbarUse({ severity: 'error', message: 'Telephone number is not valid' });
             return null;
         }
         // data in the form is good
         try {
-            // try to add new staff member or update existing
+            // try to add new room or update existing
             const res = await axios({
                 method: modalMode == MODE_ADD ? 'post' : 'put',
-                url: modalMode == MODE_ADD ? '/api/staff/new' : `/api/staff/${id}`,
+                url: modalMode == MODE_ADD ? '/api/room/new' : `/api/room/${id}`,
                 timeout: 6000,
                 data: {
-                    name: staffName,
-                    email: email,
-                    telephone: tel
+                    name: roomName
                 }
             });
             // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/staff/getAll`);
-            snackbarUse({ severity: 'success', message: 'Staff updated' });
+            mutate(`/api/room/getAll`);
+            snackbarUse({ severity: 'success', message: 'Room updated' });
             setName('');
-            setEmail('');
-            setTel('');
             closeHandler({ preventDefault: () => { } });
         } catch (err) {
             // failure => show the message, don't clear or close the modal
@@ -66,15 +49,15 @@ const StaffModal = (props) => {
 
     return (
         <CustomModal
-            ariaD="staff-modal"
-            ariaL="staff-modal"
+            ariaD="room-modal"
+            ariaL="room-modal"
             modalCloseHandler={closeHandler}
             openState={modalOpen}
         >
             <Box mx={2} px={2} pt={2} pb={3}>
                 <Box display="flex">
                     <Typography component="h1" variant="h5">
-                        { modalMode == MODE_ADD ? 'Add Staff' : 'Update Staff' }
+                        { modalMode == MODE_ADD ? 'Add Room' : 'Update Room' }
                     </Typography>
                     <Box flexGrow="1" />
                     <IconButton aria-label="close modal" color="primary" onClick={closeHandler}>
@@ -91,24 +74,8 @@ const StaffModal = (props) => {
                                     label="Name"
                                     name="name"
                                     setValue={setName}
-                                    value={staffName}
-                                    sx={{ mb: 2}}
-                                />
-                                <CustomTextInput
-                                    errorMethod={isInvalidEmail}
-                                    label="Email"
-                                    name="email"
-                                    setValue={setEmail}
-                                    value={email}
-                                    sx={{ my: 2}}
-                                />
-                                <CustomTextInput
-                                    errorMethod={isInvalidTel}
-                                    label="Contact Number"
-                                    name="tel"
-                                    setValue={setTel}
-                                    value={tel}
-                                    sx={{ mt: 2, mb:3 }}
+                                    value={roomName}
+                                    sx={{ mb: 2, mb:3}}
                                 />
                                 <Button
                                     color="primary"
@@ -128,4 +95,4 @@ const StaffModal = (props) => {
     )
 }
 
-export default StaffModal
+export default RoomModal

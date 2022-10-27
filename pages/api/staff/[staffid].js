@@ -1,6 +1,6 @@
 import { MAIN_DB_NAME, STAFF_COLLECTION_NAME, RESPONSE_ERROR } from '../../../lib/constants';
 import clientPromise from '../../../lib/database';
-import { ConnectionClosedEvent, ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 
 const handler = async (req, res) => {
 

@@ -1,4 +1,4 @@
-import { MAIN_DB_NAME, STAFF_COLLECTION_NAME, RESPONSE_ERROR } from '../../../lib/constants';
+import { MAIN_DB_NAME, ROOM_COLLECTION_NAME, RESPONSE_ERROR } from '../../../lib/constants';
 import clientPromise from '../../../lib/database';
 
 const handler = async (req, res) => {
@@ -6,8 +6,8 @@ const handler = async (req, res) => {
     const { name, email, telephone } = req.body;
 
     // protect against a bad request
-    if (!name || !email || !telephone || name == '' || email == '' || telephone == '') {
-        res.status(RESPONSE_ERROR).json({ message: '400: Bad Request: Required fields missing'});
+    if (!name || name == '' ) {
+        res.status(RESPONSE_ERROR).json({ message: '400: Bad Request: Required field missing' });
         return;
     }
 
@@ -16,16 +16,16 @@ const handler = async (req, res) => {
 
         // Get the database and collection
         const db = client.db(MAIN_DB_NAME);
-        const staff = db.collection(STAFF_COLLECTION_NAME);
+        const rooms = db.collection(ROOM_COLLECTION_NAME);
 
-        const insertedStaff = await staff
+        const insertedRoom = await rooms
             .insertOne({
                 name,
                 email,
                 telephone
             })
 
-        res.json(insertedStaff);
+        res.json(insertedRoom);
         return;
 
     } catch (err) {

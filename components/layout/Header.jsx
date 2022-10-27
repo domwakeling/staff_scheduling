@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Link from '../Link';
+import Link from '../common/Link';
 
 const Header = (props) => {
 
@@ -14,39 +14,21 @@ const Header = (props) => {
             position="fixed"
             sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         >
-        <Toolbar>
-            <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' } }}
-            >
-                <MenuIcon />
-            </IconButton>
-            <Link
-                color="inherit"
-                display="inline"
-                href="/"
-                underline="none"
-            >
-                <Typography variant="h6" noWrap component="div">
-                    header
-                </Typography>
-            </Link>
-            <Typography variant="h6">
-                &nbsp;
-            </Typography>
-            <Link
-                color="inherit"
-                display="inline"
-                href="/about"
-                underline="none"
-            >
-                <Typography variant="h6">
-                    about
-                </Typography>
-            </Link>
+            <Toolbar>
+                <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    edge="start"
+                    onClick={handleDrawerToggle}
+                    sx={{ mr: 2, display: { sm: 'none' } }}
+                >
+                    <MenuIcon />
+                </IconButton>
+                <Link color="inherit" display="inline" href="/" underline="none">
+                    <Typography variant="h6" noWrap component="div">
+                        Staff Schedule App
+                    </Typography>
+                </Link>
             </Toolbar>
         </AppBar>
     )
