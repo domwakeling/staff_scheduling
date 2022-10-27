@@ -11,8 +11,13 @@ export default function About() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box sx={{ pt: 2, px: 3 }}>
-                <Typography component="h1" variant='h4'>Header</Typography>
-                <Typography>Home page content - variant not given (body1 default)</Typography>
+                <Typography component="h1" variant='h4'>
+                    About
+                </Typography>
+                <Typography>
+                    This is a {"'"}work in progress{"'"} &mdash; it aims to be a fully-featured
+                    scheduling app.
+                </Typography>
             </Box>
         </div>
     )

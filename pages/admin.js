@@ -1,13 +1,13 @@
 import { useState } from 'react';
+import Box from '@mui/material/Box';
 import CustomSnackbar from '../components/layout/CustomSnackbar';
 import Head from 'next/head';
-import Box from '@mui/material/Box';
+import LessonTab from '../components/admin/lessons/LessonTab';
 import RoomTab from '../components/admin/rooms/RoomTab';
 import StaffTab from '../components/admin/staff/StaffTab';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import TabPanel from '../components/layout/TabPanel';
-import Typography from '@mui/material/Typography';
 
 export default function Admin() {
 
@@ -44,7 +44,7 @@ export default function Admin() {
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={activeTabIndex} onChange={handleTabChange} aria-label="basic tabs example">
                             <Tab label="Staff" {...a11yProps(0)} />
-                            <Tab label="Item Two" {...a11yProps(1)} />
+                            <Tab label="Lessons" {...a11yProps(1)} />
                             <Tab label="Rooms" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
@@ -52,7 +52,7 @@ export default function Admin() {
                         <StaffTab snackbarUse={snackbarSendMessage}/>
                     </TabPanel>
                     <TabPanel activeTabIndex={activeTabIndex} index={1}>
-                        <Typography>Item Two</Typography>
+                        <LessonTab snackbarUse={snackbarSendMessage} />
                     </TabPanel>
                     <TabPanel activeTabIndex={activeTabIndex} index={2}>
                         <RoomTab snackbarUse={snackbarSendMessage} />
