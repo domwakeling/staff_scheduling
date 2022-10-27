@@ -1,5 +1,6 @@
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import Box from '@mui/material/Box';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import HomeIcon from '@mui/icons-material/Home';
@@ -17,6 +18,7 @@ export default function SideDrawer(props) {
 
     const navItems = [
         { text: 'Home', link: '/', icon: <HomeIcon /> },
+        { text: 'Schedule', link: '/schedule', icon: <CalendarTodayIcon /> },
         { text: 'Admin', link: '/admin', icon: <AdminPanelSettingsIcon /> },
         { text: 'About', link: '/about', icon: null }
     ]

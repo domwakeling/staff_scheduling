@@ -1,6 +1,5 @@
+import { MODE_ADD } from '../../../lib/constants';
 import { useState } from 'react';
-import { MODE_ADD, MODE_EDIT } from '../../../lib/constants';
-import fetcher from '../../../lib/fetcher';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
@@ -9,17 +8,7 @@ import StaffCard from './StaffCard';
 import StaffCardSkeleton from './StaffCardSkeleton';
 import StaffModal from './StaffModal';
 import StaffRemoveDialog from './StaffRemoveDialog';
-import useSWR from 'swr';
-
-const useStaff = () => {
-    const { data, error } = useSWR(`/api/staff/getAll`, fetcher)
-
-    return {
-        staff: data,
-        isLoading: !error && !data,
-        isError: error
-    }
-}
+import useStaff from '../../../lib/db_staff';
 
 const StaffTab = (props) => {
 

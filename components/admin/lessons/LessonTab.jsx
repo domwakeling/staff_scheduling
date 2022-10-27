@@ -1,6 +1,5 @@
+import { MODE_ADD } from '../../../lib/constants';
 import { useState } from 'react';
-import { MODE_ADD, MODE_EDIT } from '../../../lib/constants';
-import fetcher from '../../../lib/fetcher';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
@@ -9,17 +8,7 @@ import LessonCard from './LessonCard';
 import LessonCardSkeleton from './LessonCardSkeleton';
 import LessonModal from './LessonModal';
 import LessonRemoveDialog from './LessonRemoveDialog';
-import useSWR from 'swr';
-
-const useLessons = () => {
-    const { data, error } = useSWR(`/api/lesson/getAll`, fetcher)
-
-    return {
-        lessons: data,
-        isLoading: !error && !data,
-        isError: error
-    }
-}
+import useLessons from '../../../lib/db_lessons';
 
 const LessonTab = (props) => {
 

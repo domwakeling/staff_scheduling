@@ -1,6 +1,5 @@
+import { MODE_ADD } from '../../../lib/constants';
 import { useState } from 'react';
-import { MODE_ADD, MODE_EDIT } from '../../../lib/constants';
-import fetcher from '../../../lib/fetcher';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
@@ -9,17 +8,7 @@ import RoomCard from './RoomCard';
 import RoomCardSkeleton from './RoomCardSkeleton';
 import RoomModal from './RoomModal';
 import RoomRemoveDialog from './RoomRemoveDialog';
-import useSWR from 'swr';
-
-const useRooms = () => {
-    const { data, error } = useSWR(`/api/room/getAll`, fetcher)
-
-    return {
-        rooms: data,
-        isLoading: !error && !data,
-        isError: error
-    }
-}
+import useRooms from '../../../lib/db_rooms';
 
 const RoomTab = (props) => {
 

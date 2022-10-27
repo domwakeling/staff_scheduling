@@ -1,9 +1,6 @@
 import Box from '@mui/material/Box';
 import Head from 'next/head';
 import Link from '../components/common/Link';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 
 export default function Home() {
