@@ -8,7 +8,7 @@ const CalendarColumn = (props) => {
 
     const hourIndices = Array.from({ length: (DAY_END - DAY_START) }, (_, i) => i + DAY_START);
 
-    const { label } = props;
+    const { label, schedule } = props;
 
     return (
         <Box sx={{ width: `${CALENDAR_WIDTH}px`}}>
@@ -18,30 +18,17 @@ const CalendarColumn = (props) => {
                 </Typography>
             </Box>
             <Box sx={{ position: 'relative' }}>
-                <ScheduleItem
-                    start={13}
-                    end={14.5}
-                    bg={colors['blue'].bg}
-                    fg={colors['blue'].fg}
-                    value1={'Name of class type'}
-                    value2={'Name of trainer'}
-                />
-                <ScheduleItem
-                    start={14.5}
-                    end={15.75}
-                    bg={colors['orange'].bg}
-                    fg={colors['orange'].fg}
-                    value1={'Name of class type'}
-                    value2={'Name of trainer'}
-                />
-                <ScheduleItem
-                    start={16}
-                    end={17}
-                    bg={colors['purple'].bg}
-                    fg={colors['purple'].fg}
-                    value1={'Name of class type'}
-                    value2={'Name of trainer'}
-                />
+                {schedule && schedule.map(item => (
+                    <ScheduleItem
+                        key={item._id}
+                        start={item.start}
+                        end={item.end}
+                        bg={item.bg}
+                        fg={item.fg}
+                        value1={item.value1}
+                        value2={item.value2}
+                    />
+                ))}
             </Box>
             {hourIndices.map(hour => (
                 <Box

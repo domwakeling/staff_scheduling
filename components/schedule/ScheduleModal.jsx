@@ -91,9 +91,9 @@ const ScheduleModal = (props) => {
                 }
             });
             // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/schedule/regular/lesson/${modalLesson}`);
+            mutate(`/api/schedule/regular/day/${modalDay}`);
             mutate(`/api/schedule/regular/staff/${modalStaff}`);
-            mutate(`/api/schedule/regular/room/${modalRoom}`);
+            mutate(`/api/schedule/regular/rooms/${modalRoom}`);
             snackbarUse({ severity: 'success', message: 'Schedule updated' });
             setModalDay('');
             setModalStart('');

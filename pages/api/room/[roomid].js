@@ -13,7 +13,6 @@ const handler = async (req, res) => {
 
     // GET method
     if (req.method == 'GET') {
-        // console.log(roomObjectId);
         try {
             const roomObjectId = new ObjectId(roomid);
             const foundRoom = await rooms.findOne({ _id: roomObjectId });

@@ -1,6 +1,6 @@
 import { MODE_ADD } from '../../lib/constants';
 import { useState } from 'react';
-import { CALENDAR_WIDTH, TIME_WIDTH } from '../../lib/constants';
+import { CALENDAR_WIDTH, TIME_WIDTH, colors} from '../../lib/constants';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import CalendarColumn from './ScheduleColumn';
@@ -12,7 +12,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
 import TimeColumn from './TimeColumn';
+import useLessons from '../../lib/db_lessons';
+import useRooms from '../../lib/db_rooms';
 import useStaff from '../../lib/db_staff';
+import { useRegularStaff } from '../../lib/db_schedule_regular';
 
 const StaffSchedule = (props) => {
 
@@ -33,6 +36,26 @@ const StaffSchedule = (props) => {
     }
 
     const { staff, isLoading } = useStaff();
+    const { rooms } = useRooms();
+    const { lessons } = useLessons();
+    const { regularStaff } = useRegularStaff(staffMember);
+
+    const columnData = (weekday) => {
+        if (regularStaff) {
+            return regularStaff
+                .filter(item => item.day == weekday)
+                .map(item => ({
+                    _id: item._id,
+                    start: item.start,
+                    end: item.end,
+                    bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,
+                    fg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].fg,
+                    value1: lessons.filter(obj => obj._id == item.lesson)[0].name,
+                    value2: rooms.filter(obj => obj._id == item.room)[0].name
+                }))
+        }
+        return [];
+    }
 
     const columnCount = 7;
 
@@ -69,7 +92,11 @@ const StaffSchedule = (props) => {
                 <TimeColumn key={`column-time`} label={`Col-time`} />
                 {weekdays.map(weekday => (
                     <Grid item key={`column-${weekday}`}>
-                        <CalendarColumn key={`column-${weekday}`} label={`${weekday}`} />
+                        <CalendarColumn
+                            key={`column-${weekday}`}
+                            label={`${weekday}`}
+                            schedule={columnData(weekday)}
+                        />
                     </Grid>
                 ))}
             </Grid>

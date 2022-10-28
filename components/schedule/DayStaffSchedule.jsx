@@ -1,6 +1,6 @@
 import { MODE_ADD } from '../../lib/constants';
 import { useState } from 'react';
-import { CALENDAR_WIDTH, TIME_WIDTH } from '../../lib/constants';
+import { CALENDAR_WIDTH, TIME_WIDTH, colors } from '../../lib/constants';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import CalendarColumn from './ScheduleColumn';
@@ -13,7 +13,10 @@ import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
 import SkeletonColumn from './SkeletonColumn';
 import TimeColumn from './TimeColumn';
+import useLessons from '../../lib/db_lessons';
+import useRooms from '../../lib/db_rooms';
 import useStaff from '../../lib/db_staff';
+import { useRegularDays } from '../../lib/db_schedule_regular';
 
 const DayStaffSchedule = (props) => {
 
@@ -34,6 +37,26 @@ const DayStaffSchedule = (props) => {
     }
 
     const { staff, isLoading, isError } = useStaff();
+    const { lessons } = useLessons();
+    const { rooms } = useRooms();
+    const { regularDays } = useRegularDays(day);
+
+    const columnData = (staffid) => {
+        if (regularDays) {
+            return regularDays
+                .filter(item => item.staff == staffid)
+                .map(item => ({
+                    _id: item._id,
+                    start: item.start,
+                    end: item.end,
+                    bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,
+                    fg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].fg,
+                    value1: lessons.filter(obj => obj._id == item.lesson)[0].name,
+                    value2: rooms.filter(obj => obj._id == item.room)[0].name
+                }))
+        }
+        return [];
+    }
 
     const columnCount = (!isLoading && !isError) ? staff.length : 1;
 
@@ -70,7 +93,11 @@ const DayStaffSchedule = (props) => {
                 <TimeColumn key={`column-time`} label={`Col-time`} />
                 {!isLoading && !isError && staff && staff.map(member => (
                     <Grid item key={`column-${member._id}`}>
-                        <CalendarColumn key={`column-${member._id}`} label={`${member.name}`} />
+                        <CalendarColumn
+                            key={`column-${member._id}`}
+                            label={`${member.name}`}
+                            schedule={columnData(member._id)}
+                        />
                     </Grid>
                 ))}
                 {isLoading && (

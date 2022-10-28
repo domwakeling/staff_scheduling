@@ -13,7 +13,6 @@ const handler = async (req, res) => {
 
     // GET method
     if (req.method == 'GET') {
-        // console.log(lessonObjectId);
         try {
             const lessonObjectId = new ObjectId(lessonid);
             const foundLesson = await lessons.findOne({ _id: lessonObjectId });
