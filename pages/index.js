@@ -20,12 +20,18 @@ export default function Home() {
                     of staff, lesson types and {"'"}rooms{"'"} to be added, edited and deleted via
                     the <Link href="/admin">Admin Panel</Link>.
                 </Typography>
-                <Typography gutterBottom>
+                <Typography>
                     When complete you will also be able to:
+                </Typography>
                     <ul>
-                        <li>View/edit weekly schedule for each staff member</li>
-                        <li>View/edit daily schedule across all rooms</li>
+                    <Typography component="li">
+                        View/edit weekly schedule for each staff member
+                    </Typography >
+                    <Typography component="li">
+                        View/edit daily schedule across all rooms
+                    </Typography>
                     </ul>
+                <Typography>
                     Access to the admin panel and editing features will also be protected by a
                     user-authorisation system.
                 </Typography>

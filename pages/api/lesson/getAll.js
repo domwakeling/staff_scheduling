@@ -3,22 +3,28 @@ import clientPromise from '../../../lib/database';
 
 const handler = async (req, res) => {
 
-    try {
-        const client = await clientPromise;
+    if (req.method == 'GET') {
+        try {
+            const client = await clientPromise;
 
-        // Get the database and collection
-        const db = client.db(MAIN_DB_NAME);
-        const lessons = db.collection(LESSON_COLLECTION_NAME);
+            // Get the database and collection
+            const db = client.db(MAIN_DB_NAME);
+            const lessons = db.collection(LESSON_COLLECTION_NAME);
 
-        const allLessons = await lessons
-            .find({})
-            .toArray();
+            const allLessons = await lessons
+                .find({})
+                .toArray();
 
-        res.json(allLessons);
+            res.json(allLessons);
+            return;
 
-    } catch (err) {
-        res.status(RESPONSE_ERROR).json({ message: err.message });
+        } catch (err) {
+            res.status(RESPONSE_ERROR).json({ message: err.message });
+            return;
+        }
     }
+
+    res.status(RESPONSE_ERROR).json({ message: 'Method not supported' });
 };
 
 export default handler;

@@ -1,6 +1,7 @@
 import { MODE_ADD } from '../../../lib/constants';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
@@ -48,7 +49,11 @@ const LessonTab = (props) => {
         handleModalOpen();
     }
 
-    if (isError) return <p>Error: {isError.message}</p>
+    if (isError) return (
+        <Alert severity='error' variant='filled' sx={{ width: '200px' }}>
+            Loading error
+        </Alert>
+    )
 
     return (
         <>

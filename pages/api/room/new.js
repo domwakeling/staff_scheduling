@@ -11,26 +11,31 @@ const handler = async (req, res) => {
         return;
     }
 
-    try {
-        const client = await clientPromise;
+    if (req.method == 'POST') {
+        try {
+            const client = await clientPromise;
 
-        // Get the database and collection
-        const db = client.db(MAIN_DB_NAME);
-        const rooms = db.collection(ROOM_COLLECTION_NAME);
+            // Get the database and collection
+            const db = client.db(MAIN_DB_NAME);
+            const rooms = db.collection(ROOM_COLLECTION_NAME);
 
-        const insertedRoom = await rooms
-            .insertOne({
-                name,
-                email,
-                telephone
-            })
+            const insertedRoom = await rooms
+                .insertOne({
+                    name,
+                    email,
+                    telephone
+                })
 
-        res.json(insertedRoom);
-        return;
+            res.json(insertedRoom);
+            return;
 
-    } catch (err) {
-        res.status(RESPONSE_ERROR).json({ message: err.message });
+        } catch (err) {
+            res.status(RESPONSE_ERROR).json({ message: err.message });
+            return;
+        }
     }
+
+    res.status(RESPONSE_ERROR).json({ message: 'Method not supported' });
 };
 
 export default handler;
