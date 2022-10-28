@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CustomModal from "../layout/CustomModal";
-import CustomTextInput from '../common/CustomTextInput';
+import CustomSelect from '../common/CustomSelect';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
@@ -40,8 +40,7 @@ const ScheduleModal = (props) => {
         setModalLesson,
         modalRoom,
         setModalRoom,
-        modalScheduleId,
-        setModalScheduleId
+        modalScheduleId
     } = props;
 
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -63,37 +62,53 @@ const ScheduleModal = (props) => {
 
     const submitHandler = async (event) => {
         event.preventDefault();
-        // if (isEmpty(lessonName)) {
-        //     snackbarUse({ severity: 'error', message: 'Name cannot be blank' });
-        //     return null;
-        // }
-        // if (isEmpty(color)) {
-        //     snackbarUse({ severity: 'error', message: 'Color cannot be blank' });
-        //     return null;
-        // }
+        if (isEmpty(modalDay) || isEmpty(modalStaff) || isEmpty(modalLesson) || isEmpty(modalRoom) ) {
+            snackbarUse({ severity: 'error', message: 'Entries cannot be blank' });
+            return null;
+        }
+        if (modalStart == '' || modalStart < DAY_START || modalStart >= DAY_END || modalStart == 0) {
+            snackbarUse({ severity: 'error', message: 'Start time is invalid' });
+            return null;
+        }
+        if (modalEnd == '' || modalEnd <= DAY_START || modalEnd > DAY_END || modalEnd == 0 || modalEnd <= modalStart) {
+            snackbarUse({ severity: 'error', message: 'End time is invalid' });
+            return null;
+        }
         // // data in the form is good
-        // try {
-        //     // try to add new lesson or update existing
-        //     const res = await axios({
-        //         method: modalMode == MODE_ADD ? 'post' : 'put',
-        //         url: modalMode == MODE_ADD ? '/api/lesson/new' : `/api/lesson/${id}`,
-        //         timeout: 6000,
-        //         data: {
-        //             name: lessonName,
-        //         }
-        //     });
-        //     // success => mutate the api, message, clear the modal & close the modal;
-        //     mutate(`/api/lesson/getAll`);
-        //     snackbarUse({ severity: 'success', message: 'Lesson updated' });
-        //     setName('');
-        //     closeHandler({ preventDefault: () => { } });
-        // } catch (err) {
-        //     // failure => show the message, don't clear or close the modal
-        //     snackbarUse({
-        //         severity: 'error',
-        //         message: (err.response && err.response.data && err.response.data.message) || err.message
-        //     });
-        // }
+        try {
+            // try to add new schedule or update existing
+            const res = await axios({
+                method: modalMode == MODE_ADD ? 'post' : 'put',
+                url: modalMode == MODE_ADD ? '/api/schedule/regular/new' : `/api/schedule/regular/${modalScheduleId}`,
+                timeout: 6000,
+                data: {
+                    day: modalDay,
+                    start: modalStart,
+                    end: modalEnd,
+                    staffid: modalStaff,
+                    roomid: modalRoom,
+                    lessonid: modalLesson
+                }
+            });
+            // success => mutate the api, message, clear the modal & close the modal;
+            mutate(`/api/schedule/regular/lesson/${modalLesson}`);
+            mutate(`/api/schedule/regular/staff/${modalStaff}`);
+            mutate(`/api/schedule/regular/room/${modalRoom}`);
+            snackbarUse({ severity: 'success', message: 'Schedule updated' });
+            setModalDay('');
+            setModalStart('');
+            setModalEnd('');
+            setModalLesson('');
+            setModalRoom('');
+            setModalStaff('');
+            closeHandler({ preventDefault: () => { } });
+        } catch (err) {
+            // failure => show the message, don't clear or close the modal
+            snackbarUse({
+                severity: 'error',
+                message: (err.response && err.response.data && err.response.data.message) || err.message
+            });
+        }
     }
 
     const handleDayChange = (event) => {
@@ -139,121 +154,76 @@ const ScheduleModal = (props) => {
                 </Box>
                 <br />
                 <Grid container spacing={1}>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <FormControl
-                            variant="standard"
-                            sx={{ pb: 2, minWidth: 180 }}
-                        >
-                            <InputLabel id="day-select-standard-label">Day</InputLabel>
-                            <Select
-                                labelId="day-select-standard-label"
-                                id="day-select-standard"
-                                value={modalDay}
-                                onChange={handleDayChange}
-                                label="Day"
-                            >
-                                {weekdays.map(weekday => (
-                                    <MenuItem key={weekday} value={weekday}>{weekday}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <FormControl
-                            variant="standard"
-                            sx={{ pb: 2, minWidth: 180 }}
-                        >
-                            <InputLabel id="staff-select-standard-label">Staff Member</InputLabel>
-                            <Select
-                                labelId="staff-select-standard-label"
-                                id="staff-select-standard"
-                                value={modalStaff}
-                                onChange={handleStaffChange}
-                                label="Staff Member"
-                            >
-                                {staff ? staff.map(member => (
-                                    <MenuItem key={member._id} value={member._id}>{member.name}</MenuItem>
-                                )) : ''}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <FormControl
-                            variant="standard"
-                            sx={{ pb: 2, minWidth: 180 }}
-                        >
-                            <InputLabel id="room-select-standard-label">Room</InputLabel>
-                            <Select
-                                labelId="room-select-standard-label"
-                                id="room-select-standard"
-                                value={modalRoom}
-                                onChange={handleRoomChange}
-                                label="Room"
-                            >
-                                {rooms ? rooms.map(room => (
-                                    <MenuItem key={room._id} value={room._id}>{room.name}</MenuItem>
-                                )) : ''}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <FormControl
-                            variant="standard"
-                            sx={{ pb: 2, minWidth: 180 }}
-                        >
-                            <InputLabel id="lesson-select-standard-label">Lesson</InputLabel>
-                            <Select
-                                labelId="lesson-select-standard-label"
-                                id="lesson-select-standard"
-                                value={modalLesson}
-                                onChange={handleLessonChange}
-                                label="Room"
-                            >
-                                {lessons ? lessons.map(lesson => (
-                                    <MenuItem key={lesson._id} value={lesson._id}>{lesson.name}</MenuItem>
-                                )) : ''}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <FormControl
-                            variant="standard"
-                            sx={{ pb: 2, minWidth: 180 }}
-                        >
-                            <InputLabel id="time-start-select-standard-label">Start</InputLabel>
-                            <Select
-                                labelId="time-start-select-standard-label"
-                                id="time-start-select-standard"
-                                value={modalStart}
-                                onChange={handleStartChange}
-                                label="Start"
-                            >
-                                {times.map(time => (
-                                    <MenuItem key={time} value={time}>{timeString(time)}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <FormControl
-                            variant="standard"
-                            sx={{ pb: 2, minWidth: 180 }}
-                        >
-                            <InputLabel id="time-end-select-standard-label">End</InputLabel>
-                            <Select
-                                labelId="time-end-select-standard-label"
-                                id="time-end-select-standard"
-                                value={modalEnd}
-                                onChange={handleEndChange}
-                                label="End"
-                            >
-                                {times.map(time => (
-                                    <MenuItem key={time} value={time}>{timeString(time)}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
+                    <CustomSelect
+                        value={modalDay}
+                        changeHandler={handleDayChange}
+                        idText="day-select-standard"
+                        labelText="Day"
+                    >
+                        {weekdays.map(weekday => (
+                            <MenuItem key={weekday} value={weekday}>{weekday}</MenuItem>
+                        ))}
+                    </CustomSelect>
+                    <CustomSelect
+                        value={modalStaff}
+                        changeHandler={handleStaffChange}
+                        idText="staff-select-standard"
+                        labelText="Staff"
+                    >
+                        {staff ? staff.map(member => (
+                            <MenuItem key={member._id} value={member._id}>{member.name}</MenuItem>
+                        )) : <MenuItem key={'blank'} value={''}>Loading ...</MenuItem>}
+                    </CustomSelect>
+                    <CustomSelect
+                        value={modalRoom}
+                        changeHandler={handleRoomChange}
+                        idText="room-select-standard"
+                        labelText="Room"
+                    >
+                        {rooms ? rooms.map(room => (
+                            <MenuItem key={room._id} value={room._id}>{room.name}</MenuItem>
+                        )) : <MenuItem key={'blank'} value={''}>Loading ...</MenuItem>}
+                    </CustomSelect>
+                    <CustomSelect
+                        value={modalLesson}
+                        changeHandler={handleLessonChange}
+                        idText="lesson-select-standard"
+                        labelText="Lesson"
+                    >
+                        {lessons ? lessons.map(lesson => (
+                            <MenuItem key={lesson._id} value={lesson._id}>{lesson.name}</MenuItem>
+                        )) : <MenuItem key={'blank'} value={''}>Loading ...</MenuItem>}
+                    </CustomSelect>
+                    <CustomSelect
+                        value={modalStart}
+                        changeHandler={handleStartChange}
+                        idText="time-start-select-standard"
+                        labelText="Start"
+                    >
+                        {times.map(time => (
+                            <MenuItem key={time} value={time}>{timeString(time)}</MenuItem>
+                        ))}
+                    </CustomSelect>
+                    <CustomSelect
+                        value={modalEnd}
+                        changeHandler={handleEndChange}
+                        idText="time-end-select-standard"
+                        labelText="End"
+                    >
+                        {times.map(time => (
+                            <MenuItem key={time} value={time}>{timeString(time)}</MenuItem>
+                        ))}
+                    </CustomSelect>
                 </Grid>
+                <Button
+                    color="primary"
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    onClick={submitHandler}
+                >
+                    Submit
+                </Button>
             </Box>
         </CustomModal>
     )

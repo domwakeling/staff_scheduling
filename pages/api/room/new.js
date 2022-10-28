@@ -21,9 +21,7 @@ const handler = async (req, res) => {
 
             const insertedRoom = await rooms
                 .insertOne({
-                    name,
-                    email,
-                    telephone
+                    name
                 })
 
             res.json(insertedRoom);
