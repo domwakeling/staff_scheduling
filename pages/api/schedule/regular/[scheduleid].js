@@ -28,6 +28,45 @@ const handler = async (req, res) => {
         }
     }
 
+    if (req.method == 'PUT') {
+
+        const { staffid, lessonid, roomid, start, end, day } = req.body;
+
+        const startFloat = parseFloat(start);
+        const endFloat = parseFloat(end);
+
+        const isValid = (str) => !(!str || str == '');
+
+        if (!startFloat || !endFloat || !isValid(staffid) || !isValid(lessonid) || !isValid(roomid) || !isValid(day)) {
+            res.status(RESPONSE_ERROR).json({ message: '400: Bad Request: Required fields missing' });
+            return;
+        }
+
+        const client = await clientPromise;
+        const db = client.db(MAIN_DB_NAME);
+        const schedule = db.collection(REGULAR_SCHEDULE_COLLECTION_NAME);
+
+        try {
+            const scheduleObjectId = new ObjectId(scheduleid);
+            const foundSchedule = await schedule.updateOne(
+                { _id: scheduleObjectId },
+                { $set: {
+                    day: day,
+                    start: startFloat,
+                    end: endFloat,
+                    staff: staffid,
+                    room: roomid,
+                    lesson: lessonid
+                }}
+            );
+            res.json(foundSchedule);
+            return;
+        } catch (err) {
+            res.status(RESPONSE_ERROR).json({ message: err.message });
+            return;
+        }
+    }
+
     res.status(RESPONSE_ERROR).json({ message: 'Method not supported' });
     return;
 

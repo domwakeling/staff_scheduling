@@ -19,7 +19,7 @@ import { useRegularRooms } from '../../lib/db_schedule_regular';
 
 const RoomSchedule = (props) => {
 
-    const { setModalMode, showModal, snackBarSendMessage } = props;
+    const { setModalMode, showModal, showMenu, prepareModal, snackBarSendMessage } = props;
 
     const [room, setRoom] = useState('');
 
@@ -46,10 +46,9 @@ const RoomSchedule = (props) => {
             return regularRooms
                 .filter(item => item.day == weekday)
                 .reduce((prev, item) => {
-                    console.log(prev);
                     // use reduce to guard against looking up an entity that has been deleted
-                    // if (lessons.filter(obj => obj._id == item.lesson).length == 0) return prev;
-                    // if (staff.filter(obj => obj._id == item.staff).length == 0) return prev;
+                    if (lessons.filter(obj => obj._id == item.lesson).length == 0) return prev;
+                    if (staff.filter(obj => obj._id == item.staff).length == 0) return prev;
                     // protected succesfully so add to the return
                     const newEntry = {
                         _id: item._id,
@@ -58,7 +57,8 @@ const RoomSchedule = (props) => {
                         bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,
                         fg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].fg,
                         value1: lessons.filter(obj => obj._id == item.lesson)[0].name,
-                        value2: staff.filter(obj => obj._id == item.staff)[0].name
+                        value2: staff.filter(obj => obj._id == item.staff)[0].name,
+                        item: item
                     }
                     return prev.concat(newEntry);
                 }, []);
@@ -105,6 +105,8 @@ const RoomSchedule = (props) => {
                             key={`column-${weekday}`}
                             label={`${weekday}`}
                             schedule={columnData(weekday)}
+                            showMenu={showMenu}
+                            prepareModal={prepareModal}
                         />
                     </Grid>
                 ))}

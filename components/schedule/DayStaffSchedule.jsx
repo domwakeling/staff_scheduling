@@ -20,7 +20,7 @@ import { useRegularDays } from '../../lib/db_schedule_regular';
 
 const DayStaffSchedule = (props) => {
 
-    const { setModalMode, showModal, snackBarSendMessage } = props;
+    const { setModalMode, showModal, showMenu, prepareModal, snackBarSendMessage } = props;
 
     const [day, setDay] = useState('Monday');
 
@@ -57,7 +57,8 @@ const DayStaffSchedule = (props) => {
                         bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,
                         fg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].fg,
                         value1: lessons.filter(obj => obj._id == item.lesson)[0].name,
-                        value2: rooms.filter(obj => obj._id == item.room)[0].name
+                        value2: rooms.filter(obj => obj._id == item.room)[0].name,
+                        item: item
                     }
                     return prev.concat(newEntry)
                 }, []);
@@ -104,6 +105,8 @@ const DayStaffSchedule = (props) => {
                             key={`column-${member._id}`}
                             label={`${member.name}`}
                             schedule={columnData(member._id)}
+                            showMenu={showMenu}
+                            prepareModal={prepareModal}
                         />
                     </Grid>
                 ))}

@@ -59,7 +59,8 @@ const handler = async (req, res) => {
             const staffObjectId = new ObjectId(staffid);
             const updatedStaff = await staff.updateOne(
                 { _id: staffObjectId },
-                {$set: { name, email, telephone}});
+                {$set: { name, email, telephone}}
+            );
             res.json(updatedStaff);
             return;
         } catch (err) {

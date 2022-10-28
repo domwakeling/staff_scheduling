@@ -19,7 +19,7 @@ import { useRegularStaff } from '../../lib/db_schedule_regular';
 
 const StaffSchedule = (props) => {
 
-    const { setModalMode, showModal, snackBarSendMessage } = props;
+    const { setModalMode, showModal, showMenu, prepareModal, snackBarSendMessage } = props;
 
     const [staffMember, setStaffMember] = useState('');
 
@@ -56,7 +56,8 @@ const StaffSchedule = (props) => {
                         bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,
                         fg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].fg,
                         value1: lessons.filter(obj => obj._id == item.lesson)[0].name,
-                        value2: rooms.filter(obj => obj._id == item.room)[0].name
+                        value2: rooms.filter(obj => obj._id == item.room)[0].name,
+                        item: item
                     }
                     return prev.concat(newEntry)
                 }, []);
@@ -103,6 +104,8 @@ const StaffSchedule = (props) => {
                             key={`column-${weekday}`}
                             label={`${weekday}`}
                             schedule={columnData(weekday)}
+                            showMenu={showMenu}
+                            prepareModal={prepareModal}
                         />
                     </Grid>
                 ))}

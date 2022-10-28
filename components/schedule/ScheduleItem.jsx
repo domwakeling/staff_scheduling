@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 
 const ScheduleItem = (props) => {
 
-    const { start, end, bg, fg, value1, value2 } = props;
+    const { start, end, bg, fg, value1, value2, showMenu, item, prepareModal } = props;
 
     const duration = end - start;
 
@@ -16,6 +16,12 @@ const ScheduleItem = (props) => {
         const hours = twoDigits(Math.floor(num));
         const minutes = twoDigits(Math.ceil(60 * (num - Math.floor(num))));
         return `${hours}:${minutes}`
+    }
+
+    const clickHandler = (event) => {
+        console.log(item);
+        prepareModal(item);
+        showMenu(event);
     }
 
     return (
@@ -44,6 +50,7 @@ const ScheduleItem = (props) => {
                     top: '5px'
                 }}
                 size="small"
+                onClick={clickHandler}
             >
                 <MoreVertIcon color={fg} />
             </IconButton>

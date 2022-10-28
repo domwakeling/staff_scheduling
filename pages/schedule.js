@@ -1,4 +1,4 @@
-import { MODE_ADD } from '../lib/constants';
+import { MODE_ADD, MODE_EDIT } from '../lib/constants';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import CustomSnackbar from '../components/layout/CustomSnackbar';
@@ -6,6 +6,7 @@ import Head from 'next/head';
 import DayRoomSchedule from '../components/schedule/DayRoomSchedule';
 import DayStaffSchedule from '../components/schedule/DayStaffSchedule';
 import RoomSchedule from '../components/schedule/RoomSchedule';
+import ScheduleItemEditMenu from '../components/schedule/ScheduleItemEditMenu';
 import ScheduleModal from '../components/schedule/ScheduleModal';
 import StaffSchedule from '../components/schedule/StaffSchedule';
 import Tab from '@mui/material/Tab';
@@ -14,38 +15,8 @@ import TabPanel from '../components/layout/TabPanel';
 
 export default function Calendar() {
 
+    // state & interaction - tab
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarSeverity, setSnackbarSeverity] = useState("");
-    const [snackbarMessage, setSnackbarMessage] = useState("");
-
-    const snackbarSendMessage = (options) => {
-        setSnackbarSeverity(options.severity || 'info');
-        setSnackbarMessage(options.message || '');
-        setSnackbarOpen(true);
-    }
-
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalMode, setModalMode] = useState(MODE_ADD);
-    const [modalDay, setModalDay] = useState('');
-    const [modalStart, setModalStart] = useState('');
-    const [modalEnd, setModalEnd] = useState('');
-    const [modalStaff, setModalStaff] = useState('');
-    const [modalLesson, setModalLesson] = useState('');
-    const [modalRoom, setModalRoom] = useState('');
-    const [modalScheduleId, setModalScheduleId] = useState('');
-
-    const handleModalClose = () => {
-        setModalOpen(false);
-        // setLessonName('');
-        // setLessonColor('');
-        // setLessonId('');
-    };
-
-    const showModal = () => {
-        setModalOpen(true);
-    };
 
     function a11yProps(index) {
         return {
@@ -56,8 +27,79 @@ export default function Calendar() {
 
     const handleTabChange = (event, newActiveTabIndex) => {
         setActiveTabIndex(newActiveTabIndex);
-    };  
+    };
 
+    // state & interaction - snackbar
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarSeverity, setSnackbarSeverity] = useState("");
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    const snackbarSendMessage = (options) => {
+        setSnackbarSeverity(options.severity || 'info');
+        setSnackbarMessage(options.message || '');
+        setSnackbarOpen(true);
+    }
+
+    // state & interaction - modal
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalMode, setModalMode] = useState(MODE_ADD);
+    const [modalDay, setModalDay] = useState('');
+    const [modalStart, setModalStart] = useState('');
+    const [modalEnd, setModalEnd] = useState('');
+    const [modalStaff, setModalStaff] = useState('');
+    const [modalLesson, setModalLesson] = useState('');
+    const [modalRoom, setModalRoom] = useState('');
+    const [modalScheduleId, setModalScheduleId] = useState('');
+
+    const clearModal = () => {
+        setModalDay('');
+        setModalStart('');
+        setModalEnd('');
+        setModalStaff('');
+        setModalLesson('');
+        setModalRoom('');
+        setModalScheduleId('');
+    }
+
+    const handleModalClose = () => {
+        setModalOpen(false);
+        clearModal();
+    };
+
+    const showModal = () => {
+        setModalOpen(true);
+    };
+
+    // state & interaction - edit menu
+    const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+    const menuOpen = menuAnchorEl ? true : false;
+
+    const showMenu = (event) => {
+        setMenuAnchorEl(event.currentTarget);
+    };
+
+    const closeMenu = () => {
+        setMenuAnchorEl(null);
+    };
+
+    const prepareModal = (item) => {
+        setModalDay(item.day);
+        setModalStart(item.start);
+        setModalEnd(item.end);
+        setModalStaff(item.staff);
+        setModalLesson(item.lesson);
+        setModalRoom(item.room);
+        setModalScheduleId(item._id);
+        setModalMode(MODE_EDIT);
+    }
+
+    const menuEditClick = (event) => {
+        showModal();
+    }
+
+    const menuDeleteClick = () => {
+        // setMenuAnchorEl(null);
+    }
 
     return (
         <div>
@@ -80,6 +122,8 @@ export default function Calendar() {
                     <RoomSchedule
                         setModalMode={setModalMode}
                         showModal={showModal} 
+                        showMenu={showMenu}
+                        prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                     />
                 </TabPanel>
@@ -87,6 +131,8 @@ export default function Calendar() {
                     <StaffSchedule
                         setModalMode={setModalMode}
                         showModal={showModal}
+                        showMenu={showMenu}
+                        prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                     />
                 </TabPanel>
@@ -94,6 +140,8 @@ export default function Calendar() {
                     <DayRoomSchedule
                         setModalMode={setModalMode}
                         showModal={showModal} 
+                        showMenu={showMenu}
+                        prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                     />
                 </TabPanel>
@@ -101,6 +149,8 @@ export default function Calendar() {
                     <DayStaffSchedule
                         setModalMode={setModalMode}
                         showModal={showModal}
+                        showMenu={showMenu}
+                        prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                     />
                 </TabPanel>
@@ -129,6 +179,13 @@ export default function Calendar() {
                     setModalRoom={setModalRoom}
                     modalScheduleId={modalScheduleId}
                     setModalScheduleId={setModalScheduleId}
+                />
+                <ScheduleItemEditMenu
+                    anchorEl={menuAnchorEl}
+                    open={menuOpen}
+                    handleClose={closeMenu}
+                    handleEditClick={menuEditClick}
+                    handleDeleteClick={menuDeleteClick}
                 />
             </Box>
         </div>
