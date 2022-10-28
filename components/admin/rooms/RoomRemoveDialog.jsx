@@ -22,6 +22,7 @@ const RoomRemoveDialog = (props) => {
             });
             // success => mutate the api, message, clear the modal & close the modal;
             mutate(`/api/room/getAll`);
+            mutate(`/api/schedule/regular/rooms/${id}`);
             snackbarUse({ severity: 'success', message: 'Room updated' });
             dialogCloseHandler();
         } catch (err) {
@@ -47,7 +48,8 @@ const RoomRemoveDialog = (props) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    The room will be removed from the database. This cannot be undone.
+                    The room will be removed from the database, and all classes scheduled to be held
+                    here will be deleted. This cannot be undone.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

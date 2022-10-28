@@ -41,18 +41,27 @@ const RoomSchedule = (props) => {
     const { regularRooms } = useRegularRooms(room);
 
     const columnData = (weekday) => {
+        
         if (regularRooms) {
             return regularRooms
                 .filter(item => item.day == weekday)
-                .map(item => ({
-                    _id: item._id,
-                    start: item.start,
-                    end: item.end,
-                    bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,
-                    fg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].fg,
-                    value1: lessons.filter(obj => obj._id == item.lesson)[0].name,
-                    value2: staff.filter(obj => obj._id == item.staff)[0].name
-                }))
+                .reduce((prev, item) => {
+                    console.log(prev);
+                    // use reduce to guard against looking up an entity that has been deleted
+                    // if (lessons.filter(obj => obj._id == item.lesson).length == 0) return prev;
+                    // if (staff.filter(obj => obj._id == item.staff).length == 0) return prev;
+                    // protected succesfully so add to the return
+                    const newEntry = {
+                        _id: item._id,
+                        start: item.start,
+                        end: item.end,
+                        bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,
+                        fg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].fg,
+                        value1: lessons.filter(obj => obj._id == item.lesson)[0].name,
+                        value2: staff.filter(obj => obj._id == item.staff)[0].name
+                    }
+                    return prev.concat(newEntry);
+                }, []);
         }
         return [];
     }

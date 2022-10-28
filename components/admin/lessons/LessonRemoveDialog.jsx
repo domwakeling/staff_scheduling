@@ -47,7 +47,8 @@ const LessonRemoveDialog = (props) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    The lesson will be removed from the database. This cannot be undone.
+                    The lesson will be removed from the database, and all scheduled classes will be
+                    deleted. This cannot be undone.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

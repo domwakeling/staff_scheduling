@@ -45,15 +45,22 @@ const DayStaffSchedule = (props) => {
         if (regularDays) {
             return regularDays
                 .filter(item => item.staff == staffid)
-                .map(item => ({
-                    _id: item._id,
-                    start: item.start,
-                    end: item.end,
-                    bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,
-                    fg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].fg,
-                    value1: lessons.filter(obj => obj._id == item.lesson)[0].name,
-                    value2: rooms.filter(obj => obj._id == item.room)[0].name
-                }))
+                .reduce((prev, item) => {
+                    // use reduce to guard against looking up an entity that has been deleted
+                    if (lessons.filter(obj => obj._id == item.lesson).length == 0) return prev;
+                    if (rooms.filter(obj => obj._id == item.room).length == 0) return prev;
+                    // protected succesfully so add to the return
+                    const newEntry = {
+                        _id: item._id,
+                        start: item.start,
+                        end: item.end,
+                        bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,
+                        fg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].fg,
+                        value1: lessons.filter(obj => obj._id == item.lesson)[0].name,
+                        value2: rooms.filter(obj => obj._id == item.room)[0].name
+                    }
+                    return prev.concat(newEntry)
+                }, []);
         }
         return [];
     }

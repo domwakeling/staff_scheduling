@@ -22,6 +22,7 @@ const StaffRemoveDialog = (props) => {
             });
             // success => mutate the api, message, clear the modal & close the modal;
             mutate(`/api/staff/getAll`);
+            mutate(`/api/schedule/regular/staff/${id}`);
             snackbarUse({ severity: 'success', message: 'Staff updated' });
             dialogCloseHandler();
         } catch (err) {
@@ -47,7 +48,8 @@ const StaffRemoveDialog = (props) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    The staff member will be removed from the database. This cannot be undone.
+                    The staff member will be removed from the database, and all their scheduled
+                    classes will be deleted. This cannot be undone.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

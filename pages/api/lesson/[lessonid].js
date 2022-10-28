@@ -1,4 +1,4 @@
-import { MAIN_DB_NAME, LESSON_COLLECTION_NAME, RESPONSE_ERROR } from '../../../lib/constants';
+import { MAIN_DB_NAME, LESSON_COLLECTION_NAME, REGULAR_SCHEDULE_COLLECTION_NAME, RESPONSE_ERROR } from '../../../lib/constants';
 import clientPromise from '../../../lib/database';
 import { ObjectId } from 'mongodb';
 
@@ -26,9 +26,19 @@ const handler = async (req, res) => {
 
     if (req.method == 'DELETE') {
         try {
+            // delete the lesson from the lessons collection
             const lessonObjectId = new ObjectId(lessonid);
             const deletedLesson = await lessons.deleteOne({ _id: lessonObjectId });
-            res.json(deletedLesson);
+
+            // delete all entries for the lresson from the regular schedule
+            const regularSchedule = db.collection(REGULAR_SCHEDULE_COLLECTION_NAME);
+            const deletedClasses = await regularSchedule.deleteMany({ lesson: lessonid });
+
+            res.json({
+                staff: deletedLesson,
+                schedule: deletedClasses
+            });
+
             return;
         } catch (err) {
             res.status(RESPONSE_ERROR).json({ message: err.message });
