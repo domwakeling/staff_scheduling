@@ -35,7 +35,7 @@ const CalendarColumn = (props) => {
                     value2={'Name of trainer'}
                 />
                 <ScheduleItem
-                    start={16.5}
+                    start={16}
                     end={17}
                     bg={colors['purple'].bg}
                     fg={colors['purple'].fg}
