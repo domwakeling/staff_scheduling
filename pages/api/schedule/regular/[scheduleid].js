@@ -1,4 +1,5 @@
 import { MAIN_DB_NAME, REGULAR_SCHEDULE_COLLECTION_NAME, RESPONSE_ERROR } from '../../../../lib/constants';
+import checkDouble from '../../../../lib/check_double';
 import clientPromise from '../../../../lib/database';
 import { ObjectId } from 'mongodb';
 
@@ -45,6 +46,18 @@ const handler = async (req, res) => {
         const client = await clientPromise;
         const db = client.db(MAIN_DB_NAME);
         const schedule = db.collection(REGULAR_SCHEDULE_COLLECTION_NAME);
+
+        // check if there is a conflict and if so report it
+        const checking = await checkDouble(schedule, staffid, roomid, day, startFloat, endFloat, scheduleid);
+        console.log('CHECKING RESULT:', checking)
+        if (checking[0] == true) {
+            res.status(RESPONSE_ERROR).json({ message: 'Staff member has a conflicting booking' });
+            return;
+        }
+        if (checking[1] == true) {
+            res.status(RESPONSE_ERROR).json({ message: 'Room has a conflicting booking' });
+            return;
+        }
 
         try {
             const scheduleObjectId = new ObjectId(scheduleid);
