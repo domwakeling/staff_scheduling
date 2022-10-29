@@ -45,20 +45,26 @@ export default function Calendar() {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalMode, setModalMode] = useState(MODE_ADD);
     const [modalDay, setModalDay] = useState('');
+    const [modalDayOld, setModalDayOld] = useState('');
     const [modalStart, setModalStart] = useState('');
     const [modalEnd, setModalEnd] = useState('');
     const [modalStaff, setModalStaff] = useState('');
+    const [modalStaffOld, setModalStaffOld] = useState('');
     const [modalLesson, setModalLesson] = useState('');
     const [modalRoom, setModalRoom] = useState('');
+    const [modalRoomOld, setModalRoomOld] = useState('');
     const [modalScheduleId, setModalScheduleId] = useState('');
 
     const clearModal = () => {
         setModalDay('');
+        setModalDayOld('');
         setModalStart('');
         setModalEnd('');
         setModalStaff('');
+        setModalStaffOld('');
         setModalLesson('');
         setModalRoom('');
+        setModalRoomOld('');
         setModalScheduleId('');
     }
 
@@ -92,6 +98,9 @@ export default function Calendar() {
         setModalRoom(item.room);
         setModalScheduleId(item._id);
         setModalMode(MODE_EDIT);
+        setModalDayOld(item.day);
+        setModalRoomOld(item.room);
+        setModalStaffOld(item.staff);
     }
 
     const menuEditClick = (event) => {
@@ -141,6 +150,8 @@ export default function Calendar() {
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
+                        clearModal={clearModal}
+                        modalMode={modalMode}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={1}>
@@ -151,6 +162,8 @@ export default function Calendar() {
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
+                        clearModal={clearModal}
+                        modalMode={modalMode}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={2}>
@@ -161,6 +174,8 @@ export default function Calendar() {
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
+                        clearModal={clearModal}
+                        modalMode={modalMode}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={3}>
@@ -171,6 +186,8 @@ export default function Calendar() {
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
+                        clearModal={clearModal}
+                        modalMode={modalMode}
                     />
                 </TabPanel>
                 <CustomSnackbar
@@ -198,6 +215,9 @@ export default function Calendar() {
                     setModalRoom={setModalRoom}
                     modalScheduleId={modalScheduleId}
                     setModalScheduleId={setModalScheduleId}
+                    modalDayOld={modalDayOld}
+                    modalRoomOld={modalRoomOld}
+                    modalStaffOld={modalStaffOld}
                 />
                 <ScheduleItemEditMenu
                     anchorEl={menuAnchorEl}

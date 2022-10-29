@@ -5,7 +5,6 @@ import Head from 'next/head';
 import Link from '../components/common/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
@@ -23,7 +22,7 @@ export default function Home() {
                     Welcome
                 </Typography>
                 <Typography gutterBottom>
-                    This app helps you to schedule classes with a simple 3-step process
+                    This app helps you to schedule classes with a simple 3-step process:
                 </Typography>
                 <List>
                     <ListItem>
@@ -66,10 +65,11 @@ export default function Home() {
                     </ListItem>
                 </List>
                 <Typography gutterBottom sx={{ fontStyle: 'italic' }}>
-                    &ldquo;Bespoke&rdquo;weekly schedules are not available in this demo
+                    &ldquo;Bespoke&rdquo;weekly schedules are not available in this demo.
                 </Typography>
+                <br />
                 <Typography gutterBottom sx={{ fontStyle: 'italic' }}>
-                    Login/authenticaetion is turned off in this demo
+                    Login/authentication is turned off in this demo.
                 </Typography>
             </Box>
         </div>

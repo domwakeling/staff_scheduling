@@ -1,4 +1,4 @@
-import { MODE_ADD } from '../../lib/constants';
+import { MODE_ADD, MODE_EDIT } from '../../lib/constants';
 import { useState } from 'react';
 import { CALENDAR_WIDTH, TIME_WIDTH, colors } from '../../lib/constants';
 import AddIcon from '@mui/icons-material/Add';
@@ -19,7 +19,7 @@ import { useRegularRooms } from '../../lib/db_schedule_regular';
 
 const RoomSchedule = (props) => {
 
-    const { setModalMode, showModal, showMenu, prepareModal, prepareDialog } = props;
+    const { setModalMode, showModal, showMenu, prepareModal, prepareDialog, clearModal, modalMode } = props;
 
     const [room, setRoom] = useState('');
 
@@ -31,6 +31,9 @@ const RoomSchedule = (props) => {
 
     const addButtonHandler = (event) => {
         event.preventDefault();
+        if (modalMode == MODE_EDIT) {
+            clearModal();
+        }
         setModalMode(MODE_ADD);
         showModal();
     }

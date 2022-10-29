@@ -6,12 +6,9 @@ import Button from '@mui/material/Button';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CustomModal from "../layout/CustomModal";
 import CustomSelect from '../common/CustomSelect';
-import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import useLessons from '../../lib/db_lessons';
 import useRooms from '../../lib/db_rooms';
@@ -40,7 +37,10 @@ const ScheduleModal = (props) => {
         setModalLesson,
         modalRoom,
         setModalRoom,
-        modalScheduleId
+        modalScheduleId,
+        modalDayOld,
+        modalRoomOld,
+        modalStaffOld
     } = props;
 
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -94,6 +94,15 @@ const ScheduleModal = (props) => {
             mutate(`/api/schedule/regular/day/${modalDay}`);
             mutate(`/api/schedule/regular/staff/${modalStaff}`);
             mutate(`/api/schedule/regular/rooms/${modalRoom}`);
+            if (modalDay != modalDayOld) {
+                mutate(`/api/schedule/regular/day/${modalDayOld}`);
+            }
+            if (modalRoom != modalRoomOld) {
+                mutate(`/api/schedule/regular/rooms/${modalRoomOld}`);
+            }
+            if (modalStaff != modalStaffOld) {
+                mutate(`/api/schedule/regular/staff/${modalStaffOld}`);
+            }
             snackbarUse({ severity: 'success', message: 'Schedule updated' });
             setModalDay('');
             setModalStart('');
