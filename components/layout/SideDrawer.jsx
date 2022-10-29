@@ -18,7 +18,7 @@ export default function SideDrawer(props) {
 
     const navItems = [
         { text: 'Home', link: '/', icon: <HomeIcon /> },
-        { text: 'Schedule', link: '/schedule', icon: <CalendarTodayIcon /> },
+        { text: 'Regular Schedule', link: '/schedule', icon: <CalendarTodayIcon /> },
         { text: 'Admin', link: '/admin', icon: <AdminPanelSettingsIcon /> },
         { text: 'About', link: '/about', icon: null }
     ]
