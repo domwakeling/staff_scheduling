@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { CALENDAR_WIDTH, TIME_WIDTH, colors } from '../../lib/constants';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import CalendarColumn from './ScheduleColumn';
+import CalendarColumn from './CalendarColumn';
 import Fab from '@mui/material/Fab';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
@@ -19,7 +19,7 @@ import { useRegularRooms } from '../../lib/db_schedule_regular';
 
 const RoomSchedule = (props) => {
 
-    const { setModalMode, showModal, showMenu, prepareModal, snackBarSendMessage } = props;
+    const { setModalMode, showModal, showMenu, prepareModal, prepareDialog } = props;
 
     const [room, setRoom] = useState('');
 
@@ -107,6 +107,7 @@ const RoomSchedule = (props) => {
                             schedule={columnData(weekday)}
                             showMenu={showMenu}
                             prepareModal={prepareModal}
+                            prepareDialog={prepareDialog}
                         />
                     </Grid>
                 ))}

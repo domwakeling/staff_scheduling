@@ -67,6 +67,27 @@ const handler = async (req, res) => {
         }
     }
 
+    if (req.method == 'DELETE') {
+
+        const client = await clientPromise;
+        const db = client.db(MAIN_DB_NAME);
+        const schedule = db.collection(REGULAR_SCHEDULE_COLLECTION_NAME);
+
+        try {
+            // get an ObjectId
+            const scheduleObjectId = new ObjectId(scheduleid);
+            // delete the schedule item
+            const regularSchedule = db.collection(REGULAR_SCHEDULE_COLLECTION_NAME);
+            const deletedClass = await regularSchedule.deleteOne({ _id: scheduleObjectId });
+
+            res.json(deletedClass);
+            return;
+        } catch (err) {
+            res.status(RESPONSE_ERROR).json({ message: err.message });
+            return;
+        }
+    }
+
     res.status(RESPONSE_ERROR).json({ message: 'Method not supported' });
     return;
 

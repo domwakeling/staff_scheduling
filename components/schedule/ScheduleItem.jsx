@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 
 const ScheduleItem = (props) => {
 
-    const { start, end, bg, fg, value1, value2, showMenu, item, prepareModal } = props;
+    const { start, end, bg, fg, value1, value2, showMenu, item, prepareModal, prepareDialog } = props;
 
     const duration = end - start;
 
@@ -21,6 +21,7 @@ const ScheduleItem = (props) => {
     const clickHandler = (event) => {
         console.log(item);
         prepareModal(item);
+        prepareDialog(item);
         showMenu(event);
     }
 

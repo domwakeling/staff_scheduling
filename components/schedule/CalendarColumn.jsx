@@ -8,7 +8,7 @@ const CalendarColumn = (props) => {
 
     const hourIndices = Array.from({ length: (DAY_END - DAY_START) }, (_, i) => i + DAY_START);
 
-    const { label, schedule, showMenu, prepareModal } = props;
+    const { label, schedule, showMenu, prepareModal, prepareDialog } = props;
 
     return (
         <Box sx={{ width: `${CALENDAR_WIDTH}px`}}>
@@ -30,6 +30,7 @@ const CalendarColumn = (props) => {
                         showMenu={showMenu}
                         item={item.item}
                         prepareModal={prepareModal}
+                        prepareDialog={prepareDialog}
                     />
                 ))}
             </Box>

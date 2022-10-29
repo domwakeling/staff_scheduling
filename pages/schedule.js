@@ -8,6 +8,7 @@ import DayStaffSchedule from '../components/schedule/DayStaffSchedule';
 import RoomSchedule from '../components/schedule/RoomSchedule';
 import ScheduleItemEditMenu from '../components/schedule/ScheduleItemEditMenu';
 import ScheduleModal from '../components/schedule/ScheduleModal';
+import ScheduleRemoveDialog from '../components/schedule/ScheduleRemoveDialog';
 import StaffSchedule from '../components/schedule/StaffSchedule';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -97,8 +98,22 @@ export default function Calendar() {
         showModal();
     }
 
-    const menuDeleteClick = () => {
-        // setMenuAnchorEl(null);
+    // state & interaction - delete dialoig
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogScheduleItem, setDialogScheduleItem] = useState('');
+
+    const dialogCloseHandler = () => {
+        setDialogOpen(false);
+        setDialogScheduleItem('');
+        clearModal(); // because the modal will be prepared when the mini-Menu is shown
+    }
+
+    const prepareDialog = (item) => {
+        setDialogScheduleItem(item);
+    }
+
+    const showDialog = () => {
+        setDialogOpen(true);
     }
 
     return (
@@ -125,6 +140,7 @@ export default function Calendar() {
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
+                        prepareDialog={prepareDialog}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={1}>
@@ -134,6 +150,7 @@ export default function Calendar() {
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
+                        prepareDialog={prepareDialog}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={2}>
@@ -143,6 +160,7 @@ export default function Calendar() {
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
+                        prepareDialog={prepareDialog}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={3}>
@@ -152,6 +170,7 @@ export default function Calendar() {
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
+                        prepareDialog={prepareDialog}
                     />
                 </TabPanel>
                 <CustomSnackbar
@@ -185,7 +204,13 @@ export default function Calendar() {
                     open={menuOpen}
                     handleClose={closeMenu}
                     handleEditClick={menuEditClick}
-                    handleDeleteClick={menuDeleteClick}
+                    handleDeleteClick={showDialog}
+                />
+                <ScheduleRemoveDialog
+                    scheduleItem={dialogScheduleItem}
+                    dialogOpen={dialogOpen}
+                    snackbarUse={snackbarSendMessage}
+                    dialogCloseHandler={dialogCloseHandler}
                 />
             </Box>
         </div>
