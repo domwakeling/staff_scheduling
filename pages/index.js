@@ -44,8 +44,8 @@ export default function Home() {
                             </Avatar>
                         </ListItemIcon>
                         <ListItemText>
-                            Set up a recurring weekly schedule across all staff and locations in
-                            the
+                            Set up a recurring, regular weekly schedule across all staff and
+                            locations in the
                             {" "}
                             <Link href="/schedule">Regular Schedules panel</Link>
                         </ListItemText>
@@ -56,7 +56,7 @@ export default function Home() {
                                 3
                             </Avatar>
                         </ListItemIcon>
-                        <ListItemText>
+                        <ListItemText sx={{ color: "gray" }}>
                             Generate a schedule for each week using the recurring schedule, with
                             the option to make one-off changes, in the
                             {" "}
@@ -65,7 +65,7 @@ export default function Home() {
                     </ListItem>
                 </List>
                 <Typography gutterBottom sx={{ fontStyle: 'italic' }}>
-                    &ldquo;Bespoke&rdquo;weekly schedules are not available in this demo.
+                    &ldquo;Bespoke&rdquo; weekly schedules are not available in this demo.
                 </Typography>
                 <br />
                 <Typography gutterBottom sx={{ fontStyle: 'italic' }}>

@@ -1,7 +1,6 @@
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 const CustomSelect = ({value, changeHandler, idText, labelText, children }) => {

@@ -1,5 +1,4 @@
-import { MODE_ADD, MODE_EDIT } from '../../lib/constants';
-import { useState } from 'react';
+import { MODE_ADD, MODE_EDIT, weekdays } from '../../lib/constants';
 import { CALENDAR_WIDTH, TIME_WIDTH, colors } from '../../lib/constants';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
@@ -14,16 +13,15 @@ import Select from '@mui/material/Select';
 import TimeColumn from './TimeColumn';
 import useLessons from '../../lib/db_lessons';
 import useRooms from '../../lib/db_rooms';
-import useStaff from '../../lib/db_staff';
 import { useRegularRooms } from '../../lib/db_schedule_regular';
+import useStaff from '../../lib/db_staff';
+import { useState } from 'react';
 
 const RoomSchedule = (props) => {
 
-    const { setModalMode, showModal, showMenu, prepareModal, prepareDialog, clearModal, modalMode } = props;
+    const { setModalMode, showModal, clearModal, modalMode, ...other } = props;
 
     const [room, setRoom] = useState('');
-
-    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     const handleChange = (event) => {
         setRoom(event.target.value);
@@ -38,10 +36,10 @@ const RoomSchedule = (props) => {
         showModal();
     }
 
-    const { rooms } = useRooms();
-    const { staff } = useStaff();
     const { lessons } = useLessons();
     const { regularRooms } = useRegularRooms(room);
+    const { rooms } = useRooms();
+    const { staff } = useStaff();
 
     const columnData = (weekday) => {
         
@@ -101,16 +99,14 @@ const RoomSchedule = (props) => {
                 </Box>
             </Box>
             <Grid container sx={{ width: `${CALENDAR_WIDTH * columnCount + TIME_WIDTH}px` }}>
-                <TimeColumn key={`column-time`} label={`Col-time`} />
+                <TimeColumn key={`column-time`} />
                 {weekdays.map(weekday => (
                     <Grid item key={`column-${weekday}`}>
                         <CalendarColumn
                             key={`column-${weekday}`}
                             label={`${weekday}`}
                             schedule={columnData(weekday)}
-                            showMenu={showMenu}
-                            prepareModal={prepareModal}
-                            prepareDialog={prepareDialog}
+                            {...other}
                         />
                     </Grid>
                 ))}

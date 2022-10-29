@@ -1,5 +1,4 @@
-import { MODE_ADD, MODE_EDIT } from '../../lib/constants';
-import { useState } from 'react';
+import { MODE_ADD, MODE_EDIT, weekdays } from '../../lib/constants';
 import { CALENDAR_WIDTH, TIME_WIDTH, colors } from '../../lib/constants';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
@@ -15,16 +14,15 @@ import SkeletonColumn from './SkeletonColumn';
 import TimeColumn from './TimeColumn';
 import useLessons from '../../lib/db_lessons';
 import useRooms from '../../lib/db_rooms';
-import useStaff from '../../lib/db_staff';
 import { useRegularDays } from '../../lib/db_schedule_regular';
+import useStaff from '../../lib/db_staff';
+import { useState } from 'react';
 
 const DayRoomSchedule = (props) => {
 
-    const { setModalMode, showModal, showMenu, prepareModal, prepareDialog, clearModal, modalMode } = props;
+    const { setModalMode, showModal, clearModal, modalMode, ...other } = props;
 
     const [day, setDay] = useState('Monday');
-
-    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     const handleChange = (event) => {
         setDay(event.target.value);
@@ -39,10 +37,10 @@ const DayRoomSchedule = (props) => {
         showModal();
     }
 
-    const { rooms, isLoading, isError } = useRooms();
-    const { staff } = useStaff();
     const { lessons } = useLessons();
     const { regularDays } = useRegularDays(day);
+    const { rooms, isLoading, isError } = useRooms();
+    const { staff } = useStaff();
 
     const columnData = (roomid) => {
         if (regularDays) {
@@ -101,16 +99,14 @@ const DayRoomSchedule = (props) => {
                 </Box>
             </Box>
             <Grid container sx={{ width: `${CALENDAR_WIDTH * columnCount + TIME_WIDTH}px` }}>
-                <TimeColumn key={`column-time`} label={`Col-time`} />
+                <TimeColumn key={`column-time`} />
                 {!isLoading && !isError && rooms && rooms.map(room => (
                     <Grid item key={`column-${room._id}`}>
                         <CalendarColumn
                             key={`column-${room._id}`}
                             label={`${room.name}`}
                             schedule={columnData(room._id)}
-                            showMenu={showMenu}
-                            prepareModal={prepareModal}
-                            prepareDialog={prepareDialog}
+                            {...other}
                         />
                     </Grid>
                 ))}

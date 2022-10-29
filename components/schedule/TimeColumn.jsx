@@ -1,13 +1,10 @@
 import { TIME_WIDTH, HOUR_HEIGHT, DAY_START, DAY_END } from '../../lib/constants';
-import { blue } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const TimeColumn = (props) => {
 
     const hourIndices = Array.from({ length: (DAY_END - DAY_START) }, (_, i) => i + DAY_START);
-
-    const { label } = props;
 
     return (
         <Box sx={{ width: `${TIME_WIDTH}px` }}>
