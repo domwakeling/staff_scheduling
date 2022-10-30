@@ -15,7 +15,6 @@ export default function Home() {
             <Head>
                 <title>Staff Scheduling App</title>
                 <meta name="description" content="Staff scheduling app homepage" />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box sx={{ pt: 2, px: 3 }}>
                 <Typography gutterBottom component="h1" variant='h4'>

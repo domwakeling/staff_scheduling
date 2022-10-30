@@ -143,7 +143,6 @@ export default function Calendar() {
             <Head>
                 <title>Staff Scheduling - Schedule</title>
                 <meta name="description" content="Scheduling panel" />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
 
             <Box sx={{ width: '100%' }}>

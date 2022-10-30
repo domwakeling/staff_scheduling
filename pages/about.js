@@ -9,7 +9,6 @@ export default function About() {
             <Head>
                 <title>Staff Scheduling - About</title>
                 <meta name="description" content="About and contact for scheduling app" />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box sx={{ pt: 2, px: 3 }}>
                 <Typography gutterBottom component="h1" variant='h4'>

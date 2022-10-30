@@ -38,7 +38,6 @@ export default function Admin() {
             <Head>
                 <title>Staff Scheduling - Admin Panel</title>
                 <meta name="description" content="Admin panel for staff scheduling app" />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
