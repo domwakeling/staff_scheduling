@@ -4,7 +4,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Typography from '@mui/material/Typography';
 
-const TransferRow = ({text, uploadHandler, downloadHandler, disabled}) => {
+const TransferRow = ({text, uploadHandler, downloadHandler, inputId, disabled}) => {
 
     const textColor = disabled ? 'rgba(0, 0, 0, .26)' : '#000';
 
@@ -26,10 +26,10 @@ const TransferRow = ({text, uploadHandler, downloadHandler, disabled}) => {
                 type="file"
                 accept=".csv"
                 style={{ display: 'none' }}
-                id="contained-button-file"
+                id={inputId}
                 onChange={uploadHandler}
             />
-            <label htmlFor="contained-button-file">
+            <label htmlFor={inputId}>
                 <Button
                     variant="contained"
                     sx={{ minWidth: '140px', ml: 1 }}

@@ -33,7 +33,6 @@ const LessonCard = (props) => {
                         {name}
                     </Typography>
                 }
-                noWrap
                 sx={{
                     backgroundColor: colors[color].bg,
                     color: colors[color].fg,

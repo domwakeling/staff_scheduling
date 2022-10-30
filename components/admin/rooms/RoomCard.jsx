@@ -32,7 +32,6 @@ const RoomCard = (props) => {
                         {name}
                     </Typography>
                 }
-                noWrap
                 sx={{
                     backgroundColor: '#1976d2',
                     color: 'white',

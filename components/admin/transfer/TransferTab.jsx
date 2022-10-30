@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
-import { json2csv } from '../../../lib/json_csv';
+import { json2csv, csv2json } from '../../../lib/json_csv';
 import TransferRow from './TransferRow';
 import Typography from '@mui/material/Typography';
 import useStaff from '../../../lib/db_staff';
@@ -43,7 +43,7 @@ const TransferTab = (props) => {
             a.click()
             snackbarUse({ severity: 'success', message: 'Download successful' });
         } catch (err) {
-            // failure => show the message, don't clear or close the modal
+            // failure => show the message
             snackbarUse({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
@@ -51,8 +51,27 @@ const TransferTab = (props) => {
         }
     }
 
-    const regularUploadHandler = (event) => {
-        snackbarUse({ severity: 'info', message: 'Upload functionality to be completed'})
+    const regularUploadHandler = async (event) => {        
+        try {
+            const reader = new FileReader();
+            // write the event listener first ...
+            reader.addEventListener('load', (event) => {
+                const csv = event.target.result;
+                const jsonData = csv2json(csv);
+                snackbarUse({ severity: 'info', message: 'Upload functionality to be completed' });
+                // Do something with result
+            });
+            // then call the reader, which will trigger the 'load' event when complete
+            reader.readAsText(event.target.files[0]);
+            // finally reset the input value so that we will be able to re-upload again
+            event.target.value='';
+        } catch (err) {
+            snackbarUse({
+                severity: 'error',
+                message: (err.response && err.response.data && err.response.data.message) || err.message
+            });
+        }
+        
     }
 
     return (
@@ -66,7 +85,6 @@ const TransferTab = (props) => {
                                     Recurring Schedule
                                 </Typography>
                             }
-                            noWrap
                             sx={{
                                 backgroundColor: '#1976d2',
                                 color: 'white',
@@ -79,6 +97,7 @@ const TransferTab = (props) => {
                                 text="Week A &amp; Week B"
                                 downloadHandler={regularDownloadHandler}
                                 uploadHandler={regularUploadHandler}
+                                inputId={'recurring-schedule-input'}
                             />
                         </CardContent>
                     </Card>
@@ -91,7 +110,6 @@ const TransferTab = (props) => {
                                     Weekly Schedules
                                 </Typography>
                             }
-                            noWrap
                             sx={{
                                 backgroundColor: 'rgba(0, 0, 0, 0.12)',
                                 color: 'rgba(0, 0, 0, 0.26)',
@@ -104,6 +122,7 @@ const TransferTab = (props) => {
                                 text="Not available in demo"
                                 downloadHandler={() => {preventDefault: () => {} }}
                                 uploadHandler={() => { preventDefault: () => { } }}
+                                inputId={'weekly-schedule-input'}
                                 disabled
                             />
                         </CardContent>
