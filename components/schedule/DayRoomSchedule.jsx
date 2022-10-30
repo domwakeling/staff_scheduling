@@ -7,7 +7,7 @@ import useStaff from '../../lib/db_staff';
 
 const DayRoomSchedule = (props) => {
 
-    const { scheduleDay, cheduleDay, scheduleWeek, ...other } = props;
+    const { scheduleDay, setScheduleDay, scheduleWeek, ...other } = props;
 
     const { lessons } = useLessons();
     const { regularDays } = useRegularDays(scheduleDay);
