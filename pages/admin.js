@@ -8,6 +8,7 @@ import StaffTab from '../components/admin/staff/StaffTab';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import TabPanel from '../components/layout/TabPanel';
+import TransferTab from '../components/admin/transfer/TransferTab';
 
 export default function Admin() {
 
@@ -38,6 +39,7 @@ export default function Admin() {
             <Head>
                 <title>Staff Scheduling - Admin Panel</title>
                 <meta name="description" content="Admin panel for staff scheduling app" />
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -45,6 +47,7 @@ export default function Admin() {
                         <Tab label="Staff" {...a11yProps(0)} />
                         <Tab label="Lessons" {...a11yProps(1)} />
                         <Tab label="Rooms" {...a11yProps(2)} />
+                        <Tab label="Download/Upload" {...a11yProps(3)} />
                     </Tabs>
                 </Box>
                 <TabPanel activeTabIndex={activeTabIndex} index={0}>
@@ -55,6 +58,9 @@ export default function Admin() {
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={2}>
                     <RoomTab snackbarUse={snackbarSendMessage} />
+                </TabPanel>
+                <TabPanel activeTabIndex={activeTabIndex} index={3}>
+                    <TransferTab snackbarUse={snackbarSendMessage} />
                 </TabPanel>
                 <CustomSnackbar
                     openState={snackbarOpen}
