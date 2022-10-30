@@ -4,14 +4,14 @@ import clientPromise from '../../../../lib/database';
 
 const handler = async (req, res) => {
 
-    const { staffid, lessonid, roomid, start, end, day } = req.body;
+    const { staffid, lessonid, roomid, start, end, day, week } = req.body;
 
     const startFloat = parseFloat(start);
     const endFloat = parseFloat(end);
 
     const isValid = (str) => !(!str || str == '');
 
-    if (!startFloat || !endFloat || !isValid(staffid) || !isValid(lessonid) || !isValid (roomid) || !isValid(day)) {
+    if (!startFloat || !endFloat || !isValid(staffid) || !isValid(lessonid) || !isValid (roomid) || !isValid(day) || !isValid(week)) {
         res.status(RESPONSE_ERROR).json({ message: '400: Bad Request: Required fields missing' });
         return;
     }
@@ -22,7 +22,8 @@ const handler = async (req, res) => {
         day: day,
         staff: staffid,
         room: roomid,
-        lesson: lessonid
+        lesson: lessonid,
+        week: week
     };
 
     if (req.method == 'POST') {
@@ -35,7 +36,7 @@ const handler = async (req, res) => {
             const schedule = db.collection(REGULAR_SCHEDULE_COLLECTION_NAME);
 
             // check if there is a conflict and if so report it
-            const checking = await checkDouble(schedule, staffid, roomid, day, startFloat, endFloat);
+            const checking = await checkDouble(schedule, staffid, roomid, day, startFloat, endFloat, week);
             if (checking[0] == true) {
                 res.status(RESPONSE_ERROR).json({ message: 'Staff member has a conflicting booking' });
                 return;

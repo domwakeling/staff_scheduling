@@ -4,16 +4,13 @@ import useLessons from '../../lib/db_lessons';
 import useRooms from '../../lib/db_rooms';
 import { useRegularDays } from '../../lib/db_schedule_regular';
 import useStaff from '../../lib/db_staff';
-import { useState } from 'react';
 
 const DayRoomSchedule = (props) => {
 
-    const { ...other } = props;
-
-    const [day, setDay] = useState('Monday');
+    const { scheduleDay, cheduleDay, scheduleWeek, ...other } = props;
 
     const { lessons } = useLessons();
-    const { regularDays } = useRegularDays(day);
+    const { regularDays } = useRegularDays(scheduleDay);
     const { rooms, isLoading, isError } = useRooms();
     const { staff } = useStaff();
 
@@ -21,6 +18,7 @@ const DayRoomSchedule = (props) => {
         if (regularDays) {
             return regularDays
                 .filter(item => item.room == roomid)
+                .filter(item => item.week == scheduleWeek)
                 .reduce((prev, item) => {
                     // use reduce to guard against looking up an entity that has been deleted
                     if (lessons.filter(obj => obj._id == item.lesson).length == 0) return prev;
@@ -50,12 +48,13 @@ const DayRoomSchedule = (props) => {
             formControlId='day-select-standard'
             formLabel='Day'
             formData={weekdaysArray}
-            formValue={day}
-            setFormValue={setDay}
+            formValue={scheduleDay}
+            setFormValue={setScheduleDay}
             columnInfo={rooms}
             columnData={columnData}
             isLoading={isLoading}
             isError={isError}
+            scheduleWeek={scheduleWeek}
             {...other}
         />
     )

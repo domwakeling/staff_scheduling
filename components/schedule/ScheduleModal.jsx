@@ -40,7 +40,8 @@ const ScheduleModal = (props) => {
         modalScheduleId,
         modalDayOld,
         modalRoomOld,
-        modalStaffOld
+        modalStaffOld,
+        scheduleWeek
     } = props;
 
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -87,7 +88,8 @@ const ScheduleModal = (props) => {
                     end: modalEnd,
                     staffid: modalStaff,
                     roomid: modalRoom,
-                    lessonid: modalLesson
+                    lessonid: modalLesson,
+                    week: scheduleWeek
                 }
             });
             // success => mutate the api, message, clear the modal & close the modal;

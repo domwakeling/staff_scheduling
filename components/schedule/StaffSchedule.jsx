@@ -8,12 +8,12 @@ import { useState } from 'react';
 
 const StaffSchedule = (props) => {
 
-    const { ...other } = props;
+    const { scheduleStaff, setScheduleStaff, scheduleWeek, ...other } = props;
 
     const [staffMember, setStaffMember] = useState('');
 
     const { lessons } = useLessons();
-    const { regularStaff } = useRegularStaff(staffMember);
+    const { regularStaff } = useRegularStaff(scheduleStaff);
     const { rooms } = useRooms();
     const { staff } = useStaff();
 
@@ -21,6 +21,7 @@ const StaffSchedule = (props) => {
         if (regularStaff) {
             return regularStaff
                 .filter(item => item.day == weekday)
+                .filter(item => item.week == scheduleWeek)
                 .reduce((prev, item) => {
                     // use reduce to guard against looking up an entity that has been deleted
                     if (lessons.filter(obj => obj._id == item.lesson).length == 0) return prev;
@@ -50,12 +51,13 @@ const StaffSchedule = (props) => {
             formControlId='staff-select-standard'
             formLabel='Staff'
             formData={staff}
-            formValue={staffMember}
-            setFormValue={setStaffMember}
+            formValue={scheduleStaff}
+            setFormValue={setScheduleStaff}
             columnInfo={weekdaysArray}
             columnData={columnData}
             isLoading={false}
             isError={false}
+            scheduleWeek={scheduleWeek}
             {...other}
         />
     )

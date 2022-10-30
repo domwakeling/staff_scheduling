@@ -26,11 +26,17 @@ const ScheduleAbstract = (props) => {
         addButtonHandler,
         isLoading,
         isError,
+        scheduleWeek,
+        setScheduleWeek,
         ...other
     } = props;
 
     const handleChange = (event) => {
         setFormValue(event.target.value);
+    };
+
+    const handleWeekChange = (event) => {
+        setScheduleWeek(event.target.value);
     };
 
     return (
@@ -45,7 +51,24 @@ const ScheduleAbstract = (props) => {
                 <Box sx={{ my: 1, pl: 1 }}>
                     <FormControl
                         variant="standard"
-                        sx={{ marginLeft: `${TIME_WIDTH}px`, pb: 2, minWidth: 120 }}
+                        sx={{ marginLeft: `${TIME_WIDTH}px`, pb: 2, minWidth: 100 }}
+                    >
+                        <InputLabel id={'week-select-label'}>Week</InputLabel>
+                        <Select
+                            labelId={'week-select-label'}
+                            id={'week-select'}
+                            value={scheduleWeek}
+                            onChange={handleWeekChange}
+                            label="Week"
+                        >
+                            <MenuItem key='Week A' value='Week A'>Week A</MenuItem>
+                            <MenuItem key='Week B' value='Week B'>Week B</MenuItem>
+                            
+                        </Select>
+                    </FormControl>
+                    <FormControl
+                        variant="standard"
+                        sx={{ ml: 4, pb: 2, minWidth: 180 }}
                     >
                         <InputLabel id={`${formControlId}-label`}>{formLabel}</InputLabel>
                         <Select

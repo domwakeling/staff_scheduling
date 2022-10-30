@@ -54,6 +54,10 @@ export default function Calendar() {
     const [modalRoom, setModalRoom] = useState('');
     const [modalRoomOld, setModalRoomOld] = useState('');
     const [modalScheduleId, setModalScheduleId] = useState('');
+    const [scheduleDay, setScheduleDay] = useState('Monday');
+    const [scheduleStaff, setScheduleStaff] = useState('');
+    const [scheduleRoom, setScheduleRoom] = useState('');
+    const [scheduleWeek, setScheduleWeek] = useState('Week A');
 
     const clearModal = () => {
         setModalDay('');
@@ -154,53 +158,69 @@ export default function Calendar() {
                 <TabPanel activeTabIndex={activeTabIndex} index={0}>
                     <RoomSchedule
                         addButtonHandler={addButtonHandler}
-                        setModalMode={setModalMode}
-                        showModal={showModal} 
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
-                        clearModal={clearModal}
-                        modalMode={modalMode}
+                        scheduleDay={scheduleDay}
+                        setScheduleDay={setScheduleDay}
+                        scheduleRoom={scheduleRoom}
+                        setScheduleRoom={setScheduleRoom}
+                        scheduleStaff={scheduleStaff}
+                        setScheduleStaff={setScheduleStaff}
+                        scheduleWeek={scheduleWeek}
+                        setScheduleWeek={setScheduleWeek}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={1}>
                     <StaffSchedule
                         addButtonHandler={addButtonHandler}
-                        // setModalMode={setModalMode}
-                        // showModal={showModal}
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
-                        // clearModal={clearModal}
-                        // modalMode={modalMode}
+                        scheduleDay={scheduleDay}
+                        setScheduleDay={setScheduleDay}
+                        scheduleRoom={scheduleRoom}
+                        setScheduleRoom={setScheduleRoom}
+                        scheduleStaff={scheduleStaff}
+                        setScheduleStaff={setScheduleStaff}
+                        scheduleWeek={scheduleWeek}
+                        setScheduleWeek={setScheduleWeek}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={2}>
                     <DayRoomSchedule
                         addButtonHandler={addButtonHandler}
-                        // setModalMode={setModalMode}
-                        // showModal={showModal} 
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
-                        // clearModal={clearModal}
-                        // modalMode={modalMode}
+                        scheduleDay={scheduleDay}
+                        setScheduleDay={setScheduleDay}
+                        scheduleRoom={scheduleRoom}
+                        setScheduleRoom={setScheduleRoom}
+                        scheduleStaff={scheduleStaff}
+                        setScheduleStaff={setScheduleStaff}
+                        scheduleWeek={scheduleWeek}
+                        setScheduleWeek={setScheduleWeek}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={3}>
                     <DayStaffSchedule
                         addButtonHandler={addButtonHandler}
-                        setModalMode={setModalMode}
-                        showModal={showModal}
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
-                        clearModal={clearModal}
-                        modalMode={modalMode}
+                        scheduleDay={scheduleDay}
+                        setScheduleDay={setScheduleDay}
+                        scheduleRoom={scheduleRoom}
+                        setScheduleRoom={setScheduleRoom}
+                        scheduleStaff={scheduleStaff}
+                        setScheduleStaff={setScheduleStaff}
+                        scheduleWeek={scheduleWeek}
+                        setScheduleWeek={setScheduleWeek}
                     />
                 </TabPanel>
                 <CustomSnackbar
@@ -231,6 +251,7 @@ export default function Calendar() {
                     modalDayOld={modalDayOld}
                     modalRoomOld={modalRoomOld}
                     modalStaffOld={modalStaffOld}
+                    scheduleWeek={scheduleWeek}
                 />
                 <ScheduleItemEditMenu
                     anchorEl={menuAnchorEl}
