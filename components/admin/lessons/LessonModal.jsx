@@ -87,15 +87,17 @@ const LessonModal = (props) => {
                                     activeColor={color}
                                     setColor={setColor}
                                 />
-                                <Button
-                                    color="primary"
-                                    size="large"
-                                    type="submit"
-                                    variant="contained"
-                                    onClick={submitHandler}
-                                >
-                                    Submit
-                                </Button>
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button
+                                        color="primary"
+                                        size="large"
+                                        type="submit"
+                                        variant="contained"
+                                        onClick={submitHandler}
+                                    >
+                                        Submit
+                                    </Button>
+                                </Box>
                             </form>
                         </Box>
                     </Grid>

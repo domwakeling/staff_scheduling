@@ -12,7 +12,7 @@ const SkeletonColumn = (props) => {
 
     return (
         <Box sx={{ width: `${CALENDAR_WIDTH}px` }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', borderLeft: `1px solid ${blue[100]}` }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Typography noWrap sx={{ py: 1 }}>
                     {label}
                 </Typography>

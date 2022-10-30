@@ -174,36 +174,6 @@ const ScheduleModal = (props) => {
                         ))}
                     </CustomSelect>
                     <CustomSelect
-                        value={modalStaff}
-                        changeHandler={handleStaffChange}
-                        idText="staff-select-standard"
-                        labelText="Staff"
-                    >
-                        {staff ? staff.map(member => (
-                            <MenuItem key={member._id} value={member._id}>{member.name}</MenuItem>
-                        )) : <MenuItem key={'blank'} value={''}>Loading ...</MenuItem>}
-                    </CustomSelect>
-                    <CustomSelect
-                        value={modalRoom}
-                        changeHandler={handleRoomChange}
-                        idText="room-select-standard"
-                        labelText="Room"
-                    >
-                        {rooms ? rooms.map(room => (
-                            <MenuItem key={room._id} value={room._id}>{room.name}</MenuItem>
-                        )) : <MenuItem key={'blank'} value={''}>Loading ...</MenuItem>}
-                    </CustomSelect>
-                    <CustomSelect
-                        value={modalLesson}
-                        changeHandler={handleLessonChange}
-                        idText="lesson-select-standard"
-                        labelText="Lesson"
-                    >
-                        {lessons ? lessons.map(lesson => (
-                            <MenuItem key={lesson._id} value={lesson._id}>{lesson.name}</MenuItem>
-                        )) : <MenuItem key={'blank'} value={''}>Loading ...</MenuItem>}
-                    </CustomSelect>
-                    <CustomSelect
                         value={modalStart}
                         changeHandler={handleStartChange}
                         idText="time-start-select-standard"
@@ -223,16 +193,48 @@ const ScheduleModal = (props) => {
                             <MenuItem key={time} value={time}>{timeString(time)}</MenuItem>
                         ))}
                     </CustomSelect>
+                    <CustomSelect
+                        value={modalStaff}
+                        changeHandler={handleStaffChange}
+                        idText="staff-select-standard"
+                        labelText="Staff"
+                    >
+                        {staff ? staff.map(member => (
+                            <MenuItem key={member._id} value={member._id}>{member.name}</MenuItem>
+                        )) : <MenuItem key={'blank'} value={''}>Loading ...</MenuItem>}
+                    </CustomSelect>
+                    <CustomSelect
+                        value={modalLesson}
+                        changeHandler={handleLessonChange}
+                        idText="lesson-select-standard"
+                        labelText="Lesson"
+                    >
+                        {lessons ? lessons.map(lesson => (
+                            <MenuItem key={lesson._id} value={lesson._id}>{lesson.name}</MenuItem>
+                        )) : <MenuItem key={'blank'} value={''}>Loading ...</MenuItem>}
+                    </CustomSelect>
+                    <CustomSelect
+                        value={modalRoom}
+                        changeHandler={handleRoomChange}
+                        idText="room-select-standard"
+                        labelText="Room"
+                    >
+                        {rooms ? rooms.map(room => (
+                            <MenuItem key={room._id} value={room._id}>{room.name}</MenuItem>
+                        )) : <MenuItem key={'blank'} value={''}>Loading ...</MenuItem>}
+                    </CustomSelect>
                 </Grid>
-                <Button
-                    color="primary"
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                    onClick={submitHandler}
-                >
-                    Submit
-                </Button>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end'}}>
+                    <Button
+                        color="primary"
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                        onClick={submitHandler}
+                    >
+                        Submit
+                    </Button>
+                </Box>
             </Box>
         </CustomModal>
     )

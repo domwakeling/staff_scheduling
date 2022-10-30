@@ -10,7 +10,7 @@ const CustomSelect = ({value, changeHandler, idText, labelText, children }) => {
         <Grid item xs={12} sm={6} md={4}>
             <FormControl
                 variant="standard"
-                sx={{ pb: 2, minWidth: 180 }}
+                sx={{ pb: 2, minWidth: '95%' }}
             >
                 <InputLabel id={`${idText}-label`}>{labelText}</InputLabel>
                 <Select

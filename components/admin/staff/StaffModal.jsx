@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import CustomTextInput from '../../common/CustomTextInput';
 import Typography from '@mui/material/Typography';
+import { display } from '@mui/system';
 
 const StaffModal = (props) => {
 
@@ -110,15 +111,17 @@ const StaffModal = (props) => {
                                     value={tel}
                                     sx={{ mt: 2, mb:3 }}
                                 />
-                                <Button
-                                    color="primary"
-                                    size="large"
-                                    type="submit"
-                                    variant="contained"
-                                    onClick={submitHandler}
-                                >
-                                    Submit
-                                </Button>
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end'}}>
+                                    <Button
+                                        color="primary"
+                                        size="large"
+                                        type="submit"
+                                        variant="contained"
+                                        onClick={submitHandler}
+                                    >
+                                        Submit
+                                    </Button>
+                            </Box>
                             </form>
                         </Box>
                     </Grid>

@@ -77,15 +77,17 @@ const RoomModal = (props) => {
                                     value={roomName}
                                     sx={{ mb: 2, mb:3}}
                                 />
-                                <Button
-                                    color="primary"
-                                    size="large"
-                                    type="submit"
-                                    variant="contained"
-                                    onClick={submitHandler}
-                                >
-                                    Submit
-                                </Button>
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button
+                                        color="primary"
+                                        size="large"
+                                        type="submit"
+                                        variant="contained"
+                                        onClick={submitHandler}
+                                    >
+                                        Submit
+                                    </Button>
+                                </Box>
                             </form>
                         </Box>
                     </Grid>
