@@ -77,6 +77,15 @@ export default function Calendar() {
         setModalOpen(true);
     };
 
+    const addButtonHandler = (event) => {
+        event.preventDefault();
+        if (modalMode == MODE_EDIT) {
+            clearModal();
+        }
+        setModalMode(MODE_ADD);
+        showModal();
+    }
+
     // state & interaction - edit menu
     const [menuAnchorEl, setMenuAnchorEl] = useState(null);
     const menuOpen = menuAnchorEl ? true : false;
@@ -144,6 +153,7 @@ export default function Calendar() {
                 </Box>
                 <TabPanel activeTabIndex={activeTabIndex} index={0}>
                     <RoomSchedule
+                        addButtonHandler={addButtonHandler}
                         setModalMode={setModalMode}
                         showModal={showModal} 
                         showMenu={showMenu}
@@ -156,30 +166,33 @@ export default function Calendar() {
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={1}>
                     <StaffSchedule
-                        setModalMode={setModalMode}
-                        showModal={showModal}
+                        addButtonHandler={addButtonHandler}
+                        // setModalMode={setModalMode}
+                        // showModal={showModal}
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
-                        clearModal={clearModal}
-                        modalMode={modalMode}
+                        // clearModal={clearModal}
+                        // modalMode={modalMode}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={2}>
                     <DayRoomSchedule
-                        setModalMode={setModalMode}
-                        showModal={showModal} 
+                        addButtonHandler={addButtonHandler}
+                        // setModalMode={setModalMode}
+                        // showModal={showModal} 
                         showMenu={showMenu}
                         prepareModal={prepareModal}
                         snackbarSendMessage={snackbarSendMessage}
                         prepareDialog={prepareDialog}
-                        clearModal={clearModal}
-                        modalMode={modalMode}
+                        // clearModal={clearModal}
+                        // modalMode={modalMode}
                     />
                 </TabPanel>
                 <TabPanel activeTabIndex={activeTabIndex} index={3}>
                     <DayStaffSchedule
+                        addButtonHandler={addButtonHandler}
                         setModalMode={setModalMode}
                         showModal={showModal}
                         showMenu={showMenu}

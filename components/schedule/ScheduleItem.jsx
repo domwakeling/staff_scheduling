@@ -25,8 +25,23 @@ const ScheduleItem = (props) => {
         showMenu(event);
     }
 
+    const dragStartHandler = (event) => {
+        console.log('drag started');
+        event.dataTransfer.setData('text', JSON.stringify(item));
+        // console.log(JSON.stringify(item))
+    }
+
+    const dragEndHandler = (event) => {
+        event.preventDefault();
+        // console.log('drag started');
+        // event.dataTransfer.setData('text', JSON.stringify(item));
+        const dataOut = event.dataTransfer.getData('text')
+        console.log('drag ended:', dataOut)
+    }
+
     return (
         <Paper
+            // draggable
             sx={{
                 width: `${CALENDAR_WIDTH - 2 * SCHEDULE_SPACING}px`,
                 height: `${duration * HOUR_HEIGHT -  2 * SCHEDULE_SPACING}px`,
@@ -42,6 +57,8 @@ const ScheduleItem = (props) => {
                 justifyContent: 'center'
             }}
             elevation={3}
+            // onDragStart={dragStartHandler}
+            // onDragEnd={dragEndHandler}
         >
             <IconButton
                 sx={{

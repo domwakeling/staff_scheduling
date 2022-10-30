@@ -1,16 +1,5 @@
-import { MODE_ADD, MODE_EDIT, weekdays } from '../../lib/constants';
-import { CALENDAR_WIDTH, TIME_WIDTH, colors } from '../../lib/constants';
-import AddIcon from '@mui/icons-material/Add';
-import Box from '@mui/material/Box';
-import CalendarColumn from './CalendarColumn';
-import Fab from '@mui/material/Fab';
-import FormControl from '@mui/material/FormControl';
-import Grid from '@mui/material/Grid';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Paper from '@mui/material/Paper';
-import Select from '@mui/material/Select';
-import TimeColumn from './TimeColumn';
+import { colors, weekdaysArray } from '../../lib/constants';
+import ScheduleAbstract from './ScheduleAbstract';
 import useLessons from '../../lib/db_lessons';
 import useRooms from '../../lib/db_rooms';
 import { useRegularRooms } from '../../lib/db_schedule_regular';
@@ -19,22 +8,9 @@ import { useState } from 'react';
 
 const RoomSchedule = (props) => {
 
-    const { setModalMode, showModal, clearModal, modalMode, ...other } = props;
+    const { ...other } = props;
 
     const [room, setRoom] = useState('');
-
-    const handleChange = (event) => {
-        setRoom(event.target.value);
-    };
-
-    const addButtonHandler = (event) => {
-        event.preventDefault();
-        if (modalMode == MODE_EDIT) {
-            clearModal();
-        }
-        setModalMode(MODE_ADD);
-        showModal();
-    }
 
     const { lessons } = useLessons();
     const { regularRooms } = useRegularRooms(room);
@@ -70,48 +46,19 @@ const RoomSchedule = (props) => {
     const columnCount = 7;
 
     return (
-        <Paper
-            elevation={3}
-            sx={{ p: 1, width: `${CALENDAR_WIDTH * columnCount + TIME_WIDTH + 24}px` }}
-        >
-            <Box>
-                <Box sx={{ my: 1, pl: 1 }}>
-                    <FormControl
-                        variant="standard"
-                        sx={{ marginLeft: `${TIME_WIDTH}px`, pb: 2, minWidth: 200 }}
-                    >
-                        <InputLabel id="room-select-standard-label">Room</InputLabel>
-                        <Select
-                            labelId="room-select-standard-label"
-                            id="room-select-standard"
-                            value={room}
-                            onChange={handleChange}
-                            label="Room"
-                        >
-                            {rooms && rooms.map(activeRoom => (
-                                <MenuItem key={activeRoom._id} value={activeRoom._id}>{activeRoom.name}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <Fab color='primary' aria-label='Add' onClick={addButtonHandler} sx={{ ml: 4 }}>
-                        <AddIcon />
-                    </Fab>
-                </Box>
-            </Box>
-            <Grid container sx={{ width: `${CALENDAR_WIDTH * columnCount + TIME_WIDTH}px` }}>
-                <TimeColumn key={`column-time`} />
-                {weekdays.map(weekday => (
-                    <Grid item key={`column-${weekday}`}>
-                        <CalendarColumn
-                            key={`column-${weekday}`}
-                            label={`${weekday}`}
-                            schedule={columnData(weekday)}
-                            {...other}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-        </Paper>
+        <ScheduleAbstract
+            columnCount={columnCount}
+            formControlId='room-select-standard'
+            formLabel='Room'
+            formData={rooms}
+            formValue={room}
+            setFormValue={setRoom}
+            columnInfo={weekdaysArray}
+            columnData={columnData}
+            isLoading={false}
+            isError={false}
+            {...other}
+        />
     )
 }
 

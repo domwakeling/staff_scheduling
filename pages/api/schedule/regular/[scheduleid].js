@@ -49,7 +49,6 @@ const handler = async (req, res) => {
 
         // check if there is a conflict and if so report it
         const checking = await checkDouble(schedule, staffid, roomid, day, startFloat, endFloat, scheduleid);
-        console.log('CHECKING RESULT:', checking)
         if (checking[0] == true) {
             res.status(RESPONSE_ERROR).json({ message: 'Staff member has a conflicting booking' });
             return;
