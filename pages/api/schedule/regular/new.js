@@ -1,5 +1,5 @@
 import { MAIN_DB_NAME, REGULAR_SCHEDULE_COLLECTION_NAME, RESPONSE_ERROR } from '../../../../lib/constants';
-import checkDouble from '../../../../lib/check_double';
+import { checkDouble } from '../../../../lib/check_double';
 import clientPromise from '../../../../lib/database';
 
 const handler = async (req, res) => {

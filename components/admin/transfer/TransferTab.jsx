@@ -4,15 +4,30 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import { json2csv, csv2json } from '../../../lib/json_csv';
+import TransferConfirmDialog from './TransferConfirmDialog';
 import TransferRow from './TransferRow';
 import Typography from '@mui/material/Typography';
 import useStaff from '../../../lib/db_staff';
 import useRooms from '../../../lib/db_rooms';
 import useLessons from '../../../lib/db_lessons';
+import { useState } from 'react';
 
 const TransferTab = (props) => {
 
     const { snackbarUse } = props;
+
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogData, setDialogData] = useState([]);
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
+        setDialogData([]);
+    }
+
+    const showDialog = (data) => {
+        setDialogData(data);
+        setDialogOpen(true);
+    }
 
     const { staff } = useStaff();
     const { rooms } = useRooms();
@@ -52,26 +67,18 @@ const TransferTab = (props) => {
     }
 
     const regularUploadHandler = async (event) => {        
-        try {
-            const reader = new FileReader();
-            // write the event listener first ...
-            reader.addEventListener('load', (event) => {
-                const csv = event.target.result;
-                const jsonData = csv2json(csv);
-                snackbarUse({ severity: 'info', message: 'Upload functionality to be completed' });
-                // Do something with result
-            });
-            // then call the reader, which will trigger the 'load' event when complete
-            reader.readAsText(event.target.files[0]);
-            // finally reset the input value so that we will be able to re-upload again
-            event.target.value='';
-        } catch (err) {
-            snackbarUse({
-                severity: 'error',
-                message: (err.response && err.response.data && err.response.data.message) || err.message
-            });
-        }
-        
+        const reader = new FileReader();
+        // write the event listener first ...
+        reader.addEventListener('load', async (event) => {
+            const csv = event.target.result;
+            const jsonData = csv2json(csv);
+            showDialog(jsonData);
+            // Do something with result
+        });
+        // then call the reader, which will trigger the 'load' event when complete
+        reader.readAsText(event.target.files[0]);
+        // finally reset the input value so that we will be able to re-upload again
+        event.target.value='';
     }
 
     return (
@@ -129,25 +136,12 @@ const TransferTab = (props) => {
                     </Card>
                 </Grid>
             </Grid>
-            {/* <StaffModal
-                closeHandler={handleModalClose}
-                modalOpen={modalOpen}
-                modalMode={modalMode}
-                snackbarUse={snackbarUse}
-                staffName={staffName}
-                setName={setStaffName}
-                email={staffEmail}
-                setEmail={setStaffEmail}
-                tel={staffTel}
-                setTel={setStaffTel}
-                id={staffId}
-            /> */}
-            {/* <StaffRemoveDialog
+            <TransferConfirmDialog
                 dialogCloseHandler={handleDialogClose}
                 dialogOpen={dialogOpen}
                 snackbarUse={snackbarUse}
-                id={staffId}
-            /> */}
+                data={dialogData}
+            />
         </>
     )
 }

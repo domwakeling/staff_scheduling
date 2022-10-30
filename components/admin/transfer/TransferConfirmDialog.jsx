@@ -1,4 +1,3 @@
-import { mutate } from 'swr';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -7,26 +6,24 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const RoomRemoveDialog = (props) => {
+const TransferConfirmDialog = (props) => {
 
-    const { dialogCloseHandler, snackbarUse, dialogOpen, id } = props;
+    const { dialogCloseHandler, snackbarUse, dialogOpen, data } = props;
 
     const dialogConfirmHandler = async (event) => {
         event.preventDefault();
         try {
-            // try to delete staff member
             const res = await axios({
-                method: 'delete',
-                url: `/api/room/${id}`,
-                timeout: 6000
+                method: 'post',
+                url: '/api/schedule/regular/replace',
+                timeout: 6000,
+                data: {
+                    jsonData: data
+                }
             });
-            // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/room/getAll`);
-            mutate(`/api/schedule/regular/rooms/${id}`);
-            snackbarUse({ severity: 'success', message: 'Room updated' });
+            snackbarUse({ severity: 'success', message: 'New schedule uploaded' });
             dialogCloseHandler();
         } catch (err) {
-            // failure => show the message, don't clear or close the modal
             snackbarUse({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
@@ -44,12 +41,11 @@ const RoomRemoveDialog = (props) => {
             open={dialogOpen}
         >
             <DialogTitle color="primary">
-                Confirm remove room
+                Confirm upload schedule
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    The room will be removed from the database, and all classes scheduled to be held
-                    here will be deleted. This cannot be undone.
+                    The existing schedule will be deleted and replaced. This cannot be undone.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -71,4 +67,4 @@ const RoomRemoveDialog = (props) => {
     );
 }
 
-export default RoomRemoveDialog;
+export default TransferConfirmDialog;
