@@ -19,6 +19,14 @@ const handler = async (req, res) => {
             const db = client.db(MAIN_DB_NAME);
             const lessons = db.collection(LESSON_COLLECTION_NAME);
 
+            // check if there's already a lesson by that name
+            const nameExists = await lessons.findOne({ name });
+            console.log(nameExists);
+            if (nameExists) {
+                res.status(RESPONSE_ERROR).json({ message: 'A lesson by that name already exists' });
+                return;
+            }
+
             const insertedLesson = await lessons
                 .insertOne({
                     name,

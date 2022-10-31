@@ -19,6 +19,13 @@ const handler = async (req, res) => {
             const db = client.db(MAIN_DB_NAME);
             const staff = db.collection(STAFF_COLLECTION_NAME);
 
+            // check if there's already someone by that name
+            const nameExists = await staff.findOne({name});
+            if (nameExists) {
+                res.status(RESPONSE_ERROR).json({ message: 'A member of staff by that name already exists' });
+                return; 
+            }
+
             const insertedStaff = await staff
                 .insertOne({
                     name,

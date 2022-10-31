@@ -19,6 +19,13 @@ const handler = async (req, res) => {
             const db = client.db(MAIN_DB_NAME);
             const rooms = db.collection(ROOM_COLLECTION_NAME);
 
+            // check if there's already a room by that name
+            const nameExists = await rooms.findOne({ name });
+            if (nameExists) {
+                res.status(RESPONSE_ERROR).json({ message: 'A room by that name already exists' });
+                return;
+            }
+
             const insertedRoom = await rooms
                 .insertOne({
                     name
