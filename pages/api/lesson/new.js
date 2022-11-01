@@ -21,7 +21,7 @@ const handler = async (req, res) => {
 
             // check if there's already a lesson by that name
             const nameExists = await lessons.findOne({ name });
-            console.log(nameExists);
+            
             if (nameExists) {
                 res.status(RESPONSE_ERROR).json({ message: 'A lesson by that name already exists' });
                 return;

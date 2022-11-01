@@ -11,16 +11,29 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
+import { useSession } from 'next-auth/react';
 
 export default function SideDrawer(props) {
 
+    const { data: session, status } = useSession();
+
     const { drawerWidth, window, mobileOpen, handleDrawerToggle } = props;
 
+    const loggedIn = () => {
+        if (session && status=="authenticated") return false;
+        return true;
+    }
+
+    const isAdmin = () => {
+        if (session && session.user.name == 'Admin') return true;
+        return false;
+    }
+
     const navItems = [
-        { text: 'Home', link: '/', icon: <HomeIcon /> },
-        { text: 'Recurring Schedule', link: '/schedule', icon: <CalendarTodayIcon /> },
-        { text: 'Admin', link: '/admin', icon: <AdminPanelSettingsIcon /> },
-        { text: 'About', link: '/about', icon: null }
+        { text: 'Home', link: '/', icon: <HomeIcon />, protected: false },
+        { text: 'Recurring Schedule', link: '/schedule', icon: <CalendarTodayIcon />, protected: loggedIn() },
+        { text: 'Admin', link: '/admin', icon: <AdminPanelSettingsIcon />, protected: !isAdmin() },
+        { text: 'About', link: '/about', icon: null, protected: false }
     ]
 
     const drawer = (
@@ -28,7 +41,7 @@ export default function SideDrawer(props) {
             <Toolbar />
             <Divider />
             <List>
-                { navItems.map(item => (
+                { navItems.filter(item => !item.protected ).map(item => (
                     <Link key={item.text} href={item.link} color="inherit" underline="none">
                         <ListItem disablePadding>
                             <ListItemButton>

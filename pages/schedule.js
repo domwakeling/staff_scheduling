@@ -8,10 +8,14 @@ import RoomSchedule from '../components/schedule/RoomSchedule';
 import ScheduleItemEditMenu from '../components/schedule/ScheduleItemEditMenu';
 import ScheduleModal from '../components/schedule/ScheduleModal';
 import ScheduleRemoveDialog from '../components/schedule/ScheduleRemoveDialog';
+import SignInPanel from '../components/auth/SignInPanel';
 import StaffSchedule from '../components/schedule/StaffSchedule';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import TabPanel from '../components/layout/TabPanel';
+import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 export default function Calendar() {
@@ -29,6 +33,11 @@ export default function Calendar() {
     const handleTabChange = (event, newActiveTabIndex) => {
         setActiveTabIndex(newActiveTabIndex);
     };
+
+    // secure page if not logged in
+
+    const router = useRouter();
+    const { data: session } = useSession();
 
     // state & interaction - snackbar
     const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -145,127 +154,140 @@ export default function Calendar() {
                 <meta name="description" content="Scheduling panel" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
             <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={activeTabIndex} onChange={handleTabChange} aria-label="basic tabs example">
-                        <Tab label="By Room" {...a11yProps(0)} />
-                        <Tab label="By Staff" {...a11yProps(1)} />
-                        <Tab label="By Day & Room" {...a11yProps(2)} />
-                        <Tab label="By Day & Staff" {...a11yProps(3)} />
-                    </Tabs>
+                { session ? (
+                    <div>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Tabs value={activeTabIndex} onChange={handleTabChange} aria-label="basic tabs example">
+                                <Tab label="By Room" {...a11yProps(0)} />
+                                <Tab label="By Staff" {...a11yProps(1)} />
+                                <Tab label="By Day & Room" {...a11yProps(2)} />
+                                <Tab label="By Day & Staff" {...a11yProps(3)} />
+                            </Tabs>
+                        </Box>
+                        <TabPanel activeTabIndex={activeTabIndex} index={0}>
+                            <RoomSchedule
+                                addButtonHandler={addButtonHandler}
+                                showMenu={showMenu}
+                                prepareModal={prepareModal}
+                                snackbarSendMessage={snackbarSendMessage}
+                                prepareDialog={prepareDialog}
+                                scheduleDay={scheduleDay}
+                                setScheduleDay={setScheduleDay}
+                                scheduleRoom={scheduleRoom}
+                                setScheduleRoom={setScheduleRoom}
+                                scheduleStaff={scheduleStaff}
+                                setScheduleStaff={setScheduleStaff}
+                                scheduleWeek={scheduleWeek}
+                                setScheduleWeek={setScheduleWeek}
+                            />
+                        </TabPanel>
+                        <TabPanel activeTabIndex={activeTabIndex} index={1}>
+                            <StaffSchedule
+                                addButtonHandler={addButtonHandler}
+                                showMenu={showMenu}
+                                prepareModal={prepareModal}
+                                snackbarSendMessage={snackbarSendMessage}
+                                prepareDialog={prepareDialog}
+                                scheduleDay={scheduleDay}
+                                setScheduleDay={setScheduleDay}
+                                scheduleRoom={scheduleRoom}
+                                setScheduleRoom={setScheduleRoom}
+                                scheduleStaff={scheduleStaff}
+                                setScheduleStaff={setScheduleStaff}
+                                scheduleWeek={scheduleWeek}
+                                setScheduleWeek={setScheduleWeek}
+                            />
+                        </TabPanel>
+                        <TabPanel activeTabIndex={activeTabIndex} index={2}>
+                            <DayRoomSchedule
+                                addButtonHandler={addButtonHandler}
+                                showMenu={showMenu}
+                                prepareModal={prepareModal}
+                                snackbarSendMessage={snackbarSendMessage}
+                                prepareDialog={prepareDialog}
+                                scheduleDay={scheduleDay}
+                                setScheduleDay={setScheduleDay}
+                                scheduleRoom={scheduleRoom}
+                                setScheduleRoom={setScheduleRoom}
+                                scheduleStaff={scheduleStaff}
+                                setScheduleStaff={setScheduleStaff}
+                                scheduleWeek={scheduleWeek}
+                                setScheduleWeek={setScheduleWeek}
+                            />
+                        </TabPanel>
+                        <TabPanel activeTabIndex={activeTabIndex} index={3}>
+                            <DayStaffSchedule
+                                addButtonHandler={addButtonHandler}
+                                showMenu={showMenu}
+                                prepareModal={prepareModal}
+                                snackbarSendMessage={snackbarSendMessage}
+                                prepareDialog={prepareDialog}
+                                scheduleDay={scheduleDay}
+                                setScheduleDay={setScheduleDay}
+                                scheduleRoom={scheduleRoom}
+                                setScheduleRoom={setScheduleRoom}
+                                scheduleStaff={scheduleStaff}
+                                setScheduleStaff={setScheduleStaff}
+                                scheduleWeek={scheduleWeek}
+                                setScheduleWeek={setScheduleWeek}
+                            />
+                        </TabPanel>
+                        <CustomSnackbar
+                            openState={snackbarOpen}
+                            setOpenState={setSnackbarOpen}
+                            severity={snackbarSeverity}
+                            message={snackbarMessage}
+                        />
+                        <ScheduleModal
+                            closeHandler={handleModalClose}
+                            modalOpen={modalOpen}
+                            modalMode={modalMode}
+                            snackbarUse={snackbarSendMessage}
+                            modalDay={modalDay}
+                            setModalDay={setModalDay}
+                            modalStart={modalStart}
+                            setModalStart={setModalStart}
+                            modalEnd={modalEnd}
+                            setModalEnd={setModalEnd}
+                            modalStaff={modalStaff}
+                            setModalStaff={setModalStaff}
+                            modalLesson={modalLesson}
+                            setModalLesson={setModalLesson}
+                            modalRoom={modalRoom}
+                            setModalRoom={setModalRoom}
+                            modalScheduleId={modalScheduleId}
+                            setModalScheduleId={setModalScheduleId}
+                            modalDayOld={modalDayOld}
+                            modalRoomOld={modalRoomOld}
+                            modalStaffOld={modalStaffOld}
+                            scheduleWeek={scheduleWeek}
+                        />
+                        <ScheduleItemEditMenu
+                            anchorEl={menuAnchorEl}
+                            open={menuOpen}
+                            handleClose={closeMenu}
+                            handleEditClick={menuEditClick}
+                            handleDeleteClick={showDialog}
+                        />
+                        <ScheduleRemoveDialog
+                            scheduleItem={dialogScheduleItem}
+                            dialogOpen={dialogOpen}
+                            snackbarUse={snackbarSendMessage}
+                            dialogCloseHandler={dialogCloseHandler}
+                        />
+                </div>
+            ) : (
+                <Box sx={{ pt: 2, px: 3 }}>
+                    <Typography gutterBottom variant="h4" component="h1">
+                        Schedules
+                    </Typography>
+                    <Typography>
+                        Please sign in to view this content.
+                    </Typography>
+                    <SignInPanel />
                 </Box>
-                <TabPanel activeTabIndex={activeTabIndex} index={0}>
-                    <RoomSchedule
-                        addButtonHandler={addButtonHandler}
-                        showMenu={showMenu}
-                        prepareModal={prepareModal}
-                        snackbarSendMessage={snackbarSendMessage}
-                        prepareDialog={prepareDialog}
-                        scheduleDay={scheduleDay}
-                        setScheduleDay={setScheduleDay}
-                        scheduleRoom={scheduleRoom}
-                        setScheduleRoom={setScheduleRoom}
-                        scheduleStaff={scheduleStaff}
-                        setScheduleStaff={setScheduleStaff}
-                        scheduleWeek={scheduleWeek}
-                        setScheduleWeek={setScheduleWeek}
-                    />
-                </TabPanel>
-                <TabPanel activeTabIndex={activeTabIndex} index={1}>
-                    <StaffSchedule
-                        addButtonHandler={addButtonHandler}
-                        showMenu={showMenu}
-                        prepareModal={prepareModal}
-                        snackbarSendMessage={snackbarSendMessage}
-                        prepareDialog={prepareDialog}
-                        scheduleDay={scheduleDay}
-                        setScheduleDay={setScheduleDay}
-                        scheduleRoom={scheduleRoom}
-                        setScheduleRoom={setScheduleRoom}
-                        scheduleStaff={scheduleStaff}
-                        setScheduleStaff={setScheduleStaff}
-                        scheduleWeek={scheduleWeek}
-                        setScheduleWeek={setScheduleWeek}
-                    />
-                </TabPanel>
-                <TabPanel activeTabIndex={activeTabIndex} index={2}>
-                    <DayRoomSchedule
-                        addButtonHandler={addButtonHandler}
-                        showMenu={showMenu}
-                        prepareModal={prepareModal}
-                        snackbarSendMessage={snackbarSendMessage}
-                        prepareDialog={prepareDialog}
-                        scheduleDay={scheduleDay}
-                        setScheduleDay={setScheduleDay}
-                        scheduleRoom={scheduleRoom}
-                        setScheduleRoom={setScheduleRoom}
-                        scheduleStaff={scheduleStaff}
-                        setScheduleStaff={setScheduleStaff}
-                        scheduleWeek={scheduleWeek}
-                        setScheduleWeek={setScheduleWeek}
-                    />
-                </TabPanel>
-                <TabPanel activeTabIndex={activeTabIndex} index={3}>
-                    <DayStaffSchedule
-                        addButtonHandler={addButtonHandler}
-                        showMenu={showMenu}
-                        prepareModal={prepareModal}
-                        snackbarSendMessage={snackbarSendMessage}
-                        prepareDialog={prepareDialog}
-                        scheduleDay={scheduleDay}
-                        setScheduleDay={setScheduleDay}
-                        scheduleRoom={scheduleRoom}
-                        setScheduleRoom={setScheduleRoom}
-                        scheduleStaff={scheduleStaff}
-                        setScheduleStaff={setScheduleStaff}
-                        scheduleWeek={scheduleWeek}
-                        setScheduleWeek={setScheduleWeek}
-                    />
-                </TabPanel>
-                <CustomSnackbar
-                    openState={snackbarOpen}
-                    setOpenState={setSnackbarOpen}
-                    severity={snackbarSeverity}
-                    message={snackbarMessage}
-                />
-                <ScheduleModal
-                    closeHandler={handleModalClose}
-                    modalOpen={modalOpen}
-                    modalMode={modalMode}
-                    snackbarUse={snackbarSendMessage}
-                    modalDay={modalDay}
-                    setModalDay={setModalDay}
-                    modalStart={modalStart}
-                    setModalStart={setModalStart}
-                    modalEnd={modalEnd}
-                    setModalEnd={setModalEnd}
-                    modalStaff={modalStaff}
-                    setModalStaff={setModalStaff}
-                    modalLesson={modalLesson}
-                    setModalLesson={setModalLesson}
-                    modalRoom={modalRoom}
-                    setModalRoom={setModalRoom}
-                    modalScheduleId={modalScheduleId}
-                    setModalScheduleId={setModalScheduleId}
-                    modalDayOld={modalDayOld}
-                    modalRoomOld={modalRoomOld}
-                    modalStaffOld={modalStaffOld}
-                    scheduleWeek={scheduleWeek}
-                />
-                <ScheduleItemEditMenu
-                    anchorEl={menuAnchorEl}
-                    open={menuOpen}
-                    handleClose={closeMenu}
-                    handleEditClick={menuEditClick}
-                    handleDeleteClick={showDialog}
-                />
-                <ScheduleRemoveDialog
-                    scheduleItem={dialogScheduleItem}
-                    dialogOpen={dialogOpen}
-                    snackbarUse={snackbarSendMessage}
-                    dialogCloseHandler={dialogCloseHandler}
-                />
+            )}
             </Box>
         </div>
     )

@@ -25,7 +25,7 @@ const DayRoomSchedule = (props) => {
                     if (staff.filter(obj => obj._id == item.staff).length == 0) return prev;
                     // protected succesfully so add to the return
                     const newEntry ={
-                        id: item._id,
+                        _id: item._id,
                         start: item.start,
                         end: item.end,
                         bg: colors[lessons.filter(obj => obj._id == item.lesson)[0].color].bg,

@@ -20,7 +20,7 @@ const CalendarColumn = (props) => {
             <Box sx={{ position: 'relative' }}>
                 {schedule && schedule.map(item => (
                     <ScheduleItem
-                        key={item._id}
+                        key={`${item._id}-${label}`}
                         start={item.start}
                         end={item.end}
                         bg={item.bg}

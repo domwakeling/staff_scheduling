@@ -1,8 +1,8 @@
 import TextField from '@mui/material/TextField';
 
-const CustomTextInput = (props) => {
+const CustomTextInput = ({ errorMethod, value, setValue, label, name, sx, ...props }) => {
 
-    const { errorMethod, value, setValue, label, name, sx } = props;
+    // const { errorMethod, value, setValue, label, name, sx } = props;
 
     return (
         <TextField

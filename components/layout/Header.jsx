@@ -1,9 +1,11 @@
 import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Link from '../common/Link';
+import HeaderAuthElement from '../auth/HeaderAuthElement';
 
 const Header = (props) => {
 
@@ -29,6 +31,8 @@ const Header = (props) => {
                         Staff Schedule App
                     </Typography>
                 </Link>
+                <Box sx={{flex: 1}} />
+                <HeaderAuthElement />
             </Toolbar>
         </AppBar>
     )

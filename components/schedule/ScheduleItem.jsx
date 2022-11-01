@@ -3,10 +3,13 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { useSession } from 'next-auth/react';
 
 const ScheduleItem = (props) => {
 
     const { start, end, bg, fg, value1, value2, showMenu, item, prepareModal, prepareDialog } = props;
+
+    const { data: session } = useSession();
 
     const duration = end - start;
 
@@ -19,7 +22,6 @@ const ScheduleItem = (props) => {
     }
 
     const clickHandler = (event) => {
-        console.log(item);
         prepareModal(item);
         prepareDialog(item);
         showMenu(event);
@@ -28,13 +30,10 @@ const ScheduleItem = (props) => {
     const dragStartHandler = (event) => {
         console.log('drag started');
         event.dataTransfer.setData('text', JSON.stringify(item));
-        // console.log(JSON.stringify(item))
     }
 
     const dragEndHandler = (event) => {
         event.preventDefault();
-        // console.log('drag started');
-        // event.dataTransfer.setData('text', JSON.stringify(item));
         const dataOut = event.dataTransfer.getData('text')
         console.log('drag ended:', dataOut)
     }
@@ -60,18 +59,20 @@ const ScheduleItem = (props) => {
             // onDragStart={dragStartHandler}
             // onDragEnd={dragEndHandler}
         >
-            <IconButton
-                sx={{
-                    color: fg,
-                    position: 'absolute',
-                    right: '0px',
-                    top: '5px'
-                }}
-                size="small"
-                onClick={clickHandler}
-            >
-                <MoreVertIcon color={fg} />
-            </IconButton>
+            { session && session.user.name == 'Admin' && (
+                <IconButton
+                    sx={{
+                        color: fg,
+                        position: 'absolute',
+                        right: '0px',
+                        top: '5px'
+                    }}
+                    size="small"
+                    onClick={clickHandler}
+                >
+                    <MoreVertIcon color={fg} />
+                </IconButton>
+            )}
             {(duration > 0.5 && (
                 <Typography noWrap variant='body2' color={fg}>
                     {timeString(start)} &mdash; {timeString(end)}

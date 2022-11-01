@@ -68,8 +68,10 @@ export default function Home() {
                     &ldquo;Bespoke&rdquo; weekly schedules are not available in this demo.
                 </Typography>
                 <br />
-                <Typography gutterBottom sx={{ fontStyle: 'italic' }}>
-                    Login/authentication is turned off in this demo.
+                <Typography gutterBottom>
+                    Simple login is implemented in this demo. Sign in as user &ldquo;Admin&rdquo;
+                    to have edit-rights to the recurring schedule and access the admin panel. Sign
+                    in with any other username to get view-only access to the recurring schedule.
                 </Typography>
             </Box>
         </div>

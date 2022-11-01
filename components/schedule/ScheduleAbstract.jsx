@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
 import SkeletonColumn from './SkeletonColumn';
 import TimeColumn from './TimeColumn';
+import { useSession } from 'next-auth/react';
 
 const ScheduleAbstract = (props) => {
 
@@ -30,6 +31,8 @@ const ScheduleAbstract = (props) => {
         setScheduleWeek,
         ...other
     } = props;
+
+    const { data: session } = useSession();
 
     const handleChange = (event) => {
         setFormValue(event.target.value);
@@ -87,9 +90,11 @@ const ScheduleAbstract = (props) => {
                             )})
                         </Select>
                     </FormControl>
-                    <Fab color='primary' aria-label='Add' onClick={addButtonHandler} sx={{ ml: 4 }}>
-                        <AddIcon />
-                    </Fab>
+                    { session && session.user.name == 'Admin' && (
+                        <Fab color='primary' aria-label='Add' onClick={addButtonHandler} sx={{ ml: 4 }}>
+                            <AddIcon />
+                        </Fab>
+                    )}
                 </Box>
             </Box>
             <Grid container sx={{ width: `${CALENDAR_WIDTH * columnCount + TIME_WIDTH}px` }}>
