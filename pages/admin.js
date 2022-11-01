@@ -85,8 +85,12 @@ export default function Admin() {
                         <Typography gutterBottom variant="h4" component="h1">
                             Admin Panel
                         </Typography>
-                        <Typography>
+                        <Typography gutterBottom>
                             You are not authorised to use the Admin Panel.
+                        </Typography>
+                        <Typography style={{ fontStyle: 'italic'}}>
+                            To see the Admin Panel in this demo, sign out and sign back in using
+                            username &ldquo;Admin&rdquo;.
                         </Typography>
                     </Box>
                 )}
@@ -95,8 +99,12 @@ export default function Admin() {
                         <Typography gutterBottom variant="h4" component="h1">
                             Admin Panel
                         </Typography>
-                        <Typography>
+                        <Typography gutterBottom>
                             Please sign in to view this content.
+                        </Typography>
+                        <Typography style={{ fontStyle: 'italic' }}>
+                            To see the Admin Panel in this demo,sign in using
+                            username &ldquo;Admin&rdquo;.
                         </Typography>
                         <SignInPanel />
                     </Box>
