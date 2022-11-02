@@ -10,9 +10,10 @@ import Tabs from '@mui/material/Tabs';
 import TabPanel from '../components/layout/TabPanel';
 import TransferTab from '../components/admin/transfer/TransferTab';
 import Typography from '@mui/material/Typography';
-import { useRouter } from 'next/router';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 
 export default function Admin() {
     
@@ -21,7 +22,8 @@ export default function Admin() {
     const [snackbarSeverity, setSnackbarSeverity] = useState("");
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
-    const router = useRouter();
+    const theme = useTheme();
+    const mediumScreenUp = useMediaQuery(theme.breakpoints.up('md'));
 
     const { data: session } = useSession();
     
@@ -53,7 +55,13 @@ export default function Admin() {
                 { session && session.user.name == 'Admin' && (
                     <div>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <Tabs value={activeTabIndex} onChange={handleTabChange} aria-label="basic tabs example">
+                            <Tabs
+                                value={activeTabIndex}
+                                onChange={handleTabChange}
+                                variant={mediumScreenUp ? "standard" : "scrollable"}
+                                aria-label="basic tabs example"
+                                centered={mediumScreenUp ? true : false}
+                            >
                                 <Tab label="Staff" {...a11yProps(0)} />
                                 <Tab label="Lessons" {...a11yProps(1)} />
                                 <Tab label="Rooms" {...a11yProps(2)} />

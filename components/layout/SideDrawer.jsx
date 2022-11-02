@@ -66,12 +66,12 @@ export default function SideDrawer(props) {
             aria-label="mailbox folders"
         >
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Box onClick={handleDrawerToggle}>
             <Drawer
                 container={container}
                 variant="temporary"
                 open={mobileOpen}
                 onClose={handleDrawerToggle}
+                onClick={handleDrawerToggle}
                 ModalProps={{
                     keepMounted: true, // Better open performance on mobile.
                 }}
@@ -82,7 +82,6 @@ export default function SideDrawer(props) {
             >
                 {drawer}
             </Drawer>
-            </Box>
             <Drawer
                 variant="permanent"
                 sx={{

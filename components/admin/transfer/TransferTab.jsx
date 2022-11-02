@@ -84,7 +84,7 @@ const TransferTab = (props) => {
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} lg={6}>
                     <Card>
                         <CardHeader
                             title={
@@ -109,7 +109,7 @@ const TransferTab = (props) => {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} lg={6}>
                     <Card>
                         <CardHeader
                             title={
