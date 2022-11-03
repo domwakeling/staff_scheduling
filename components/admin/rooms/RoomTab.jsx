@@ -1,15 +1,13 @@
 import { MODE_ADD } from '../../../lib/constants';
-import { useState } from 'react';
-import AddIcon from '@mui/icons-material/Add';
 import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
+import CustomFab from '../../common/CustomFab';
 import Grid from '@mui/material/Grid';
 import RoomCard from './RoomCard';
 import RoomCardSkeleton from './RoomCardSkeleton';
 import RoomModal from './RoomModal';
 import RoomRemoveDialog from './RoomRemoveDialog';
 import useRooms from '../../../lib/db_rooms';
+import { useState } from 'react';
 
 const RoomTab = (props) => {
 
@@ -55,6 +53,7 @@ const RoomTab = (props) => {
 
     return (
         <>
+            <CustomFab addButtonHandler={addButtonHandler} variant="right" />
             <Grid container spacing={2}>
                 { isLoading ? (
                     <Grid item key='skeleton_id' xs={12} md={6} lg={4} xl={3}>
@@ -74,11 +73,6 @@ const RoomTab = (props) => {
                     </Grid>
                 ))}
             </Grid>
-            <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <Fab color='primary' aria-label='Add' onClick={addButtonHandler}>
-                    <AddIcon />
-                </Fab>
-            </Box>
             <RoomModal
                 closeHandler={handleModalClose}
                 modalOpen={modalOpen}

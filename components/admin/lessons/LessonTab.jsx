@@ -1,15 +1,13 @@
 import { MODE_ADD } from '../../../lib/constants';
-import { useState } from 'react';
-import AddIcon from '@mui/icons-material/Add';
 import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
+import CustomFab from '../../common/CustomFab';
 import Grid from '@mui/material/Grid';
 import LessonCard from './LessonCard';
 import LessonCardSkeleton from './LessonCardSkeleton';
 import LessonModal from './LessonModal';
 import LessonRemoveDialog from './LessonRemoveDialog';
 import useLessons from '../../../lib/db_lessons';
+import { useState } from 'react';
 
 const LessonTab = (props) => {
 
@@ -77,11 +75,7 @@ const LessonTab = (props) => {
                     </Grid>
                 ))}
             </Grid>
-            <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <Fab color='primary' aria-label='Add' onClick={addButtonHandler}>
-                    <AddIcon />
-                </Fab>
-            </Box>
+            <CustomFab addButtonHandler={addButtonHandler} variant="right" />
             <LessonModal
                 closeHandler={handleModalClose}
                 modalOpen={modalOpen}

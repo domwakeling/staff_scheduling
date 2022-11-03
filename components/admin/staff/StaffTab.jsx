@@ -1,15 +1,13 @@
 import { MODE_ADD } from '../../../lib/constants';
-import { useState } from 'react';
-import AddIcon from '@mui/icons-material/Add';
 import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
+import CustomFab from '../../common/CustomFab';
 import Grid from '@mui/material/Grid';
 import StaffCard from './StaffCard';
 import StaffCardSkeleton from './StaffCardSkeleton';
 import StaffModal from './StaffModal';
 import StaffRemoveDialog from './StaffRemoveDialog';
 import useStaff from '../../../lib/db_staff';
+import { useState } from 'react';
 
 const StaffTab = (props) => {
 
@@ -59,6 +57,7 @@ const StaffTab = (props) => {
 
     return (
         <>
+            <CustomFab addButtonHandler={addButtonHandler} variant="right"/>
             <Grid container spacing={2}>
                 { isLoading ? (
                     <Grid item key='skeleton_id' xs={12} md={6} lg={4} xl={3}>
@@ -80,11 +79,6 @@ const StaffTab = (props) => {
                     </Grid>
                 ))}
             </Grid>
-            <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-                <Fab color='primary' aria-label='Add' onClick={addButtonHandler}>
-                    <AddIcon />
-                </Fab>
-            </Box>
             <StaffModal
                 closeHandler={handleModalClose}
                 modalOpen={modalOpen}
