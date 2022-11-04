@@ -16,7 +16,7 @@ const TransferConfirmDialog = (props) => {
             const res = await axios({
                 method: 'post',
                 url: '/api/schedule/regular/replace',
-                timeout: 6000,
+                timeout: 10000,
                 data: {
                     jsonData: data
                 }
