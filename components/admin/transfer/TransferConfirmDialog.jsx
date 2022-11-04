@@ -1,17 +1,23 @@
 import axios from 'axios';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import LinearProgress from '@mui/material/LinearProgress';
+import { useState } from 'react';
 
 const TransferConfirmDialog = (props) => {
 
     const { dialogCloseHandler, messageSnackbar, dialogOpen, data } = props;
 
+    const [ uploading, setUploading ] = useState(false);
+
     const dialogConfirmHandler = async (event) => {
         event.preventDefault();
+        setUploading(true);
         try {
             const res = await axios({
                 method: 'post',
@@ -22,12 +28,14 @@ const TransferConfirmDialog = (props) => {
                 }
             });
             messageSnackbar({ severity: 'success', message: 'New schedule uploaded' });
+            setUploading(false);
             dialogCloseHandler();
         } catch (err) {
             messageSnackbar({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
             });
+            setUploading(false);
             dialogCloseHandler();
         }
     }
@@ -43,10 +51,16 @@ const TransferConfirmDialog = (props) => {
             <DialogTitle color="primary">
                 Confirm upload schedule
             </DialogTitle>
-            <DialogContent>
-                <DialogContentText>
-                    The existing schedule will be deleted and replaced. This cannot be undone.
-                </DialogContentText>
+            <DialogContent> 
+                {!uploading ? (
+                    <DialogContentText>
+                        The existing schedule will be deleted and replaced. This cannot be undone.
+                    </DialogContentText>
+                ) : (
+                    <Box sx={{width: '100%'}}>
+                        <LinearProgress />
+                    </Box>
+                )}
             </DialogContent>
             <DialogActions>
                 <Button
