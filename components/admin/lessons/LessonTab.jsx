@@ -19,7 +19,7 @@ const LessonTab = (props) => {
     const [modalMode, setModalMode] = useState(MODE_ADD);
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    const { snackbarUse } = props;
+    const { messageSnackbar } = props;
 
     const handleModalOpen = () => {
         setModalOpen(true);
@@ -80,7 +80,7 @@ const LessonTab = (props) => {
                 closeHandler={handleModalClose}
                 modalOpen={modalOpen}
                 modalMode={modalMode}
-                snackbarUse={snackbarUse}
+                messageSnackbar={messageSnackbar}
                 lessonName={lessonName}
                 color={lessonColor}
                 setName={setLessonName}
@@ -90,7 +90,7 @@ const LessonTab = (props) => {
             <LessonRemoveDialog
                 dialogCloseHandler={handleDialogClose}
                 dialogOpen={dialogOpen}
-                snackbarUse={snackbarUse}
+                messageSnackbar={messageSnackbar}
                 id={lessonId}
             />
         </>

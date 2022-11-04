@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 const TransferTab = (props) => {
 
-    const { snackbarUse } = props;
+    const { messageSnackbar } = props;
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogData, setDialogData] = useState([]);
@@ -56,10 +56,10 @@ const TransferTab = (props) => {
             // set the attributes and virtually click
             a.setAttribute('download', 'schedule.csv');
             a.click()
-            snackbarUse({ severity: 'success', message: 'Download successful' });
+            messageSnackbar({ severity: 'success', message: 'Download successful' });
         } catch (err) {
             // failure => show the message
-            snackbarUse({
+            messageSnackbar({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
             });
@@ -71,7 +71,8 @@ const TransferTab = (props) => {
         // write the event listener first ...
         reader.addEventListener('load', async (event) => {
             const csv = event.target.result;
-            const jsonData = csv2json(csv);
+            // replace all \r instances - added when file is opened/saved in spreadsheet
+            const jsonData = csv2json(csv.replace(/\r/g, ''));
             showDialog(jsonData);
             // Do something with result
         });
@@ -139,7 +140,7 @@ const TransferTab = (props) => {
             <TransferConfirmDialog
                 dialogCloseHandler={handleDialogClose}
                 dialogOpen={dialogOpen}
-                snackbarUse={snackbarUse}
+                messageSnackbar={messageSnackbar}
                 data={dialogData}
             />
         </>

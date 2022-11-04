@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const LessonRemoveDialog = (props) => {
 
-    const { dialogCloseHandler, snackbarUse, dialogOpen, id } = props;
+    const { dialogCloseHandler, messageSnackbar, dialogOpen, id } = props;
 
     const dialogConfirmHandler = async (event) => {
         event.preventDefault();
@@ -22,11 +22,11 @@ const LessonRemoveDialog = (props) => {
             });
             // success => mutate the api, message, clear the modal & close the modal;
             mutate(`/api/lesson/getAll`);
-            snackbarUse({ severity: 'success', message: 'Lesson deleted' });
+            messageSnackbar({ severity: 'success', message: 'Lesson deleted' });
             dialogCloseHandler();
         } catch (err) {
             // failure => show the message, don't clear or close the modal
-            snackbarUse({
+            messageSnackbar({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
             });

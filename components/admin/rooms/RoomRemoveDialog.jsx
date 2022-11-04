@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const RoomRemoveDialog = (props) => {
 
-    const { dialogCloseHandler, snackbarUse, dialogOpen, id } = props;
+    const { dialogCloseHandler, messageSnackbar, dialogOpen, id } = props;
 
     const dialogConfirmHandler = async (event) => {
         event.preventDefault();
@@ -23,11 +23,11 @@ const RoomRemoveDialog = (props) => {
             // success => mutate the api, message, clear the modal & close the modal;
             mutate(`/api/room/getAll`);
             mutate(`/api/schedule/regular/rooms/${id}`);
-            snackbarUse({ severity: 'success', message: 'Room updated' });
+            messageSnackbar({ severity: 'success', message: 'Room updated' });
             dialogCloseHandler();
         } catch (err) {
             // failure => show the message, don't clear or close the modal
-            snackbarUse({
+            messageSnackbar({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
             });

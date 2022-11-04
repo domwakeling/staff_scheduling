@@ -20,7 +20,7 @@ const StaffTab = (props) => {
     const [modalMode, setModalMode] = useState(MODE_ADD);
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    const { snackbarUse } = props;
+    const { messageSnackbar } = props;
 
     const handleModalOpen = () => {
         setModalOpen(true);
@@ -83,7 +83,7 @@ const StaffTab = (props) => {
                 closeHandler={handleModalClose}
                 modalOpen={modalOpen}
                 modalMode={modalMode}
-                snackbarUse={snackbarUse}
+                messageSnackbar={messageSnackbar}
                 staffName={staffName}
                 setName={setStaffName}
                 email={staffEmail}
@@ -95,7 +95,7 @@ const StaffTab = (props) => {
             <StaffRemoveDialog
                 dialogCloseHandler={handleDialogClose}
                 dialogOpen={dialogOpen}
-                snackbarUse={snackbarUse}
+                messageSnackbar={messageSnackbar}
                 id={staffId}
             />
         </>

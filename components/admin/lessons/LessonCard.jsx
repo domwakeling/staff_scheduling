@@ -1,4 +1,5 @@
-import { colors, colorKeys, MODE_EDIT } from '../../../lib/constants';
+import { MODE_EDIT } from '../../../lib/constants';
+import { colors } from '../../../lib/colors';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';

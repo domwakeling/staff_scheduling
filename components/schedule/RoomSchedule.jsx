@@ -1,4 +1,5 @@
-import { colors, weekdaysArray } from '../../lib/constants';
+import { weekdaysArray } from '../../lib/weekdays';
+import { colors } from '../../lib/colors';
 import ScheduleAbstract from './ScheduleAbstract';
 import useLessons from '../../lib/db_lessons';
 import useRooms from '../../lib/db_rooms';

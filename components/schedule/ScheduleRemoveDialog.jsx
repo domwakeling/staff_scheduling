@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const ScheduleRemoveDialog = (props) => {
 
-    const { dialogCloseHandler, snackbarUse, dialogOpen, scheduleItem } = props;
+    const { dialogCloseHandler, messageSnackbar, dialogOpen, scheduleItem } = props;
 
     const dialogConfirmHandler = async (event) => {
         event.preventDefault();
@@ -25,11 +25,11 @@ const ScheduleRemoveDialog = (props) => {
             mutate(`/api/schedule/regular/staff/${scheduleItem.staff}`);
             mutate(`/api/schedule/regular/rooms/${scheduleItem.room}`);
             mutate(`/api/schedule/regular/day/${scheduleItem.day}`);
-            snackbarUse({ severity: 'success', message: 'Schedule updated' });
+            messageSnackbar({ severity: 'success', message: 'Schedule updated' });
             dialogCloseHandler();
         } catch (err) {
             // failure => show the message, don't clear or close the modal
-            snackbarUse({
+            messageSnackbar({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
             });

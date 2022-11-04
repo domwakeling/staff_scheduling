@@ -1,4 +1,4 @@
-import { CALENDAR_WIDTH, HOUR_HEIGHT, DAY_START, DAY_END, ALT_BG_COL, colors, SCHEDULE_SPACING } from '../../lib/constants';
+import { CALENDAR_WIDTH, HOUR_HEIGHT, DAY_START, DAY_END, ALT_BG_COL, SCHEDULE_SPACING } from '../../lib/constants';
 import { blue } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';

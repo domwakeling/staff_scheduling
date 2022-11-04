@@ -24,7 +24,7 @@ const ScheduleModal = (props) => {
         closeHandler,
         modalOpen,
         modalMode,
-        snackbarUse,
+        messageSnackbar,
         modalDay,
         setModalDay,
         modalStart,
@@ -64,15 +64,15 @@ const ScheduleModal = (props) => {
     const submitHandler = async (event) => {
         event.preventDefault();
         if (isEmpty(modalDay) || isEmpty(modalStaff) || isEmpty(modalLesson) || isEmpty(modalRoom) ) {
-            snackbarUse({ severity: 'error', message: 'Entries cannot be blank' });
+            messageSnackbar({ severity: 'error', message: 'Entries cannot be blank' });
             return null;
         }
         if (modalStart == '' || modalStart < DAY_START || modalStart >= DAY_END || modalStart == 0) {
-            snackbarUse({ severity: 'error', message: 'Start time is invalid' });
+            messageSnackbar({ severity: 'error', message: 'Start time is invalid' });
             return null;
         }
         if (modalEnd == '' || modalEnd <= DAY_START || modalEnd > DAY_END || modalEnd == 0 || modalEnd <= modalStart) {
-            snackbarUse({ severity: 'error', message: 'End time is invalid' });
+            messageSnackbar({ severity: 'error', message: 'End time is invalid' });
             return null;
         }
         // // data in the form is good
@@ -105,7 +105,7 @@ const ScheduleModal = (props) => {
             if (modalStaff != modalStaffOld) {
                 mutate(`/api/schedule/regular/staff/${modalStaffOld}`);
             }
-            snackbarUse({ severity: 'success', message: 'Schedule updated' });
+            messageSnackbar({ severity: 'success', message: 'Schedule updated' });
             setModalDay('');
             setModalStart('');
             setModalEnd('');
@@ -115,7 +115,7 @@ const ScheduleModal = (props) => {
             closeHandler({ preventDefault: () => { } });
         } catch (err) {
             // failure => show the message, don't clear or close the modal
-            snackbarUse({
+            messageSnackbar({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
             });

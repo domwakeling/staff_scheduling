@@ -1,4 +1,4 @@
-import { CALENDAR_WIDTH, HOUR_HEIGHT, DAY_START, DAY_END, ALT_BG_COL, colors } from '../../lib/constants';
+import { CALENDAR_WIDTH, HOUR_HEIGHT, DAY_START, DAY_END, ALT_BG_COL } from '../../lib/constants';
 import { blue } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import ScheduleItem from './ScheduleItem';
@@ -8,7 +8,7 @@ const CalendarColumn = (props) => {
 
     const hourIndices = Array.from({ length: (DAY_END - DAY_START) }, (_, i) => i + DAY_START);
 
-    const { label, schedule, ...other } = props;
+    const { label, schedule, final, ...other } = props;
 
     return (
         <Box sx={{ width: `${CALENDAR_WIDTH}px`}}>
@@ -32,18 +32,21 @@ const CalendarColumn = (props) => {
                     />
                 ))}
             </Box>
-            {hourIndices.map(hour => (
-                <Box
-                    key={hour}
-                    sx={{
-                        height: `${HOUR_HEIGHT}px`,
-                        width: '100%',
-                        backgroundColor: hour % 2 == 0 ? blue[50] : ALT_BG_COL,
-                        borderTop: `1px solid ${blue[200]}`,
-                        borderLeft: `1px solid ${blue[100]}`
-                    }}
-                />
-            ))}
+            <Box sx={{ borderBottom: `1px solid ${blue[200]}` }}>
+                {hourIndices.map(hour => (
+                    <Box
+                        key={hour}
+                        sx={{
+                            height: `${HOUR_HEIGHT}px`,
+                            width: '100%',
+                            backgroundColor: hour % 2 == 0 ? blue[50] : 'white',
+                            borderTop: `1px solid ${blue[200]}`,
+                            borderLeft: `1px solid ${blue[100]}`,
+                            borderRight: final ? `1px solid ${blue[100]}` : `0px`
+                        }}
+                    />
+                ))}
+            </Box>
         </Box>
     )
 

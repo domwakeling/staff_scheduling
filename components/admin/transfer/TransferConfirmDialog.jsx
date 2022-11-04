@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const TransferConfirmDialog = (props) => {
 
-    const { dialogCloseHandler, snackbarUse, dialogOpen, data } = props;
+    const { dialogCloseHandler, messageSnackbar, dialogOpen, data } = props;
 
     const dialogConfirmHandler = async (event) => {
         event.preventDefault();
@@ -21,10 +21,10 @@ const TransferConfirmDialog = (props) => {
                     jsonData: data
                 }
             });
-            snackbarUse({ severity: 'success', message: 'New schedule uploaded' });
+            messageSnackbar({ severity: 'success', message: 'New schedule uploaded' });
             dialogCloseHandler();
         } catch (err) {
-            snackbarUse({
+            messageSnackbar({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
             });

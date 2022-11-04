@@ -1,13 +1,12 @@
 import { CALENDAR_WIDTH, TIME_WIDTH } from '../../lib/constants';
-import AddIcon from '@mui/icons-material/Add';
+import { blue } from '@mui/material/colors';
 import Box from '@mui/material/Box';
 import CalendarColumn from './CalendarColumn';
-import Fab from '@mui/material/Fab';
+import CustomFab from '../common/CustomFab';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
 import SkeletonColumn from './SkeletonColumn';
 import TimeColumn from './TimeColumn';
@@ -43,15 +42,14 @@ const ScheduleAbstract = (props) => {
     };
 
     return (
-        <Paper
-            elevation={3}
-            sx={{
-                p: 1,
-                width: `${CALENDAR_WIDTH * columnCount + TIME_WIDTH + 24}px`
-            }}
-        >
-            <Box>
-                <Box sx={{ my: 1, pl: 1 }}>
+        <>
+            {/* FAB if in Admin mode */}
+            {session && session.user.name == 'Admin' && (
+                <CustomFab addButtonHandler={addButtonHandler} variant="left" />
+            )}
+            <Box sx={{ width: '100%' }}>
+                {/* Week / "other" selections */}
+                <Box sx={{ pl: 3, width: '100%' }}>
                     <FormControl
                         variant="standard"
                         sx={{ marginLeft: `${TIME_WIDTH}px`, pb: 2, minWidth: 100 }}
@@ -90,32 +88,37 @@ const ScheduleAbstract = (props) => {
                             )})
                         </Select>
                     </FormControl>
-                    { session && session.user.name == 'Admin' && (
-                        <Fab color='primary' aria-label='Add' onClick={addButtonHandler} sx={{ ml: 4 }}>
-                            <AddIcon />
-                        </Fab>
-                    )}
+                </Box>
+                {/* Calendar */}
+                <Box sx={{ overflow: 'scroll' }}>
+                    <Grid
+                        container
+                        sx={{
+                            width: `${CALENDAR_WIDTH * columnCount + TIME_WIDTH}px`,
+                            mr: 3,
+                        }}
+                    >
+                        <TimeColumn key={`column-time`} />
+                        {!isLoading && !isError && columnInfo && columnInfo.map((item, idx) => (
+                            <Grid item key={`column-${item._id}`}>
+                                <CalendarColumn
+                                    key={`column-${item._id}`}
+                                    label={`${item.name}`}
+                                    schedule={columnData(item._id)}
+                                    final={idx == (columnCount - 1)}
+                                    {...other}
+                                />
+                            </Grid>
+                        ))}
+                        {isLoading && (
+                            <Grid item key={`column-skeleton`}>
+                                <SkeletonColumn />
+                            </Grid>
+                        )}
+                    </Grid>
                 </Box>
             </Box>
-            <Grid container sx={{ width: `${CALENDAR_WIDTH * columnCount + TIME_WIDTH}px` }}>
-                <TimeColumn key={`column-time`} />
-                {!isLoading && !isError && columnInfo && columnInfo.map(item => (
-                    <Grid item key={`column-${item._id}`}>
-                        <CalendarColumn
-                            key={`column-${item._id}`}
-                            label={`${item.name}`}
-                            schedule={columnData(item._id)}
-                            {...other}
-                        />
-                    </Grid>
-                ))}
-                {isLoading && (
-                    <Grid item key={`column-skeleton`}>
-                        <SkeletonColumn />
-                    </Grid>
-                )}
-            </Grid>
-        </Paper>
+        </>
     )
 }
 

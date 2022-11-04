@@ -12,14 +12,14 @@ import Typography from '@mui/material/Typography';
 
 const RoomModal = (props) => {
 
-    const { closeHandler, modalOpen, modalMode, snackbarUse, roomName, setName, id } = props;
+    const { closeHandler, modalOpen, modalMode, messageSnackbar, roomName, setName, id } = props;
 
     const isEmpty = (str) => str.replace(/\s/g, '').length == 0;
 
     const submitHandler = async (event) => {
         event.preventDefault();
         if (isEmpty(roomName)) {
-            snackbarUse({severity: 'error', message: 'Name cannot be blank'});
+            messageSnackbar({severity: 'error', message: 'Name cannot be blank'});
             return null;
         }
         // data in the form is good
@@ -35,12 +35,12 @@ const RoomModal = (props) => {
             });
             // success => mutate the api, message, clear the modal & close the modal;
             mutate(`/api/room/getAll`);
-            snackbarUse({ severity: 'success', message: 'Room updated' });
+            messageSnackbar({ severity: 'success', message: 'Room updated' });
             setName('');
             closeHandler({ preventDefault: () => { } });
         } catch (err) {
             // failure => show the message, don't clear or close the modal
-            snackbarUse({
+            messageSnackbar({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
             });

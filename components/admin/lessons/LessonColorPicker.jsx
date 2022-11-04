@@ -1,4 +1,4 @@
-import { colors, colorKeys } from '../../../lib/constants';
+import { colors, colorKeys } from '../../../lib/colors';
 import Box from '@mui/material/Box';
 import DoneIcon from '@mui/icons-material/Done';
 import Grid from '@mui/material/Grid';

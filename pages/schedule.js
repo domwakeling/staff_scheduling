@@ -14,9 +14,11 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import TabPanel from '../components/layout/TabPanel';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { useTheme } from '@emotion/react';
 
 export default function Calendar() {
 
@@ -34,6 +36,9 @@ export default function Calendar() {
         setActiveTabIndex(newActiveTabIndex);
     };
 
+    const theme = useTheme();
+    const mediumScreenUp = useMediaQuery(theme.breakpoints.up('md'));
+
     // secure page if not logged in
 
     const router = useRouter();
@@ -44,7 +49,7 @@ export default function Calendar() {
     const [snackbarSeverity, setSnackbarSeverity] = useState("");
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
-    const snackbarSendMessage = (options) => {
+    const messageSnackbar = (options) => {
         setSnackbarSeverity(options.severity || 'info');
         setSnackbarMessage(options.message || '');
         setSnackbarOpen(true);
@@ -157,20 +162,26 @@ export default function Calendar() {
             <Box sx={{ width: '100%' }}>
                 { session ? (
                     <div>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <Tabs value={activeTabIndex} onChange={handleTabChange} aria-label="basic tabs example">
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
+                            <Tabs
+                                value={activeTabIndex}
+                                onChange={handleTabChange}
+                                variant={mediumScreenUp ? "standard" : "scrollable"}
+                                aria-label="basic tabs example"
+                                centered={mediumScreenUp ? true : false}
+                            >
                                 <Tab label="By Room" {...a11yProps(0)} />
                                 <Tab label="By Staff" {...a11yProps(1)} />
                                 <Tab label="By Day & Room" {...a11yProps(2)} />
                                 <Tab label="By Day & Staff" {...a11yProps(3)} />
                             </Tabs>
                         </Box>
-                        <TabPanel activeTabIndex={activeTabIndex} index={0}>
+                        <TabPanel activeTabIndex={activeTabIndex} notPadded index={0}>
                             <RoomSchedule
                                 addButtonHandler={addButtonHandler}
                                 showMenu={showMenu}
                                 prepareModal={prepareModal}
-                                snackbarSendMessage={snackbarSendMessage}
+                                messageSnackbar={messageSnackbar}
                                 prepareDialog={prepareDialog}
                                 scheduleDay={scheduleDay}
                                 setScheduleDay={setScheduleDay}
@@ -182,12 +193,12 @@ export default function Calendar() {
                                 setScheduleWeek={setScheduleWeek}
                             />
                         </TabPanel>
-                        <TabPanel activeTabIndex={activeTabIndex} index={1}>
+                        <TabPanel activeTabIndex={activeTabIndex} notPadded index={1}>
                             <StaffSchedule
                                 addButtonHandler={addButtonHandler}
                                 showMenu={showMenu}
                                 prepareModal={prepareModal}
-                                snackbarSendMessage={snackbarSendMessage}
+                                messageSnackbar={messageSnackbar}
                                 prepareDialog={prepareDialog}
                                 scheduleDay={scheduleDay}
                                 setScheduleDay={setScheduleDay}
@@ -199,12 +210,12 @@ export default function Calendar() {
                                 setScheduleWeek={setScheduleWeek}
                             />
                         </TabPanel>
-                        <TabPanel activeTabIndex={activeTabIndex} index={2}>
+                        <TabPanel activeTabIndex={activeTabIndex} notPadded index={2}>
                             <DayRoomSchedule
                                 addButtonHandler={addButtonHandler}
                                 showMenu={showMenu}
                                 prepareModal={prepareModal}
-                                snackbarSendMessage={snackbarSendMessage}
+                                messageSnackbar={messageSnackbar}
                                 prepareDialog={prepareDialog}
                                 scheduleDay={scheduleDay}
                                 setScheduleDay={setScheduleDay}
@@ -216,12 +227,12 @@ export default function Calendar() {
                                 setScheduleWeek={setScheduleWeek}
                             />
                         </TabPanel>
-                        <TabPanel activeTabIndex={activeTabIndex} index={3}>
+                        <TabPanel activeTabIndex={activeTabIndex} notPadded index={3}>
                             <DayStaffSchedule
                                 addButtonHandler={addButtonHandler}
                                 showMenu={showMenu}
                                 prepareModal={prepareModal}
-                                snackbarSendMessage={snackbarSendMessage}
+                                messageSnackbar={messageSnackbar}
                                 prepareDialog={prepareDialog}
                                 scheduleDay={scheduleDay}
                                 setScheduleDay={setScheduleDay}
@@ -243,7 +254,7 @@ export default function Calendar() {
                             closeHandler={handleModalClose}
                             modalOpen={modalOpen}
                             modalMode={modalMode}
-                            snackbarUse={snackbarSendMessage}
+                            messageSnackbar={messageSnackbar}
                             modalDay={modalDay}
                             setModalDay={setModalDay}
                             modalStart={modalStart}
@@ -273,7 +284,7 @@ export default function Calendar() {
                         <ScheduleRemoveDialog
                             scheduleItem={dialogScheduleItem}
                             dialogOpen={dialogOpen}
-                            snackbarUse={snackbarSendMessage}
+                            messageSnackbar={messageSnackbar}
                             dialogCloseHandler={dialogCloseHandler}
                         />
                 </div>

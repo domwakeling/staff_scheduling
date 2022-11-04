@@ -27,7 +27,7 @@ export default function Admin() {
 
     const { data: session } = useSession();
     
-    const snackbarSendMessage = (options) => {
+    const messageSnackbar = (options) => {
         setSnackbarSeverity(options.severity || 'info');
         setSnackbarMessage(options.message || '');
         setSnackbarOpen(true);
@@ -65,20 +65,20 @@ export default function Admin() {
                                 <Tab label="Staff" {...a11yProps(0)} />
                                 <Tab label="Lessons" {...a11yProps(1)} />
                                 <Tab label="Rooms" {...a11yProps(2)} />
-                                <Tab label="Download/Upload" {...a11yProps(3)} />
+                                <Tab label="Schedule" {...a11yProps(3)} />
                             </Tabs>
                         </Box>
                         <TabPanel activeTabIndex={activeTabIndex} index={0}>
-                            <StaffTab snackbarUse={snackbarSendMessage}/>
+                            <StaffTab messageSnackbar={messageSnackbar}/>
                         </TabPanel>
                         <TabPanel activeTabIndex={activeTabIndex} index={1}>
-                            <LessonTab snackbarUse={snackbarSendMessage} />
+                            <LessonTab messageSnackbar={messageSnackbar} />
                         </TabPanel>
                         <TabPanel activeTabIndex={activeTabIndex} index={2}>
-                            <RoomTab snackbarUse={snackbarSendMessage} />
+                            <RoomTab messageSnackbar={messageSnackbar} />
                         </TabPanel>
                         <TabPanel activeTabIndex={activeTabIndex} index={3}>
-                            <TransferTab snackbarUse={snackbarSendMessage} />
+                            <TransferTab messageSnackbar={messageSnackbar} />
                         </TabPanel>
                         <CustomSnackbar
                             openState={snackbarOpen}

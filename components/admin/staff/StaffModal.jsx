@@ -13,7 +13,7 @@ import { display } from '@mui/system';
 
 const StaffModal = (props) => {
 
-    const { closeHandler, modalOpen, modalMode, snackbarUse, staffName, setName, email, setEmail, tel, setTel, id } = props;
+    const { closeHandler, modalOpen, modalMode, messageSnackbar, staffName, setName, email, setEmail, tel, setTel, id } = props;
 
     const isInvalidEmail = (str) => !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(str));
     const isEmpty = (str) => str.replace(/\s/g, '').length == 0;
@@ -25,15 +25,15 @@ const StaffModal = (props) => {
     const submitHandler = async (event) => {
         event.preventDefault();
         if (isEmpty(staffName)) {
-            snackbarUse({severity: 'error', message: 'Name cannot be blank'});
+            messageSnackbar({severity: 'error', message: 'Name cannot be blank'});
             return null;
         }
         if (isInvalidEmail(email)) {
-            snackbarUse({ severity: 'error', message: 'Email is not valid' });
+            messageSnackbar({ severity: 'error', message: 'Email is not valid' });
             return null;
         }
         if (isInvalidTel(tel)) {
-            snackbarUse({ severity: 'error', message: 'Telephone number is not valid' });
+            messageSnackbar({ severity: 'error', message: 'Telephone number is not valid' });
             return null;
         }
         // data in the form is good
@@ -51,14 +51,14 @@ const StaffModal = (props) => {
             });
             // success => mutate the api, message, clear the modal & close the modal;
             mutate(`/api/staff/getAll`);
-            snackbarUse({ severity: 'success', message: 'Staff updated' });
+            messageSnackbar({ severity: 'success', message: 'Staff updated' });
             setName('');
             setEmail('');
             setTel('');
             closeHandler({ preventDefault: () => { } });
         } catch (err) {
             // failure => show the message, don't clear or close the modal
-            snackbarUse({
+            messageSnackbar({
                 severity: 'error',
                 message: (err.response && err.response.data && err.response.data.message) || err.message
             });
