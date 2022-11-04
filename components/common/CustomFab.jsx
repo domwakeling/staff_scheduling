@@ -43,9 +43,6 @@ const CustomFab = (props) => {
                 aria-label='Add'
                 onClick={addButtonHandler}
                 sx={{
-                    position: 'fixed',
-                    top: `${96 + 8 * 1.5}px`,
-                    right: `${8 * 1}px`,
                     backgroundColor: blue['A200'],
                     color: '#fff',
                     '&:hover': {
