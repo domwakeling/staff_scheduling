@@ -1,5 +1,4 @@
-import { CALENDAR_WIDTH, TIME_WIDTH } from '../../lib/constants';
-import { blue } from '@mui/material/colors';
+import { CELL_WIDTH, TIME_WIDTH } from '../../lib/constants';
 import Box from '@mui/material/Box';
 import CalendarColumn from './CalendarColumn';
 import CustomFab from '../common/CustomFab';
@@ -10,7 +9,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import SkeletonColumn from './SkeletonColumn';
 import TimeColumn from './TimeColumn';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useSession } from 'next-auth/react';
+import { useTheme } from '@mui/material';
 
 const ScheduleAbstract = (props) => {
 
@@ -33,6 +34,9 @@ const ScheduleAbstract = (props) => {
 
     const { data: session } = useSession();
 
+    const theme = useTheme();
+    const narrowScreen = useMediaQuery(theme.breakpoints.only('xs'));
+
     const handleChange = (event) => {
         setFormValue(event.target.value);
     };
@@ -40,6 +44,8 @@ const ScheduleAbstract = (props) => {
     const handleWeekChange = (event) => {
         setScheduleWeek(event.target.value);
     };
+
+    const selectedColumnWidth = narrowScreen ? CELL_WIDTH.xs : CELL_WIDTH.sm;
 
     return (
         <>
@@ -52,7 +58,7 @@ const ScheduleAbstract = (props) => {
                 <Box sx={{ pl: 3, width: '100%' }}>
                     <FormControl
                         variant="standard"
-                        sx={{ marginLeft: `${TIME_WIDTH}px`, pb: 2, minWidth: 100 }}
+                        sx={{ marginLeft: `${TIME_WIDTH - 8}px`, pb: 2, minWidth: 90 }}
                     >
                         <InputLabel id={'week-select-label'}>Week</InputLabel>
                         <Select
@@ -69,7 +75,7 @@ const ScheduleAbstract = (props) => {
                     </FormControl>
                     <FormControl
                         variant="standard"
-                        sx={{ ml: 4, pb: 2, minWidth: 180 }}
+                        sx={{ ml: 3, pb: 2, minWidth: 180 }}
                     >
                         <InputLabel id={`${formControlId}-label`}>{formLabel}</InputLabel>
                         <Select
@@ -94,11 +100,11 @@ const ScheduleAbstract = (props) => {
                     <Grid
                         container
                         sx={{
-                            width: `${CALENDAR_WIDTH * columnCount + TIME_WIDTH}px`,
+                            width: `${selectedColumnWidth * columnCount + TIME_WIDTH}px`,
                             mr: 3,
                         }}
                     >
-                        <TimeColumn key={`column-time`} />
+                        <TimeColumn key={`column-time`} columnWidth={selectedColumnWidth} />
                         {!isLoading && !isError && columnInfo && columnInfo.map((item, idx) => (
                             <Grid item key={`column-${item._id}`}>
                                 <CalendarColumn
@@ -106,13 +112,14 @@ const ScheduleAbstract = (props) => {
                                     label={`${item.name}`}
                                     schedule={columnData(item._id)}
                                     final={idx == (columnCount - 1)}
+                                    columnWidth={selectedColumnWidth}
                                     {...other}
                                 />
                             </Grid>
                         ))}
                         {isLoading && (
                             <Grid item key={`column-skeleton`}>
-                                <SkeletonColumn />
+                                <SkeletonColumn columnWidth={selectedColumnWidth} />
                             </Grid>
                         )}
                     </Grid>

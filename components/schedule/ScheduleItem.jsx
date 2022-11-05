@@ -1,4 +1,4 @@
-import { CALENDAR_WIDTH, HOUR_HEIGHT, DAY_START, SCHEDULE_SPACING } from '../../lib/constants';
+import { HOUR_HEIGHT, DAY_START, CELL_SPACE } from '../../lib/constants';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Paper from '@mui/material/Paper';
@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 
 const ScheduleItem = (props) => {
 
-    const { start, end, bg, fg, value1, value2, showMenu, item, prepareModal, prepareDialog } = props;
+    const { start, end, bg, fg, value1, value2, showMenu, item, prepareModal, prepareDialog, columnWidth } = props;
 
     const { data: session } = useSession();
 
@@ -42,17 +42,17 @@ const ScheduleItem = (props) => {
         <Paper
             // draggable
             sx={{
-                width: `${CALENDAR_WIDTH - 2 * SCHEDULE_SPACING}px`,
-                height: `${duration * HOUR_HEIGHT -  2 * SCHEDULE_SPACING}px`,
+                width: `${columnWidth - 2 * CELL_SPACE}px`,
+                height: `${duration * HOUR_HEIGHT.sm -  2 * CELL_SPACE}px`,
                 position: 'absolute',
-                left: `${SCHEDULE_SPACING}px`,
-                top: `${(start - DAY_START) * HOUR_HEIGHT + SCHEDULE_SPACING}px`,
+                left: `${CELL_SPACE}px`,
+                top: `${(start - DAY_START) * HOUR_HEIGHT.sm + CELL_SPACE}px`,
                 backgroundColor: bg,
                 zIndex: '500',
                 borderRadius: '5px',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
+                // alignItems: 'center',
                 justifyContent: 'center'
             }}
             elevation={3}
@@ -74,14 +74,29 @@ const ScheduleItem = (props) => {
                 </IconButton>
             )}
             {(duration > 0.5 && (
-                <Typography noWrap variant='body2' color={fg}>
+                <Typography
+                    sx={{ width: '90%', margin: '0 auto', textAlign: 'center', display: 'box' }}
+                    noWrap
+                    variant='body2'
+                    color={fg}
+                >
                     {timeString(start)} &mdash; {timeString(end)}
                 </Typography>
             ))}
-            <Typography noWrap variant='body2' color={fg}>
+            <Typography
+                sx={{ width: '90%', margin: '0 auto', textAlign: 'center', display: 'box' }}
+                noWrap
+                variant='body2'
+                color={fg}
+            >
                 {value1}
             </Typography>
-            <Typography noWrap variant='body2' color={fg}>
+            <Typography
+                sx={{ width: '90%', margin: '0 auto', textAlign: 'center', display: 'box' }}
+                noWrap
+                variant='body2'
+                color={fg}
+            >
                 {value2}
             </Typography>
         </Paper>

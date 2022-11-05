@@ -17,7 +17,7 @@ const TimeColumn = (props) => {
                 <Box
                     key={hour}
                     sx={{
-                        height: `${HOUR_HEIGHT}px`,
+                        height: `${HOUR_HEIGHT.sm}px`,
                         width: '100%'
                     }}
                 >
