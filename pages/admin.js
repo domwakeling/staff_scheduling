@@ -52,7 +52,7 @@ export default function Admin() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box sx={{ width: '100%' }}>
-                { session && session.user.name == 'Admin' && (
+                { session && session.user.role == 'admin' && (
                     <div>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <Tabs
@@ -88,7 +88,7 @@ export default function Admin() {
                         />
                     </div>
                 )}
-                { session && session.user.name != 'Admin' && (
+                { session && session.user.role != 'admin' && (
                     <Box sx={{ pt: 2, px: 3 }}>
                         <Typography gutterBottom variant="h4" component="h1">
                             Admin Panel

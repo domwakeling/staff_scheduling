@@ -50,7 +50,7 @@ const ScheduleAbstract = (props) => {
     return (
         <>
             {/* FAB if in Admin mode */}
-            {session && session.user.name == 'Admin' && (
+            {session && session.user.role == 'admin' && (
                 <CustomFab addButtonHandler={addButtonHandler} variant="left" />
             )}
             <Box sx={{ width: '100%' }}>

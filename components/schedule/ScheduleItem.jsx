@@ -59,7 +59,7 @@ const ScheduleItem = (props) => {
             // onDragStart={dragStartHandler}
             // onDragEnd={dragEndHandler}
         >
-            { session && session.user.name == 'Admin' && (
+            { session && session.user.role == 'admin' && (
                 <IconButton
                     sx={{
                         color: fg,

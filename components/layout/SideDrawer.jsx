@@ -25,7 +25,7 @@ export default function SideDrawer(props) {
     }
 
     const isAdmin = () => {
-        if (session && session.user.name == 'Admin') return true;
+        if (session && session.user.role == 'admin') return true;
         return false;
     }
 
