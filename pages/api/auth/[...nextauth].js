@@ -6,16 +6,17 @@ export const authOptions = {
     // Configure one or more authentication providers
     providers: [
         CredentialsProvider({
-            // The name to display on the standard sign in form (e.g. 'Sign in with...')
+            
+            // used as name/display text in the "vanilla" sign-in form
             name: 'Credentials',
-            // The credentials is used to generate a suitable form on the sign in page.
-            // You can specify whatever fields you are expecting to be submitted.
-            // e.g. domain, username, password, 2FA token, etc.
-            // You can pass any HTML attribute to the <input> tag through the object.
+            
+            //  details in the object would be used in the vanilla form ...
             credentials: {
                 username: { label: "Username", type: "text", placeholder: "jsmith" },
                 password: { label: "Password", type: "password" }
             },
+
+            // handler to authorise; needs to return a user object of null/false (if not authenticated)
             async authorize(credentials, req) {
                 if (credentials.username == 'Admin') {
                     return {
@@ -52,7 +53,11 @@ export const authOptions = {
             }
         })
     ],
+
+    // probably not explicitly required (used when Credentials are used) but include for completeness
     session: { jwt: true },
+
+    // add the user.role to token, and get it from the token to add to session.user
     callbacks: {
         async jwt({token, user, account, profile, isNewUser}) {
             if (user) {
@@ -67,9 +72,10 @@ export const authOptions = {
             return session
         }
     },
+
     pages: {
         signIn: '/auth/signin',
-        // signOut: '/',
+        // signOut: '/', // not needed, we're handling signout silently
         // error: '/auth/error', // Error code passed in query string as ?error=
         // verifyRequest: '/auth/verify-request', // (used for check email message)
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
