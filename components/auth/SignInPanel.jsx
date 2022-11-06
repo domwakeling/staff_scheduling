@@ -11,6 +11,7 @@ import { useState } from 'react';
 const SignInPanel = () => {
 
     const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     const isEmpty = (str) => str.replace(/\s/g, '').length == 0;
 
@@ -18,7 +19,7 @@ const SignInPanel = () => {
 
     const signinHandler = (event) => {
         event.preventDefault();
-        signIn("credentials", { username, redirect: false });
+        signIn("credentials", { username, password, redirect: false });
         if (router.pathname == '/auth/signin') {
             router.push('/');
         }
@@ -36,6 +37,15 @@ const SignInPanel = () => {
                             setValue={setUsername}
                             value={username}
                             sx={{ mt: 2, mb: 3 }}
+                        />
+                        <CustomTextInput
+                            errorMethod={isEmpty}
+                            label="Password"
+                            name="Password"
+                            setValue={setPassword}
+                            value={password}
+                            sx={{ mt: 2, mb: 3 }}
+                            type="password"
                         />
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                             <Button

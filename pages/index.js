@@ -73,6 +73,9 @@ export default function Home() {
                     to have edit-rights to the recurring schedule and access the admin panel. Sign
                     in with any other username to get view-only access to the recurring schedule.
                 </Typography>
+                <Typography gutterBottom>
+                    At the moment you can use any password (it&lsquo;s not being checked!)
+                </Typography>
             </Box>
         </div>
     )

@@ -25,11 +25,14 @@ const SignIn = () => {
                     </Typography>
                 ) : (
                     <div>
-                        <Typography>
+                        <Typography gutterBottom>
                             For this demo, please enter any name into the &ldquo;username&rdquo; box below
                             to sign in as a normal user. Or enter &ldquo;Admin&rdquo; to sign in as an
                             administrator.
                         </Typography>
+                            <Typography>
+                                You can use any password, for the demo it&lsquo;s not being checked.
+                            </Typography>
                         <SignInPanel />
                     </div>
                 )}

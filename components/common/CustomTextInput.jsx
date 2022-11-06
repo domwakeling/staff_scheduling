@@ -2,12 +2,12 @@ import TextField from '@mui/material/TextField';
 
 const CustomTextInput = ({ errorMethod, value, setValue, label, name, sx, ...props }) => {
 
-    // const { errorMethod, value, setValue, label, name, sx } = props;
+    const nonBlankError = value != '' && errorMethod(value);
 
     return (
         <TextField
             color="primary"
-            error={errorMethod(value)}
+            error={nonBlankError}
             required
             fullWidth
             label={label}
@@ -16,6 +16,7 @@ const CustomTextInput = ({ errorMethod, value, setValue, label, name, sx, ...pro
             value={value}
             variant="outlined"
             sx={sx}
+            {...props}
         />
     )
 }
