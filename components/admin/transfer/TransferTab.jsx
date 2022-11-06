@@ -7,9 +7,9 @@ import { json2csv, csv2json } from '../../../lib/json_csv';
 import TransferConfirmDialog from './TransferConfirmDialog';
 import TransferRow from './TransferRow';
 import Typography from '@mui/material/Typography';
-import useStaff from '../../../lib/db_staff';
-import useRooms from '../../../lib/db_rooms';
-import useLessons from '../../../lib/db_lessons';
+import useStaff from '../../../lib/staff_hook';
+import useRooms from '../../../lib/rooms_hook';
+import useLessons from '../../../lib/lessons_hook';
 import { useState } from 'react';
 
 const TransferTab = (props) => {

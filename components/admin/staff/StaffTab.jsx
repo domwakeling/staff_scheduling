@@ -6,7 +6,7 @@ import StaffCard from './StaffCard';
 import StaffCardSkeleton from './StaffCardSkeleton';
 import StaffModal from './StaffModal';
 import StaffRemoveDialog from './StaffRemoveDialog';
-import useStaff from '../../../lib/db_staff';
+import useStaff from '../../../lib/staff_hook';
 import { useState } from 'react';
 
 const StaffTab = (props) => {

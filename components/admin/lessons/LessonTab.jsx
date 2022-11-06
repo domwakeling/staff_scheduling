@@ -6,7 +6,7 @@ import LessonCard from './LessonCard';
 import LessonCardSkeleton from './LessonCardSkeleton';
 import LessonModal from './LessonModal';
 import LessonRemoveDialog from './LessonRemoveDialog';
-import useLessons from '../../../lib/db_lessons';
+import useLessons from '../../../lib/lessons_hook';
 import { useState } from 'react';
 
 const LessonTab = (props) => {
