@@ -1,4 +1,3 @@
-import { mutate} from 'swr';
 import { MODE_ADD } from '../../../lib/constants';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -39,8 +38,7 @@ const LessonModal = (props) => {
                     color: color
                 }
             });
-            // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/lesson/getAll`);
+            // clear the modal and close it (mutation dealt with through Ably in the Layout)
             messageSnackbar({ severity: 'success', message: 'Lesson updated' });
             setName('');
             closeHandler({ preventDefault: () => { } });

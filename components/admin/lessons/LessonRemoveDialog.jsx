@@ -1,4 +1,3 @@
-import { mutate } from 'swr';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -20,8 +19,7 @@ const LessonRemoveDialog = (props) => {
                 url: `/api/lesson/${id}`,
                 timeout: 6000
             });
-            // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/lesson/getAll`);
+            // success => message, clear the modal & close the modal; (Ably deals with mutation)
             messageSnackbar({ severity: 'success', message: 'Lesson deleted' });
             dialogCloseHandler();
         } catch (err) {

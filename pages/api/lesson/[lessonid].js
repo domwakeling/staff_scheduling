@@ -1,6 +1,8 @@
 import { MAIN_DB_NAME, LESSON_COLLECTION_NAME, REGULAR_SCHEDULE_COLLECTION_NAME, RESPONSE_ERROR } from '../../../lib/constants';
+import Ably from 'ably'; 
 import clientPromise from '../../../lib/database';
 import { ObjectId } from 'mongodb';
+import { ScheduleMessage } from '../../../lib/message';
 
 const handler = async (req, res) => {
 
@@ -34,6 +36,14 @@ const handler = async (req, res) => {
             const regularSchedule = db.collection(REGULAR_SCHEDULE_COLLECTION_NAME);
             const deletedClasses = await regularSchedule.deleteMany({ lesson: lessonid });
 
+            // message to Ably
+            const ably = new Ably.Realtime.Promise(process.env.ABLY_API_KEY_ROOT);
+            await ably.connection.once('connected');
+            const channel = ably.channels.get('update-published');
+            const newMessage = new ScheduleMessage({ lesson: true });
+            await channel.publish('lessons collection updated', newMessage);
+            ably.close();
+
             res.json({
                 staff: deletedLesson,
                 schedule: deletedClasses
@@ -61,6 +71,14 @@ const handler = async (req, res) => {
             const updatedLesson = await lessons.updateOne(
                 { _id: lessonObjectId },
                 { $set: { name, color } });
+            // message to Ably
+            const ably = new Ably.Realtime.Promise(process.env.ABLY_API_KEY_ROOT);
+            await ably.connection.once('connected');
+            const channel = ably.channels.get('update-published');
+            const newMessage = new ScheduleMessage({ lesson: true });
+            await channel.publish('lessons collection updated', newMessage);
+            ably.close();
+            // send data back
             res.json(updatedLesson);
             return;
         } catch (err) {

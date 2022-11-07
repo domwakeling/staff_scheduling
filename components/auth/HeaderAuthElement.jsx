@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const HeaderAuthElement = () => {
 
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
 
     const router = useRouter();
 
@@ -68,6 +68,7 @@ const HeaderAuthElement = () => {
                         },
                     }}
                     variant="filled"
+                    disabled={status=='loading'}
                     onClick={() => signIn()}
                 >
                     Sign in

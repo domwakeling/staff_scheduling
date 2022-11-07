@@ -3,19 +3,23 @@ import { ScheduleMessage } from '../../../lib/message';
 
 const handler = async (req, res) => {
 
-    const ably = new Ably.Realtime.Promise('rcpH_g.K31FhQ:VU49wuwOkfpZqFlqnIOnvYslrX1pHDmfaAsD_jsWjAg');
+    const ably = new Ably.Realtime.Promise(process.env.ABLY_API_KEY_ROOT);
     await ably.connection.once('connected');
     console.log('Connected to Ably!');
 
     const channel = ably.channels.get('update-published');
     
-    const newMessage1 = new ScheduleMessage({});
-    await channel.publish('message1', newMessage1);
+    // const newMessage1 = new ScheduleMessage({});
+    // await channel.publish('message1', newMessage1);
 
     const newMessage2 = new ScheduleMessage({
-        room: '123456789',
+        room: true,
+        staff: true,
+        lesson: true,
         regular: {
-            getAll: true
+            staff: ['staff1'],
+            days:  ['Monday', 'Tuesday'],
+            rooms: ['room1', 'room2', 'room3']
         }
     });
     await channel.publish('message1', newMessage2);
