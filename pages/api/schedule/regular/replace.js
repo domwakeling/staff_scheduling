@@ -4,10 +4,14 @@ import clientPromise from '../../../../lib/database';
 
 const handler = async (req, res) => {
     
+    console.log('received request, method', req.method);
+
     if (req.method == 'POST') {
 
         try {
             const { jsonData } = req.body;
+
+            console.log('read data from body:\n', jsonData);
 
             const uploadData = jsonData.map(item => ({
                 start: parseFloat(item.start),
@@ -19,7 +23,7 @@ const handler = async (req, res) => {
                 week: item.week
             }))
             
-            console.log(uploadData);
+            console.log('parsedData:\n', uploadData);
 
             const isValid = (str) => !(!str || str == '');
 
