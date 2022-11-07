@@ -1,17 +1,14 @@
 import { MAIN_DB_NAME, REGULAR_SCHEDULE_COLLECTION_NAME, RESPONSE_ERROR } from '../../../../lib/constants';
-import { checkDoubleUpload } from '../../../../lib/check_double';
 import clientPromise from '../../../../lib/database';
 
 const handler = async (req, res) => {
     
-    console.log('received request, method', req.method);
+    // data has been checked in the client for validity/schedule clashes prior to upload
 
     if (req.method == 'POST') {
 
         try {
             const { jsonData } = req.body;
-
-            console.log('read data from body:\n', jsonData);
 
             const uploadData = jsonData.map(item => ({
                 start: parseFloat(item.start),
@@ -22,8 +19,6 @@ const handler = async (req, res) => {
                 lesson: item.lesson,
                 week: item.week
             }))
-            
-            console.log('parsedData:\n', uploadData);
 
             const isValid = (str) => !(!str || str == '');
 
@@ -37,13 +32,6 @@ const handler = async (req, res) => {
             
             if (!dataValid) {
                 res.status(RESPONSE_ERROR).json({ message: '400: Bad Request: Required fields missing' });
-                return;
-            }
-
-
-            const checked = checkDoubleUpload(uploadData);
-            if (!checked) {
-                res.status(RESPONSE_ERROR).json({ message: '400: Bad Request: Conflict in the schedule' });
                 return;
             }
 

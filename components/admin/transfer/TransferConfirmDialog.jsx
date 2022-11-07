@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { checkDoubleUpload } from '../../../lib/check_double';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -18,11 +19,20 @@ const TransferConfirmDialog = (props) => {
     const dialogConfirmHandler = async (event) => {
         event.preventDefault();
         setUploading(true);
+
+        const checked = checkDoubleUpload(data);
+        if (!checked) {
+            messageSnackbar({ severity: 'error', message: 'There is a conflict in the schedule' });
+            setUploading(false);
+            dialogCloseHandler();
+            return;
+        }
+        // try to upload / replace existing schedule; timeout 11s, no point being longer because Vercel will time out anyway
         try {
             const res = await axios({
                 method: 'post',
                 url: '/api/schedule/regular/replace',
-                timeout: 20000,
+                timeout: 11000,
                 data: {
                     jsonData: data
                 }

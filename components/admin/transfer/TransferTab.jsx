@@ -72,7 +72,7 @@ const TransferTab = (props) => {
         reader.addEventListener('load', async (event) => {
             const csv = event.target.result;
             // replace all \r instances - added when file is opened/saved in spreadsheet
-            const jsonData = csv2json(csv.replace(/\r/g, ''));
+            const jsonData = csv2json(csv);
             showDialog(jsonData);
             // Do something with result
         });
