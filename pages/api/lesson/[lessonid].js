@@ -40,7 +40,12 @@ const handler = async (req, res) => {
             const ably = new Ably.Realtime.Promise(process.env.ABLY_API_KEY_ROOT);
             await ably.connection.once('connected');
             const channel = ably.channels.get('update-published');
-            const newMessage = new ScheduleMessage({ lesson: true });
+            const newMessage = new ScheduleMessage({
+                lesson: true,
+                regular: {
+                    getAll: true
+                }
+            });
             await channel.publish('lessons collection updated', newMessage);
             ably.close();
 

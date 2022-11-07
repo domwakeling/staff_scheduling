@@ -12,8 +12,10 @@ import { weekdaysArray } from '../../lib/weekdays';
 
 const Layout = ({ children }) => {
 
-    const { staff } = useStaff();
+    const { staff: allStaff } = useStaff();
     const { rooms } = useRooms();
+
+    console.log(allStaff);
     
     // Ably channel - set here because it is always present
     const [channel] = useChannel("update-published", async (message) => {
@@ -26,7 +28,7 @@ const Layout = ({ children }) => {
         if (data.regular) {
             // if getAll mutate every room, staff member and weekday
             if (data.regular.getAll && data.regular.getAll == true) {
-                staff.forEach(member => mutate(`/api/schedule/regular/staff/${member._id}`));
+                allStaff.forEach(member => mutate(`/api/schedule/regular/staff/${member._id}`));
                 rooms.forEach(room => mutate(`/api/schedule/regular/room/${room._id}`));
                 weekdaysArray.forEach(day => mutate(`/api/schedule/regular/day/${day._id}`));
             } else {

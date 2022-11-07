@@ -1,4 +1,3 @@
-import { mutate } from 'swr';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -20,9 +19,7 @@ const RoomRemoveDialog = (props) => {
                 url: `/api/room/${id}`,
                 timeout: 6000
             });
-            // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/room/getAll`);
-            mutate(`/api/schedule/regular/rooms/${id}`);
+            // success => message, clear the modal & close the modal (Alby deals with mutation)
             messageSnackbar({ severity: 'success', message: 'Room updated' });
             dialogCloseHandler();
         } catch (err) {

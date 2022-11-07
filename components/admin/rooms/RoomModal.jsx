@@ -1,4 +1,3 @@
-import { mutate} from 'swr';
 import { MODE_ADD } from '../../../lib/constants';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -33,8 +32,7 @@ const RoomModal = (props) => {
                     name: roomName
                 }
             });
-            // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/room/getAll`);
+            // success => message, clear the modal & close the modal (Alby deals with mutation)
             messageSnackbar({ severity: 'success', message: 'Room updated' });
             setName('');
             closeHandler({ preventDefault: () => { } });
