@@ -1,10 +1,10 @@
 import { weekdaysArray } from '../../lib/weekdays';
 import { colors } from '../../lib/colors';
 import ScheduleAbstract from './ScheduleAbstract';
-import useLessons from '../../lib/db_lessons';
-import useRooms from '../../lib/db_rooms';
-import { useRegularStaff } from '../../lib/db_schedule_regular';
-import useStaff from '../../lib/db_staff';
+import useLessons from '../../hooks/lessons';
+import useRooms from '../../hooks/rooms';
+import { useRegularStaff } from '../../hooks/regular_schedule';
+import useStaff from '../../hooks/staff';
 import { useState } from 'react';
 
 const StaffSchedule = (props) => {

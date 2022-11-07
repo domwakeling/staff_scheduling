@@ -21,8 +21,9 @@ const nextConfig = {
                             img-src 'self' data:;
                             object-src 'none';
                             script-src 'self' 'unsafe-eval';
-                            script-src-attr 'none';
+                            script-src-attr https://internet-up.ably-realtime.com;
                             style-src 'self' 'unsafe-inline';
+                            connect-src 'self' *.ably-realtime.com *.ably.io wss://realtime.ably.io https://internet-up.ably-realtime.com;
                             `
                             .replace(/\s{2,}/g, ' ').trim()
                     },

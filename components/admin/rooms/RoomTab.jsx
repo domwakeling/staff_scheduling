@@ -6,7 +6,7 @@ import RoomCard from './RoomCard';
 import RoomCardSkeleton from './RoomCardSkeleton';
 import RoomModal from './RoomModal';
 import RoomRemoveDialog from './RoomRemoveDialog';
-import useRooms from '../../../lib/rooms_hook';
+import useRooms from '../../../hooks/rooms';
 import { useState } from 'react';
 
 const RoomTab = (props) => {

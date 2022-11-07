@@ -2,8 +2,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CustomTextInput from '../../components/common/CustomTextInput';
 import Grid from '@mui/material/Grid';
-import Head from 'next/head';
-import Typography from '@mui/material/Typography';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router'
 import { useState } from 'react';

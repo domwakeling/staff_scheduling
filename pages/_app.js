@@ -21,9 +21,16 @@ import Layout from '../components/layout/Layout';
 import Box from '@mui/material/Box';
 
 // auth
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from "next-auth/react";
+
+// Ably channels
+import { configureAbly } from "@ably-labs/react-hooks";
+const prefix = process.env.NEXT_PUBLIC_URL;
+const clientId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+configureAbly({ authUrl: `${prefix}/api/ably/createTokenRequest?clientId=${clientId}`, clientId: clientId });
 
 function MyApp({ Component, pageProps: {session, ...pageProps} }) {
+
     return (
         <ThemeProvider theme={lightTheme}>
             <SessionProvider session={session}>

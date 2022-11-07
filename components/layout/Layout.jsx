@@ -3,10 +3,16 @@ import Box from '@mui/material/Box';
 import Header from './Header';
 import SideDrawer from './SideDrawer';
 import Toolbar from '@mui/material/Toolbar';
+import { useChannel } from "@ably-labs/react-hooks";
 import { useState } from 'react';
 
 const Layout = ({ children }) => {
     
+    // Ably channel - set here because it is always present
+    const [channel] = useChannel("update-published", async (message) => {
+        console.log("Received Ably message with data:", message.data);
+    });
+
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {

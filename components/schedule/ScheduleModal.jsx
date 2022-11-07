@@ -10,9 +10,9 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import useLessons from '../../lib/db_lessons';
-import useRooms from '../../lib/db_rooms';
-import useStaff from '../../lib/db_staff';
+import useLessons from '../../hooks/lessons';
+import useRooms from '../../hooks/rooms';
+import useStaff from '../../hooks/staff';
 
 const ScheduleModal = (props) => {
 
