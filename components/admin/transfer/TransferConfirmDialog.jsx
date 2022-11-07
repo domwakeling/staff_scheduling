@@ -14,7 +14,7 @@ const TransferConfirmDialog = (props) => {
     const { dialogCloseHandler, messageSnackbar, dialogOpen, data } = props;
 
     const [ uploading, setUploading ] = useState(false);
-
+    
     const dialogConfirmHandler = async (event) => {
         event.preventDefault();
         setUploading(true);
@@ -52,15 +52,16 @@ const TransferConfirmDialog = (props) => {
                 Confirm upload schedule
             </DialogTitle>
             <DialogContent> 
-                {!uploading ? (
-                    <DialogContentText>
-                        The existing schedule will be deleted and replaced. This cannot be undone.
-                    </DialogContentText>
-                ) : (
-                    <Box sx={{width: '100%'}}>
+                <DialogContentText>
+                    The existing schedule will be deleted and replaced. This cannot be undone.
+                </DialogContentText>
+                {uploading ? (
+                    <Box sx={{width: '100%', mt: 2}}>
                         <LinearProgress />
                     </Box>
-                )}
+                ) : (
+                    <Box sx={{width: '100%', mt: 2, height: '4px'}} />
+                ) }
             </DialogContent>
             <DialogActions>
                 <Button
