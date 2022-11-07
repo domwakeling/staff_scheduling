@@ -1,7 +1,6 @@
 import { MAIN_DB_NAME, REGULAR_SCHEDULE_COLLECTION_NAME, RESPONSE_ERROR } from '../../../../lib/constants';
 import { checkDoubleUpload } from '../../../../lib/check_double';
 import clientPromise from '../../../../lib/database';
-import { ConstructionOutlined } from '@mui/icons-material';
 
 const handler = async (req, res) => {
     
@@ -20,6 +19,8 @@ const handler = async (req, res) => {
                 week: item.week
             }))
             
+            console.log(uploadData);
+
             const isValid = (str) => !(!str || str == '');
 
             let dataValid = true;
