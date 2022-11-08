@@ -55,31 +55,31 @@ export const authOptions = {
     ],
 
     // probably not explicitly required (used when Credentials are used) but include for completeness
-    session: { jwt: true },
+    // session: { jwt: true },
 
     // add the user.role to token, and get it from the token to add to session.user
-    callbacks: {
-        async jwt({token, user, account, profile, isNewUser}) {
-            if (user) {
-                token.role = user.role;
-            }
-            return token
-        },
-        async session({session, token, user}) {
-            if (token?.role) {
-                session.user.role = token.role;
-            }
-            return session
-        }
-    },
+    // callbacks: {
+    //     async jwt({token, user, account, profile, isNewUser}) {
+    //         if (user) {
+    //             token.role = user.role;
+    //         }
+    //         return token
+    //     },
+    //     async session({session, token, user}) {
+    //         if (token?.role) {
+    //             session.user.role = token.role;
+    //         }
+    //         return session
+    //     }
+    // },
 
-    pages: {
-        signIn: '/auth/signin',
+    // pages: {
+        // signIn: '/auth/signin',
         // signOut: '/', // not needed, we're handling signout silently
         // error: '/auth/error', // Error code passed in query string as ?error=
         // verifyRequest: '/auth/verify-request', // (used for check email message)
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
-    },
+    // },
 }
 
 export default NextAuth(authOptions)
