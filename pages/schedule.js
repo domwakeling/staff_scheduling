@@ -4,6 +4,7 @@ import CustomSnackbar from '../components/layout/CustomSnackbar';
 import Head from 'next/head';
 import DayRoomSchedule from '../components/schedule/DayRoomSchedule';
 import DayStaffSchedule from '../components/schedule/DayStaffSchedule';
+import { mutate } from 'swr';
 import RoomSchedule from '../components/schedule/RoomSchedule';
 import ScheduleItemEditMenu from '../components/schedule/ScheduleItemEditMenu';
 import ScheduleModal from '../components/schedule/ScheduleModal';
@@ -14,13 +15,52 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import TabPanel from '../components/layout/TabPanel';
 import Typography from '@mui/material/Typography';
+import { useChannel } from '../hooks/ably';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useRouter } from 'next/router';
+import useRooms from '../hooks/rooms';
 import { useSession } from 'next-auth/react';
+import useStaff from '../hooks/staff';
 import { useState } from 'react';
 import { useTheme } from '@emotion/react';
+import { weekdaysArray } from '../lib/weekdays';
 
 export default function Calendar() {
+
+    const { staff: allStaff, isLoading: staffLoading } = useStaff();
+    const { rooms: allRooms, isLoading: roomsLoading } = useRooms();
+
+    // Ably channel - set here because it is always present
+    const [channel] = useChannel("update-published", async (message) => {
+        // extract the data from the message
+        const { data } = message;
+        // check everything and mutate as appropriate
+        if (data.staff && data.staff == true) mutate('/api/staff/getAll');
+        if (data.room && data.room == true) mutate('/api/room/getAll');
+        if (data.lesson && data.lesson == true) mutate('/api/lesson/getAll');
+        if (data.regular) {
+            // if getAll mutate every room, staff member and weekday
+            if (data.regular.getAll && data.regular.getAll == true) {
+                if (allStaff) {
+                    allStaff.forEach(member => mutate(`/api/schedule/regular/staff/${member._id}`));
+                }
+                if (allRooms) {
+                    allRooms.forEach(room => mutate(`/api/schedule/regular/room/${room._id}`));
+                }
+                weekdaysArray.forEach(day => mutate(`/api/schedule/regular/day/${day._id}`));
+            } else {
+                // if NOT getAll, check any individual staff/days/rooms that have been provided
+                if (data.regular.staff) {
+                    data.regular.staff.forEach(member => mutate(`/api/schedule/regular/staff/${member}`));
+                }
+                if (data.regular.days) {
+                    data.regular.days.forEach(day => mutate(`/api/schedule/regular/day/${day}`));
+                }
+                if (data.regular.rooms) {
+                    data.regular.rooms.forEach(room => mutate(`/api/schedule/regular/room/${room}`));
+                }
+            }
+        }
+    });
 
     // state & interaction - tab
     const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -40,8 +80,6 @@ export default function Calendar() {
     const mediumScreenUp = useMediaQuery(theme.breakpoints.up('md'));
 
     // secure page if not logged in
-
-    const router = useRouter();
     const { data: session } = useSession();
 
     // state & interaction - snackbar
@@ -152,6 +190,22 @@ export default function Calendar() {
         setDialogOpen(true);
     }
 
+    const scheduleCommonProps = {
+        addButtonHandler: addButtonHandler,
+        showMenu: showMenu,
+        prepareModal: prepareModal,
+        messageSnackbar: messageSnackbar,
+        prepareDialog: prepareDialog,
+        scheduleDay: scheduleDay,
+        setScheduleDay: setScheduleDay,
+        scheduleRoom: scheduleRoom,
+        setScheduleRoom: setScheduleRoom,
+        scheduleStaff: scheduleStaff,
+        setScheduleStaff: setScheduleStaff,
+        scheduleWeek: scheduleWeek,
+        setScheduleWeek: setScheduleWeek
+    }
+
     return (
         <div>
             <Head>
@@ -177,72 +231,16 @@ export default function Calendar() {
                             </Tabs>
                         </Box>
                         <TabPanel activeTabIndex={activeTabIndex} notPadded index={0}>
-                            <RoomSchedule
-                                addButtonHandler={addButtonHandler}
-                                showMenu={showMenu}
-                                prepareModal={prepareModal}
-                                messageSnackbar={messageSnackbar}
-                                prepareDialog={prepareDialog}
-                                scheduleDay={scheduleDay}
-                                setScheduleDay={setScheduleDay}
-                                scheduleRoom={scheduleRoom}
-                                setScheduleRoom={setScheduleRoom}
-                                scheduleStaff={scheduleStaff}
-                                setScheduleStaff={setScheduleStaff}
-                                scheduleWeek={scheduleWeek}
-                                setScheduleWeek={setScheduleWeek}
-                            />
+                            <RoomSchedule {...scheduleCommonProps} />
                         </TabPanel>
                         <TabPanel activeTabIndex={activeTabIndex} notPadded index={1}>
-                            <StaffSchedule
-                                addButtonHandler={addButtonHandler}
-                                showMenu={showMenu}
-                                prepareModal={prepareModal}
-                                messageSnackbar={messageSnackbar}
-                                prepareDialog={prepareDialog}
-                                scheduleDay={scheduleDay}
-                                setScheduleDay={setScheduleDay}
-                                scheduleRoom={scheduleRoom}
-                                setScheduleRoom={setScheduleRoom}
-                                scheduleStaff={scheduleStaff}
-                                setScheduleStaff={setScheduleStaff}
-                                scheduleWeek={scheduleWeek}
-                                setScheduleWeek={setScheduleWeek}
-                            />
+                            <StaffSchedule {...scheduleCommonProps} />
                         </TabPanel>
                         <TabPanel activeTabIndex={activeTabIndex} notPadded index={2}>
-                            <DayRoomSchedule
-                                addButtonHandler={addButtonHandler}
-                                showMenu={showMenu}
-                                prepareModal={prepareModal}
-                                messageSnackbar={messageSnackbar}
-                                prepareDialog={prepareDialog}
-                                scheduleDay={scheduleDay}
-                                setScheduleDay={setScheduleDay}
-                                scheduleRoom={scheduleRoom}
-                                setScheduleRoom={setScheduleRoom}
-                                scheduleStaff={scheduleStaff}
-                                setScheduleStaff={setScheduleStaff}
-                                scheduleWeek={scheduleWeek}
-                                setScheduleWeek={setScheduleWeek}
-                            />
+                            <DayRoomSchedule {...scheduleCommonProps} />
                         </TabPanel>
                         <TabPanel activeTabIndex={activeTabIndex} notPadded index={3}>
-                            <DayStaffSchedule
-                                addButtonHandler={addButtonHandler}
-                                showMenu={showMenu}
-                                prepareModal={prepareModal}
-                                messageSnackbar={messageSnackbar}
-                                prepareDialog={prepareDialog}
-                                scheduleDay={scheduleDay}
-                                setScheduleDay={setScheduleDay}
-                                scheduleRoom={scheduleRoom}
-                                setScheduleRoom={setScheduleRoom}
-                                scheduleStaff={scheduleStaff}
-                                setScheduleStaff={setScheduleStaff}
-                                scheduleWeek={scheduleWeek}
-                                setScheduleWeek={setScheduleWeek}
-                            />
+                            <DayStaffSchedule {...scheduleCommonProps} />
                         </TabPanel>
                         <CustomSnackbar
                             openState={snackbarOpen}

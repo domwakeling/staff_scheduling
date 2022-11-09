@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import CustomSnackbar from '../components/layout/CustomSnackbar';
 import Head from 'next/head';
 import LessonTab from '../components/admin/lessons/LessonTab';
+import { mutate } from 'swr';
 import RoomTab from '../components/admin/rooms/RoomTab';
 import SignInPanel from '../components/auth/SignInPanel';
 import StaffTab from '../components/admin/staff/StaffTab';
@@ -10,12 +11,52 @@ import Tabs from '@mui/material/Tabs';
 import TabPanel from '../components/layout/TabPanel';
 import TransferTab from '../components/admin/transfer/TransferTab';
 import Typography from '@mui/material/Typography';
+import { useChannel } from '../hooks/ably';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import useRooms from '../hooks/rooms';
 import { useSession } from 'next-auth/react';
+import useStaff from '../hooks/staff';
 import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
+import { weekdaysArray } from '../lib/weekdays';
 
 export default function Admin() {
+
+    const { staff: allStaff, isLoading: staffLoading } = useStaff();
+    const { rooms: allRooms, isLoading: roomsLoading } = useRooms();
+
+    // Ably channel - set here because it is always present
+    const [channel] = useChannel("update-published", async (message) => {
+        // extract the data from the message
+        const { data } = message;
+        // check everything and mutate as appropriate
+        if (data.staff && data.staff == true) mutate('/api/staff/getAll');
+        if (data.room && data.room == true) mutate('/api/room/getAll');
+        if (data.lesson && data.lesson == true) mutate('/api/lesson/getAll');
+        if (data.regular) {
+            // if getAll mutate every room, staff member and weekday
+            if (data.regular.getAll && data.regular.getAll == true) {
+                if (allStaff) {
+                    allStaff.forEach(member => mutate(`/api/schedule/regular/staff/${member._id}`));
+                }
+                if (allRooms) {
+                    allRooms.forEach(room => mutate(`/api/schedule/regular/room/${room._id}`));
+                }
+                weekdaysArray.forEach(day => mutate(`/api/schedule/regular/day/${day._id}`));
+            } else {
+                // if NOT getAll, check any individual staff/days/rooms that have been provided
+                if (data.regular.staff) {
+                    data.regular.staff.forEach(member => mutate(`/api/schedule/regular/staff/${member}`));
+                }
+                if (data.regular.days) {
+                    data.regular.days.forEach(day => mutate(`/api/schedule/regular/day/${day}`));
+                }
+                if (data.regular.rooms) {
+                    data.regular.rooms.forEach(room => mutate(`/api/schedule/regular/room/${room}`));
+                }
+            }
+        }
+    });
     
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [snackbarOpen, setSnackbarOpen] = useState(false);

@@ -9,7 +9,6 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@ably-labs/react-hooks": "^2.0.9",
         "@emotion/react": "^11.10.4",
         "@emotion/styled": "^11.10.4",
         "@fontsource/roboto": "^4.5.8",
