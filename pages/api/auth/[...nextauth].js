@@ -2,7 +2,9 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions = {
+    // secret apparently needs to be explicitly set
     secret: process.env.NEXTAUTH_SECRET,
+
     // Configure one or more authentication providers
     providers: [
         CredentialsProvider({
@@ -58,20 +60,20 @@ export const authOptions = {
     // session: { jwt: true },
 
     // add the user.role to token, and get it from the token to add to session.user
-    // callbacks: {
-    //     async jwt({token, user, account, profile, isNewUser}) {
-    //         if (user) {
-    //             token.role = user.role;
-    //         }
-    //         return token
-    //     },
-    //     async session({session, token, user}) {
-    //         if (token?.role) {
-    //             session.user.role = token.role;
-    //         }
-    //         return session
-    //     }
-    // },
+    callbacks: {
+        async jwt({token, user}) {
+            if (user) {
+                token.role = user.role;
+            }
+            return token
+        },
+        async session({session, token}) {
+            if (token?.role) {
+                session.user.role = token.role;
+            }
+            return session
+        }
+    },
 
     pages: {
         signIn: '/auth/signin',
