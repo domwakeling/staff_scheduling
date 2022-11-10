@@ -17,9 +17,11 @@ const SignInPanel = () => {
 
     const signinHandler = (event) => {
         event.preventDefault();
-        signIn("credentials", { username, password, redirect: false });
-        if (router.pathname == '/auth/signin') {
-            router.push('/');
+        if (!isEmpty(username) && !isEmpty(password)) {
+            signIn("credentials", { username, password, redirect: false });
+            if (router.pathname == '/auth/signin') {
+                router.push('/');
+            }
         }
     }
 
@@ -27,7 +29,7 @@ const SignInPanel = () => {
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Box mx={2} sx={{ maxWidth: '400px' }}>
-                    <form onSubmit={signinHandler}>
+                    <form onSubmit={signinHandler} noValidate>
                         <CustomTextInput
                             errorMethod={isEmpty}
                             label="Username"
@@ -48,7 +50,8 @@ const SignInPanel = () => {
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                             <Button
                                 variant="contained"
-                                onClick={signinHandler}
+                                type="submit"
+                                // onClick={signinHandler}
                             >
                                 Sign in
                             </Button>
