@@ -1,5 +1,8 @@
 import { MAIN_DB_NAME, REGULAR_SCHEDULE_COLLECTION_NAME, RESPONSE_ERROR } from '../../../../lib/constants';
+import Ably from 'ably';
 import clientPromise from '../../../../lib/database';
+import { ObjectId } from 'mongodb';
+import { ScheduleMessage } from '../../../../lib/message';
 
 const handler = async (req, res) => {
     
@@ -44,7 +47,18 @@ const handler = async (req, res) => {
             // delete the existing schedules
             const deletedClasses = await schedule.deleteMany({});
 
-            const insertedItems = await schedule.insertMany(uploadData)
+            // insert the new schedules
+            const insertedItems = await schedule.insertMany(uploadData);
+
+            // message to Ably
+            const ably = new Ably.Realtime.Promise(process.env.ABLY_API_KEY_ROOT);
+            await ably.connection.once('connected');
+            const channel = ably.channels.get('update-published');
+            const newMessage = new ScheduleMessage({
+                regular: { getAll: true }
+            });
+            await channel.publish('rooms collection updated', newMessage);
+            ably.close();
 
             res.json({
                 deleted: deletedClasses,

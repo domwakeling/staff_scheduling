@@ -1,4 +1,3 @@
-import { mutate } from 'swr';
 import { MODE_ADD, DAY_START, DAY_END } from '../../lib/constants';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -89,22 +88,13 @@ const ScheduleModal = (props) => {
                     staffid: modalStaff,
                     roomid: modalRoom,
                     lessonid: modalLesson,
-                    week: scheduleWeek
+                    week: scheduleWeek,
+                    oldDay: modalDay !== modalDayOld ? modalDayOld : null,
+                    oldRoom: modalRoom !== modalRoomOld ? modalRoomOld : null,
+                    oldStaff: modalStaff !== modalStaffOld ? modalStaffOld : null,
                 }
             });
-            // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/schedule/regular/day/${modalDay}`);
-            mutate(`/api/schedule/regular/staff/${modalStaff}`);
-            mutate(`/api/schedule/regular/rooms/${modalRoom}`);
-            if (modalDay != modalDayOld) {
-                mutate(`/api/schedule/regular/day/${modalDayOld}`);
-            }
-            if (modalRoom != modalRoomOld) {
-                mutate(`/api/schedule/regular/rooms/${modalRoomOld}`);
-            }
-            if (modalStaff != modalStaffOld) {
-                mutate(`/api/schedule/regular/staff/${modalStaffOld}`);
-            }
+            // success => message, clear the modal & close the modal (mutation dealt with by Ably)
             messageSnackbar({ severity: 'success', message: 'Schedule updated' });
             setModalDay('');
             setModalStart('');

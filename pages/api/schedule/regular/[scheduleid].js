@@ -1,7 +1,9 @@
 import { MAIN_DB_NAME, REGULAR_SCHEDULE_COLLECTION_NAME, RESPONSE_ERROR } from '../../../../lib/constants';
+import Ably from 'ably';
 import { checkDouble } from '../../../../lib/check_double';
 import clientPromise from '../../../../lib/database';
 import { ObjectId } from 'mongodb';
+import { ScheduleMessage } from '../../../../lib/message';
 
 const handler = async (req, res) => {
 
@@ -31,7 +33,7 @@ const handler = async (req, res) => {
 
     if (req.method == 'PUT') {
 
-        const { staffid, lessonid, roomid, start, end, day, week } = req.body;
+        const { staffid, lessonid, roomid, start, end, day, week, oldDay , oldRoom, oldStaff} = req.body;
 
         const startFloat = parseFloat(start);
         const endFloat = parseFloat(end);
@@ -72,6 +74,24 @@ const handler = async (req, res) => {
                     week: week
                 }}
             );
+
+            // message to Ably
+            const ably = new Ably.Realtime.Promise(process.env.ABLY_API_KEY_ROOT);
+            await ably.connection.once('connected');
+            const channel = ably.channels.get('update-published');
+            const days = oldDay ? [day, oldDay] : [day];
+            const rooms = oldRoom ? [roomid, oldRoom] : [roomid];
+            const staff = oldStaff ? [staffid, oldStaff] : [staffid];
+            const newMessage = new ScheduleMessage({
+                regular: {
+                    days: days,
+                    rooms: rooms,
+                    staff: staff
+                }
+            });
+            await channel.publish('rooms collection updated', newMessage);
+            ably.close();
+
             res.json(foundSchedule);
             return;
         } catch (err) {
@@ -91,7 +111,22 @@ const handler = async (req, res) => {
             const scheduleObjectId = new ObjectId(scheduleid);
             // delete the schedule item
             const regularSchedule = db.collection(REGULAR_SCHEDULE_COLLECTION_NAME);
+            const foundClass = await regularSchedule.findOne({ _id: scheduleObjectId});
             const deletedClass = await regularSchedule.deleteOne({ _id: scheduleObjectId });
+
+            // message to Ably
+            const ably = new Ably.Realtime.Promise(process.env.ABLY_API_KEY_ROOT);
+            await ably.connection.once('connected');
+            const channel = ably.channels.get('update-published');
+            const newMessage = new ScheduleMessage({
+                regular: {
+                    days: [foundClass.day],
+                    rooms: [foundClass.room],
+                    staff: [foundClass.staff]
+                }
+            });
+            await channel.publish('rooms collection updated', newMessage);
+            ably.close();
 
             res.json(deletedClass);
             return;

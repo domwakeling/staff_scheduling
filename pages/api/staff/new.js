@@ -1,5 +1,7 @@
 import { MAIN_DB_NAME, STAFF_COLLECTION_NAME, RESPONSE_ERROR } from '../../../lib/constants';
+import Ably from 'ably';
 import clientPromise from '../../../lib/database';
+import { ScheduleMessage } from '../../../lib/message';
 
 const handler = async (req, res) => {
 
@@ -32,6 +34,14 @@ const handler = async (req, res) => {
                     email,
                     telephone
                 })
+            
+            // message to Ably
+            const ably = new Ably.Realtime.Promise(process.env.ABLY_API_KEY_ROOT);
+            await ably.connection.once('connected');
+            const channel = ably.channels.get('update-published');
+            const newMessage = new ScheduleMessage({ staff: true });
+            await channel.publish('rooms collection updated', newMessage);
+            ably.close();
 
             res.json(insertedStaff);
             return;

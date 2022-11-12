@@ -40,7 +40,7 @@ export default function Admin() {
                     allStaff.forEach(member => mutate(`/api/schedule/regular/staff/${member._id}`));
                 }
                 if (allRooms) {
-                    allRooms.forEach(room => mutate(`/api/schedule/regular/room/${room._id}`));
+                    allRooms.forEach(room => mutate(`/api/schedule/regular/rooms/${room._id}`));
                 }
                 weekdaysArray.forEach(day => mutate(`/api/schedule/regular/day/${day._id}`));
             } else {
@@ -52,7 +52,7 @@ export default function Admin() {
                     data.regular.days.forEach(day => mutate(`/api/schedule/regular/day/${day}`));
                 }
                 if (data.regular.rooms) {
-                    data.regular.rooms.forEach(room => mutate(`/api/schedule/regular/room/${room}`));
+                    data.regular.rooms.forEach(room => mutate(`/api/schedule/regular/rooms/${room}`));
                 }
             }
         }

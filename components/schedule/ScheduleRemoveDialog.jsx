@@ -1,4 +1,3 @@
-import { mutate } from 'swr';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -21,10 +20,7 @@ const ScheduleRemoveDialog = (props) => {
                 url: `/api/schedule/regular/${scheduleItem._id}`,
                 timeout: 6000
             });
-            // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/schedule/regular/staff/${scheduleItem.staff}`);
-            mutate(`/api/schedule/regular/rooms/${scheduleItem.room}`);
-            mutate(`/api/schedule/regular/day/${scheduleItem.day}`);
+            // success => message, clear the modal & close the modal (mutation dealt with by Ably)
             messageSnackbar({ severity: 'success', message: 'Schedule updated' });
             dialogCloseHandler();
         } catch (err) {

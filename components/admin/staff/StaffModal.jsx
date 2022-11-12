@@ -1,4 +1,3 @@
-import { mutate} from 'swr';
 import { MODE_ADD } from '../../../lib/constants';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -9,7 +8,6 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import CustomTextInput from '../../common/CustomTextInput';
 import Typography from '@mui/material/Typography';
-import { display } from '@mui/system';
 
 const StaffModal = (props) => {
 
@@ -49,8 +47,7 @@ const StaffModal = (props) => {
                     telephone: tel
                 }
             });
-            // success => mutate the api, message, clear the modal & close the modal;
-            mutate(`/api/staff/getAll`);
+            // success => message, clear the modal & close the modal (mutation dealt with by Ably)
             messageSnackbar({ severity: 'success', message: 'Staff updated' });
             setName('');
             setEmail('');
