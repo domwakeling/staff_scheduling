@@ -47,7 +47,7 @@ export default function Home() {
                             Set up a recurring, regular weekly schedule across all staff and
                             locations in the
                             {" "}
-                            <Link href="/schedule">Regular Schedules panel</Link>
+                            <Link href="/schedule">Recurring Schedules panel</Link>
                         </ListItemText>
                     </ListItem>
                     <ListItem>

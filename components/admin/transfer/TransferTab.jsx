@@ -66,15 +66,13 @@ const TransferTab = (props) => {
         }
     }
 
-    const regularUploadHandler = async (event) => {        
+    const regularUploadHandler = async (event) => {
         const reader = new FileReader();
         // write the event listener first ...
         reader.addEventListener('load', async (event) => {
             const csv = event.target.result;
-            // replace all \r instances - added when file is opened/saved in spreadsheet
             const jsonData = csv2json(csv);
             showDialog(jsonData);
-            // Do something with result
         });
         // then call the reader, which will trigger the 'load' event when complete
         reader.readAsText(event.target.files[0]);

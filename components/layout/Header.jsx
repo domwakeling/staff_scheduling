@@ -1,6 +1,7 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import Image from 'next/image';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -26,6 +27,9 @@ const Header = (props) => {
                 >
                     <MenuIcon />
                 </IconButton>
+                <Box sx={{ mr: 2 }}>
+                    <Image src="/logo_white_small.png" alt="logo" height="35px" width="50px"/>
+                </Box>
                 <Link color="inherit" display="inline" href="/" underline="none">
                     <Typography variant="h6" noWrap component="div">
                         Staff Schedule App
