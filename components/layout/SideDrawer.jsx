@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
+import HelpIcon from '@mui/icons-material/Help';
 import HomeIcon from '@mui/icons-material/Home';
 import Link from '../../components/common/Link';
 import List from '@mui/material/List';
@@ -33,7 +34,7 @@ export default function SideDrawer(props) {
         { text: 'Home', link: '/', icon: <HomeIcon />, protected: false },
         { text: 'Recurring Schedule', link: '/schedule', icon: <CalendarTodayIcon />, protected: loggedIn() },
         { text: 'Admin', link: '/admin', icon: <AdminPanelSettingsIcon />, protected: !isAdmin() },
-        { text: 'About', link: '/about', icon: null, protected: false }
+        { text: 'About', link: '/about', icon: <HelpIcon />, protected: false }
     ]
 
     const drawer = (
