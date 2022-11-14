@@ -1,16 +1,16 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import HeaderAuthElement from '../auth/HeaderAuthElement';
 import IconButton from '@mui/material/IconButton';
 import Image from 'next/image';
+import Link from '../common/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Link from '../common/Link';
-import HeaderAuthElement from '../auth/HeaderAuthElement';
 
 const Header = (props) => {
 
-    const { drawerWidth, handleDrawerToggle } = props;
+    const { handleDrawerToggle } = props;
 
     return (
         <AppBar
@@ -27,7 +27,7 @@ const Header = (props) => {
                 >
                     <MenuIcon />
                 </IconButton>
-                <Box sx={{ mr: 2 }}>
+                <Box sx={{ mr: 2, display: { xs: 'none', sm: 'block'} }}>
                     <Image src="/logo_white_small.png" alt="logo" height="35px" width="50px"/>
                 </Box>
                 <Link color="inherit" display="inline" href="/" underline="none">
