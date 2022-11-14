@@ -4,6 +4,7 @@ import HeaderAuthElement from '../auth/HeaderAuthElement';
 import IconButton from '@mui/material/IconButton';
 import Image from 'next/image';
 import Link from '../common/Link';
+import logoImage from '../../public/logo_white_small.png';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -28,7 +29,13 @@ const Header = (props) => {
                     <MenuIcon />
                 </IconButton>
                 <Box sx={{ mr: 2, display: { xs: 'none', sm: 'block'} }}>
-                    <Image src="/logo_white_small.png" alt="logo" height="35px" width="50px"/>
+                    <Image
+                        src={logoImage}
+                        alt="logo"
+                        height="35px"
+                        width="50px"
+                        placeholder='blur'
+                    />
                 </Box>
                 <Link color="inherit" display="inline" href="/" underline="none">
                     <Typography variant="h6" noWrap component="div">
