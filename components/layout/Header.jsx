@@ -4,7 +4,7 @@ import HeaderAuthElement from '../auth/HeaderAuthElement';
 import IconButton from '@mui/material/IconButton';
 import Image from 'next/image';
 import Link from '../common/Link';
-import logoImage from '../../public/logo_white_small.png';
+import logoImage from '../../public/logo_white_100x70.png';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
