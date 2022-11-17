@@ -12,17 +12,20 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
+import { useRouter } from "next/router";
 import { useSession } from 'next-auth/react';
 
 export default function SideDrawer(props) {
 
     const { data: session, status } = useSession();
 
+    const router = useRouter();
+
     const { drawerWidth, window, mobileOpen, handleDrawerToggle } = props;
 
     const loggedIn = () => {
-        if (session && status=="authenticated") return false;
-        return true;
+        if (session && status=="authenticated") return true;
+        return false;
     }
 
     const isAdmin = () => {
@@ -31,10 +34,10 @@ export default function SideDrawer(props) {
     }
 
     const navItems = [
-        { text: 'Home', link: '/', icon: <HomeIcon />, protected: false },
-        { text: 'Recurring Schedule', link: '/schedule', icon: <CalendarTodayIcon />, protected: loggedIn() },
-        { text: 'Admin', link: '/admin', icon: <AdminPanelSettingsIcon />, protected: !isAdmin() },
-        { text: 'About', link: '/about', icon: <HelpIcon />, protected: false }
+        { text: 'Home', link: '/', icon: <HomeIcon />, disabled: false },
+        { text: 'Recurring Schedule', link: '/schedule', icon: <CalendarTodayIcon />, disabled: !loggedIn() },
+        { text: 'Admin', link: '/admin', icon: <AdminPanelSettingsIcon />, disabled: !isAdmin() },
+        { text: 'About', link: '/about', icon: <HelpIcon />, disabled: false }
     ]
 
     const drawer = (
@@ -42,10 +45,13 @@ export default function SideDrawer(props) {
             <Toolbar />
             <Divider />
             <List>
-                { navItems.filter(item => !item.protected ).map(item => (
+                {navItems.map(item => (
                     <Link key={item.text} href={item.link} color="inherit" underline="none">
                         <ListItem disablePadding>
-                            <ListItemButton>
+                            <ListItemButton
+                                disabled={item.disabled}
+                                selected={item.link == router.pathname}
+                            >
                                 <ListItemIcon>
                                     { item.icon }
                                 </ListItemIcon>
